@@ -7,3 +7,8 @@ variable "ACCOUNT" {
   type = string  
   description = "The account number."
 }
+
+variable "VPC_ID" {
+  type = string
+  description = "VPC ID in which to create the security groups"
+}

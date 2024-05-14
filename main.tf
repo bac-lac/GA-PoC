@@ -16,14 +16,31 @@ terraform {
   }
 }
 
- provider "aws" {
+  provider "aws" {
     region  = "ca-central-1"
     profile = "DevOps"
     assume_role {
-     role_arn    = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
-   }
- }
+      role_arn    = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
+    }
+  }
 
- resource "aws_s3_bucket" "storage-1" {
-   bucket = "ga-storage-${var.ENV}"
- }
+  resource "aws_security_group" "ga_db_sg" {
+    name        = "GA-DB-sg"
+    description = "Allow traffic between ECS and DB"
+    vpc_id      = var.VPC_ID
+  }
+
+  resource "aws_security_group" "ga_app_sg" {
+    name        = "GA-App-sg"
+    description = "Allow Web traffic to App"
+    vpc_id      = var.VPC_ID
+  }
+
+  resource "aws_security_group_rule" "allow_tcp_3306" {
+    security_group_id         = aws_security_group.ga_db_sg.id
+    source_security_group_id  = aws_security_group.ga_app_sg.id
+    from_port                 = 3306
+    protocol                  = "tcp"
+    to_port                   = 3306
+    type                      = "ingress"
+  }
