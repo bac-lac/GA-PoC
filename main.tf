@@ -65,6 +65,19 @@ resource "aws_security_group_rule" "allow_internet" {
   type                      = "ingress"
 }
 
+data "aws_subnet" "target_subnets" {
+  filter 
+  {
+    name   = "tag:Name"
+    values = [title("${var.ENV}-Data-A"), title("${var.ENV}-Data-B")]
+  }
+}
+
+resource "aws_db_subnet_group" "data" {
+  name       = "GA-DATA_SUBNET_GROUP"
+  subnet_ids = [data.aws_subnet.target_subnets[0].id, data.aws_subnet.target_subnets[1].id]
+}
+
 resource "aws_db_instance" "ga-mysql" {
   allocated_storage         = 20
   db_name                   = "GA-${var.BRANCH_NAME}-db"
@@ -76,4 +89,6 @@ resource "aws_db_instance" "ga-mysql" {
   parameter_group_name      = "default.mysql8.0"
   skip_final_snapshot       = true
   storage_encrypted         = true
+  vpc_security_group_ids    = [aws_security_group.ga_db_sg.id]
+  db_subnet_group_name      = aws_db_subnet_group.data.name
 }
