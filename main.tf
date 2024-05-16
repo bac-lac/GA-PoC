@@ -74,7 +74,7 @@ data "aws_subnets" "selected" {
 
 resource "aws_db_subnet_group" "data" {
   name       = "ga-db-subnet-group"
-  subnet_ids = [data.aws_subnets.selected.ids]
+  subnet_ids = data.aws_subnets.selected.ids
 }
 
 resource "aws_db_instance" "ga-mysql" {
