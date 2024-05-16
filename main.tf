@@ -65,17 +65,17 @@ resource "aws_security_group_rule" "allow_internet" {
   type                      = "ingress"
 }
 
-data "aws_subnet" "target_subnets" {
-  filter 
-  {
-    name   = "tag:Name"
-    values = [title("${var.ENV}-Data-A"), title("${var.ENV}-Data-B")]
+data "aws_subnet_ids" "all" {
+  vpc_id = var.VPC_ID
+
+  tags = {
+    Name = "*Data*"
   }
 }
 
 resource "aws_db_subnet_group" "data" {
   name       = "GA-DATA_SUBNET_GROUP"
-  subnet_ids = [data.aws_subnet.target_subnets[0].id, data.aws_subnet.target_subnets[1].id]
+  subnet_ids = [data.aws_subnet_ids.all.ids]
 }
 
 resource "aws_db_instance" "ga-mysql" {
