@@ -18,7 +18,7 @@ terraform {
 
 provider "aws" {
   region  = "ca-central-1"
-  profile = "DevOps"
+  #profile = "DevOps"
   assume_role {
     role_arn    = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
   }
