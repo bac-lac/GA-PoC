@@ -8,17 +8,13 @@ terraform {
 
   backend "s3" {
     bucket      = "ga-poc-tfstate"
-    #profile = "DevOps"
-    #key         = "${var.env}/terraform.tfstate"
     region      = "ca-central-1"
     encrypt     = true
-    #dynamodb_table = "ga-terraform-state-${var.env}"
   }
 }
 
 provider "aws" {
   region  = "ca-central-1"
-  #profile = "DevOps"
   assume_role {
     role_arn    = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
   }
