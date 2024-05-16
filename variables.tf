@@ -26,3 +26,9 @@ variable "ADMIN_DB_PASSWORD" {
   sensitive = true
   description = "The DB password for the admin account."
 }
+
+variable "BRANCH_NAME" {
+  type = string
+  sensitive = true
+  description = "The branch name used for resources creation."
+}

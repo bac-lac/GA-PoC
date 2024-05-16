@@ -38,6 +38,8 @@ The following environment variables are used to control the application at run-t
 
 > **ADMIN_DB_PASSWORD**: The DB password for the admin account.
 
+> BRANCH_NAME: The branch name used for resources creation. This value is auto-generated.
+
 ## Run the Application Locally
 ```
 cd [project root]/

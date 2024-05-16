@@ -8,36 +8,32 @@ terraform {
 
   backend "s3" {
     bucket      = "ga-poc-tfstate"
-    #profile = "DevOps"
-    #key         = "${var.env}/terraform.tfstate"
     region      = "ca-central-1"
     encrypt     = true
-    #dynamodb_table = "ga-terraform-state-${var.env}"
   }
 }
 
 provider "aws" {
   region  = "ca-central-1"
-  #profile = "DevOps"
   assume_role {
     role_arn    = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
   }
 }
 
 resource "aws_security_group" "ga_db_sg" {
-  name        = "GA-DB-sg"
+  name        = "GA-DB-${var.BRANCH_NAME}-sg"
   description = "Allow traffic between ECS and DB"
   vpc_id      = var.VPC_ID
 }
 
 resource "aws_security_group" "ga_app_sg" {
-  name        = "GA-App-sg"
+  name        = "GA-App-${var.BRANCH_NAME}-sg"
   description = "Allow traffic between Load Balancer and ECS"
   vpc_id      = var.VPC_ID
 }
 
 resource "aws_security_group" "ga_lb_sg" {
-  name        = "GA-LB-sg"
+  name        = "GA-LB-${var.BRANCH_NAME}-sg"
   description = "Allow traffic to Laod Balancer"
   vpc_id      = var.VPC_ID
 }
