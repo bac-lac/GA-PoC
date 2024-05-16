@@ -64,3 +64,15 @@ resource "aws_security_group_rule" "allow_internet" {
   to_port                   = 443
   type                      = "ingress"
 }
+
+resource "aws_db_instance" "ga-mysql" {
+  allocated_storage    = 20
+  db_name              = "GA-${var.BRANCH_NAME}-db"
+  engine               = "mysql"
+  engine_version       = "8.0.35"
+  instance_class       = "db.m5d.large"
+  username             = var.ADMIN_DB_USERNAME
+  password             = var.ADMIN_DB_PASSWORD
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+}
