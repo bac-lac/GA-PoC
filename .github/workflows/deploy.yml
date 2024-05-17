@@ -31,7 +31,6 @@ jobs:
 
       - run:
           echo "${{env.ENVIRONMENT}}"
-          echo ${{${{inputs.environment}}:-dev}}
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
