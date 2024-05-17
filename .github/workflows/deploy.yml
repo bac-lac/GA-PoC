@@ -1,6 +1,6 @@
 name: Deploy
 
-on: # Allows you to run this workflow manually from the Actions tab
+on:
   push:
     branches: [ "main" ]
 
@@ -24,13 +24,10 @@ permissions:
 jobs:
   Terraform-Apply:
     runs-on: ubuntu-latest
-    environment: "dev"
+    environment: ${{env.ENVIRONMENT}}
 
     steps:
       - uses: actions/checkout@v4
-
-      - run:
-          echo "${{env.ENVIRONMENT}}"
 
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -41,18 +38,18 @@ jobs:
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
 
-      # - name: Terraform init
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_wrapper: true
+      - name: Terraform init
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: true
 
-      # - run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
+      - run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
-      # - run: terraform apply 
-      #     -var ENV=${{vars.ENV}}
-      #     -var ACCOUNT=${{secrets.ACCOUNT}}
-      #     -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-      #     -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-      #     -var BRANCH_NAME=${{env.BRANCH_NAME}}
-      #     -var VPC_ID=${{secrets.VPC_ID}}
-      #     -auto-approve
+      - run: terraform apply 
+          -var ENV=${{vars.ENV}}
+          -var ACCOUNT=${{secrets.ACCOUNT}}
+          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
+          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
+          -var BRANCH_NAME=${{env.BRANCH_NAME}}
+          -var VPC_ID=${{secrets.VPC_ID}}
+          -auto-approve
