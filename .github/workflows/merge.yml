@@ -18,4 +18,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo ${{toJson(github.event.pull_request)}}
+        run: echo ${{toJson(github.event_name)}}
