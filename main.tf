@@ -103,6 +103,7 @@ resource "aws_db_instance" "ga_mysql" {
 
 resource "aws_efs_file_system" "ga_efs" {
   creation_token = "GA-${var.BRANCH_NAME}-efs"
+  encrypted = true
 }
 
 resource "aws_efs_access_point" "ga_ap_root" {
