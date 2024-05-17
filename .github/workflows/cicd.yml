@@ -39,10 +39,10 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - run: terraform init -backend-config="dynamodb_table=terraform-state-${{inputs.environment}}" -backend-config="key=${{inputs.environment}}/terraform.tfstate"
+      - run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/terraform.tfstate"
 
       - run: terraform apply 
-          -var ENV=${{inputs.environment}}
+          -var ENV=${{vars.ENV}}
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
