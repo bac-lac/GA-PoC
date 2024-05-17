@@ -82,7 +82,7 @@ data "aws_subnets" "selected" {
 }
 
 resource "aws_db_subnet_group" "data" {
-  name       = "ga-db-subnet-group"
+  name       = "ga-db-${var.BRANCH_NAME}-subnet-group"
   subnet_ids = data.aws_subnets.selected.ids
 }
 
