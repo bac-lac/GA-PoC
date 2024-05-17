@@ -1,13 +1,6 @@
 name: CICD
 
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  #push:
-  #  branches: [ "main" ]
-  #pull_request:
-  #  branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+on: # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
       environment:
@@ -46,12 +39,13 @@ jobs:
         with:
           terraform_wrapper: true
 
-      - run: terraform init -backend-config="dynamodb_table=terraform-state-${{inputs.environment}}" -backend-config="key=${{inputs.environment}}/terraform.tfstate"
+      - run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/terraform.tfstate"
 
       - run: terraform apply 
-        -var ENV=${{vars.ENV}}
-        -var ACCOUNT=${{secrets.ACCOUNT}}
-        -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-        -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-        -var VPC_ID=${{secrets.VPC_ID}}
-        -auto-approve
+          -var ENV=${{vars.ENV}}
+          -var ACCOUNT=${{secrets.ACCOUNT}}
+          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
+          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
+          -var BRANCH_NAME=${{env.BRANCH_NAME}}
+          -var VPC_ID=${{secrets.VPC_ID}}
+          -auto-approve
