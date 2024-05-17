@@ -64,3 +64,30 @@ resource "aws_security_group_rule" "allow_internet" {
   to_port                   = 443
   type                      = "ingress"
 }
+
+data "aws_subnets" "selected" {
+  filter {
+    name   = "tag:Name"
+    values = ["*Data*"]
+  }
+}
+
+resource "aws_db_subnet_group" "data" {
+  name       = "ga-db-subnet-group"
+  subnet_ids = data.aws_subnets.selected.ids
+}
+
+resource "aws_db_instance" "ga_mysql" {
+  allocated_storage         = 20
+  db_name                   = format("GA%s", replace("${var.BRANCH_NAME}", "-", ""))
+  engine                    = "mysql"
+  engine_version            = "8.0.35"
+  instance_class            = "db.t3.micro"
+  username                  = var.ADMIN_DB_USERNAME
+  password                  = var.ADMIN_DB_PASSWORD
+  parameter_group_name      = "default.mysql8.0"
+  skip_final_snapshot       = true
+  storage_encrypted         = true
+  vpc_security_group_ids    = [aws_security_group.ga_db_sg.id]
+  db_subnet_group_name      = aws_db_subnet_group.data.name
+}
