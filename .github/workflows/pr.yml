@@ -14,7 +14,7 @@ permissions:
       contents: read
 
 jobs:
-  TerraformPlan:
+  Terraform-Apply:
     runs-on: ubuntu-latest
     environment: "dev"
     steps:
@@ -37,7 +37,7 @@ jobs:
 
       - name: Terraform-Init
         id: Init
-        run: terraform init -backend-config="dynamodb_table=terraform-state-dev" -backend-config="key=${{env.BRANCH_NAME}}/terraform.tfstate"
+        run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
       - name: Terraform-Plan
         id: Plan
