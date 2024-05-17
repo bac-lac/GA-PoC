@@ -79,7 +79,7 @@ resource "aws_db_subnet_group" "data" {
 
 resource "aws_db_instance" "ga-mysql" {
   allocated_storage         = 20
-  db_name                   = "gadbtest"
+  db_name                   = "ga"trim("${var.BRANCH_NAME}", "-")
   engine                    = "mysql"
   engine_version            = "8.0.35"
   instance_class            = "db.t3.micro"
