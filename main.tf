@@ -100,3 +100,26 @@ resource "aws_db_instance" "ga_mysql" {
   vpc_security_group_ids    = [aws_security_group.ga_db_sg.id]
   db_subnet_group_name      = aws_db_subnet_group.data.name
 }
+
+resource "aws_efs_file_system" "ga_efs" {
+  creation_token = "GA-${var.BRANCH_NAME}-efs"
+}
+
+resource "aws_efs_access_point" "ga_ap_root" {
+  file_system_id = aws_efs_file_system.ga_efs.id
+  posix_user {
+    gid = 992
+    uid = 994
+  }
+  root_directory {
+    creation_info {
+      owner_gid   = 992
+      owner_uid   = 994
+      permissions = 777
+    }
+    path = "/"
+  }
+  tags = {
+    Name = "GA-root-${var.BRANCH_NAME}-ap"
+  }
+}
