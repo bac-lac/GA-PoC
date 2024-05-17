@@ -40,7 +40,7 @@ resource "aws_security_group" "ga_app_sg" {
 
 resource "aws_security_group" "ga_lb_sg" {
   name        = "GA-LB-${var.BRANCH_NAME}-sg"
-  description = "Allow traffic to Laod Balancer"
+  description = "Allow traffic to Load Balancer"
   vpc_id      = var.VPC_ID
   tags = {
     Name = "GA-LB-${var.BRANCH_NAME}-sg"
