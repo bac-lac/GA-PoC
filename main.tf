@@ -405,6 +405,19 @@ resource "aws_lb" "ga-lb" {
   }
 }
 
+# This forward is temporary.
+resource "aws_alb_listener" "http-80" {
+  depends_on = aws_alb_target_group.ga-tg.arn
+  load_balancer_arn = aws_lb.ga-lb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type = "forward"
+    target_group_arn = aws_alb_target_group.ga-tg.arn
+  }
+}
+
 # resource "aws_alb_listener" "ga-443" {
 #   depends_on = aws_alb_target_group.ga-tg.arn
 
@@ -420,21 +433,21 @@ resource "aws_lb" "ga-lb" {
 #   }
 # }
 
-resource "aws_alb_listener" "http-80" {
-  load_balancer_arn = aws_lb.ga-lb.arn
-  port              = 80
-  protocol          = "HTTP"
+# resource "aws_alb_listener" "http-80" {
+#   load_balancer_arn = aws_lb.ga-lb.arn
+#   port              = 80
+#   protocol          = "HTTP"
 
-  default_action {
-    type = "redirect"
+#   default_action {
+#     type = "redirect"
 
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-}
+#     redirect {
+#       port        = "443"
+#       protocol    = "HTTPS"
+#       status_code = "HTTP_301"
+#     }
+#   }
+# }
 
 resource "aws_alb_target_group" "ga-tg" {
   name     = "ga-${var.BRANCH_NAME}-tg"
