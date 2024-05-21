@@ -120,13 +120,13 @@ data "aws_subnets" "app" {
 resource "aws_efs_mount_target" "ga_efs_mount_target_1" {
   file_system_id  = aws_efs_file_system.ga_efs.id
   security_groups = [aws_security_group.ga_app_sg.id]           
-  subnet_id       = element(data.aws_subnet_ids.destination.ids, 1)
+  subnet_id       = element(data.aws_subnet_ids.app.ids, 1)
 }
 
 resource "aws_efs_mount_target" "ga_efs_mount_target_2" {
   file_system_id  = aws_efs_file_system.ga_efs.id
   security_groups = [aws_security_group.ga_app_sg.id]
-  subnet_id       = element(data.aws_subnet_ids.destination.ids, 2)
+  subnet_id       = element(data.aws_subnet_ids.app.ids, 2)
 }
 
 resource "aws_efs_access_point" "ga_ap_root" {
