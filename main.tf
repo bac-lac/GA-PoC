@@ -407,7 +407,6 @@ resource "aws_lb" "ga-lb" {
 
 # This forward is temporary.
 resource "aws_alb_listener" "http-80" {
-  depends_on = aws_alb_target_group.ga-tg.arn
   load_balancer_arn = aws_lb.ga-lb.arn
   port              = 80
   protocol          = "HTTP"
@@ -419,8 +418,6 @@ resource "aws_alb_listener" "http-80" {
 }
 
 # resource "aws_alb_listener" "ga-443" {
-#   depends_on = aws_alb_target_group.ga-tg.arn
-
 #   load_balancer_arn = aws_lb.ga-lb.arn
 #   port              = 443
 #   protocol          = "HTTPS"
