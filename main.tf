@@ -372,6 +372,6 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
     path = "/ghttpsroot2"
   }
   tags = {
-    Name = "rghttpsrootoot2-${var.BRANCH_NAME}"
+    Name = "ghttpsrootoot2-${var.BRANCH_NAME}"
   }
 }
