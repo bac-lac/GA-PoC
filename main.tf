@@ -383,16 +383,12 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
   }
 }
 
-output "data_aws_subnets_web_ids" {
-  value = data.aws_subnets.web.ids
-}
-
 resource "aws_lb" "ga-lb" {
   name               = "ga-${var.BRANCH_NAME}-lb"
-  internal           = false
+  internal           = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.ga_lb_sg.id]
-  subnets            = ["subnet-076671c51253def2e","subnet-0503aa6bf2f9c1701"]
+  subnets            = data.aws_subnets.web.ids
 
   drop_invalid_header_fields = false
   enable_deletion_protection = false
