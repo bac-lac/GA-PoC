@@ -448,7 +448,7 @@ resource "aws_alb_target_group" "ga-tg" {
   }
   stickiness {
     enabled = true
-    type    = lb_cookie
+    type    = "lb_cookie"
   }
 }
 
