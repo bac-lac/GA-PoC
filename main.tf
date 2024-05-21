@@ -81,9 +81,21 @@ data "aws_subnets" "data" {
   }
 }
 
+data "aws_subnets" "web" {
+  filter {
+    name   = "tag:Name"
+    values = ["*Web*"]
+  }
+}
+
 resource "aws_db_subnet_group" "data" {
   name       = "ga-db-${var.BRANCH_NAME}-subnet-group"
   subnet_ids = data.aws_subnets.data.ids
+}
+
+resource "aws_web_subnet_group" "web" {
+  name       = "ga-web-${var.BRANCH_NAME}-subnet-group"
+  subnet_ids = data.aws_subnets.web.ids
 }
 
 resource "aws_db_instance" "ga_mysql" {
@@ -375,3 +387,62 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
     Name = "ghttpsrootoot2-${var.BRANCH_NAME}"
   }
 }
+
+resource "aws_lb" "ga-lb" {
+  name               = "ga-${var.BRANCH_NAME}-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.ga_lb_sg.id]
+  subnets            = data.aws_subnets.web.ids
+
+  drop_invalid_header_fields = false
+  enable_deletion_protection = false
+
+  access_logs {
+    bucket  = ""
+    prefix  = "ga-${var.BRANCH_NAME}_lb_logs"
+    enabled = false
+  }
+
+  tags = {
+    Name = "ga-${var.BRANCH_NAME}-lb"
+    Environment = "${var.ENV}"
+  }
+}
+
+# resource "aws_alb_listener" "ga-443" {
+#   depends_on = [PASTE CERTIFICATE ARN]
+
+#   load_balancer_arn = aws_alb.notification-canada-ca.id
+#   port              = 443
+#   protocol          = "HTTPS"
+#   certificate_arn   = PASTE CERTIFICATE ARN
+#   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = PASTE TG ARN
+#   }
+# }
+
+# resource "aws_alb_listener" "http-80" {
+
+#   load_balancer_arn = aws_alb.ga-lb.id
+#   port              = 80
+#   protocol          = "HTTP"
+
+#   default_action {
+#     type = "redirect"
+
+#     redirect {
+#       port        = "443"
+#       protocol    = "HTTPS"
+#       status_code = "HTTP_301"
+#     }
+#   }
+# }
+
+# resource "aws_lb_listener_certificate" "alt_domain_certificate" {
+#   listener_arn    = aws_alb_listener.ga-lb.arn
+#   certificate_arn = PASTE CERTIFICATE ARN
+# }
