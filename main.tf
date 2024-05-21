@@ -74,7 +74,7 @@ resource "aws_security_group_rule" "allow_internet" {
   type                      = "ingress"
 }
 
-data "aws_subnets" "selected" {
+data "aws_subnets" "data" {
   filter {
     name   = "tag:Name"
     values = ["*Data*"]
@@ -83,7 +83,7 @@ data "aws_subnets" "selected" {
 
 resource "aws_db_subnet_group" "data" {
   name       = "ga-db-${var.BRANCH_NAME}-subnet-group"
-  subnet_ids = data.aws_subnets.selected.ids
+  subnet_ids = data.aws_subnets.data.ids
 }
 
 resource "aws_db_instance" "ga_mysql" {
@@ -104,9 +104,29 @@ resource "aws_db_instance" "ga_mysql" {
 resource "aws_efs_file_system" "ga_efs" {
   creation_token = "GA-${var.BRANCH_NAME}-efs"
   encrypted = true
+  throughput_mode = "elastic"
   tags = {
     Name = "GA-${var.BRANCH_NAME}-efs"
   }
+}
+
+data "aws_subnets" "app" {
+  filter {
+    name   = "tag:Name"
+    values = ["*App*"]
+  }
+}
+
+resource "aws_efs_mount_target" "ga_efs_mount_target_0" {
+  file_system_id  = aws_efs_file_system.ga_efs.id
+  subnet_id       = data.aws_subnets.data[0]
+  security_groups = [aws_security_group.ga_app_sg.id]
+}
+
+resource "aws_efs_mount_target" "ga_efs_mount_target_1" {
+  file_system_id  = aws_efs_file_system.ga_efs.id
+  subnet_id       = data.aws_subnets.data[1]
+  security_groups = [aws_security_group.ga_app_sg.id]
 }
 
 resource "aws_efs_access_point" "ga_ap_root" {
@@ -124,6 +144,6 @@ resource "aws_efs_access_point" "ga_ap_root" {
     path = "/"
   }
   tags = {
-    Name = "GA-root-${var.BRANCH_NAME}-ap"
+    Name = "root-${var.BRANCH_NAME}"
   }
 }
