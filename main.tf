@@ -383,7 +383,7 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
   }
 }
 
-output "data.aws_subnets.web.idsr" {
+output "data_aws_subnets_web_ids" {
   value = data.aws_subnets.web.ids
 }
 
