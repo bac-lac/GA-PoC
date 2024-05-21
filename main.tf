@@ -406,9 +406,9 @@ resource "aws_lb" "ga-lb" {
 }
 
 # resource "aws_alb_listener" "ga-443" {
-#   depends_on = [PASTE CERTIFICATE ARN]
+#   depends_on = aws_alb_target_group.ga-tg.arn
 
-#   load_balancer_arn = aws_alb.notification-canada-ca.id
+#   load_balancer_arn = aws_lb.ga-lb.arn
 #   port              = 443
 #   protocol          = "HTTPS"
 #   certificate_arn   = PASTE CERTIFICATE ARN
@@ -416,26 +416,41 @@ resource "aws_lb" "ga-lb" {
 
 #   default_action {
 #     type             = "forward"
-#     target_group_arn = PASTE TG ARN
+#     target_group_arn = aws_alb_target_group.ga-tg.arn
 #   }
 # }
 
-# resource "aws_alb_listener" "http-80" {
+resource "aws_alb_listener" "http-80" {
+  load_balancer_arn = aws_lb.ga-lb.arn
+  port              = 80
+  protocol          = "HTTP"
 
-#   load_balancer_arn = aws_alb.ga-lb.id
-#   port              = 80
-#   protocol          = "HTTP"
+  default_action {
+    type = "redirect"
 
-#   default_action {
-#     type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
-#     redirect {
-#       port        = "443"
-#       protocol    = "HTTPS"
-#       status_code = "HTTP_301"
-#     }
-#   }
-# }
+resource "aws_alb_target_group" "ga-tg" {
+  name     = "ga-${var.BRANCH_NAME}-tg"
+  port     = 80
+  protocol = "HTTP"
+  target_type = "ip"
+  vpc_id   = var.VPC_ID
+  health_check {
+    path    = "/"
+    matcher = "200,302"
+  }
+  stickiness {
+    enabled = true
+    type    = lb_cookie
+  }
+}
 
 # resource "aws_lb_listener_certificate" "alt_domain_certificate" {
 #   listener_arn    = aws_alb_listener.ga-lb.arn
