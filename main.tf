@@ -93,11 +93,6 @@ resource "aws_db_subnet_group" "data" {
   subnet_ids = data.aws_subnets.data.ids
 }
 
-resource "aws_web_subnet_group" "web" {
-  name       = "ga-web-${var.BRANCH_NAME}-subnet-group"
-  subnet_ids = data.aws_subnets.web.ids
-}
-
 resource "aws_db_instance" "ga_mysql" {
   allocated_storage         = 20
   db_name                   = format("GA%s", replace("${var.BRANCH_NAME}", "-", ""))
