@@ -428,7 +428,6 @@ resource "aws_acm_certificate" "ga_certificate" {
 
 resource "aws_route53_zone" "ga_zone" {
   name = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
-  private_zone = false
 }
 
 resource "aws_route53_record" "ga_record_a" {
