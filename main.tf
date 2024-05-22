@@ -405,18 +405,6 @@ resource "aws_lb" "ga_lb" {
   }
 }
 
-# This forward is temporary.
-resource "aws_alb_listener" "http_80" {
-  load_balancer_arn = aws_lb.ga_lb.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    type = "forward"
-    target_group_arn = aws_alb_target_group.ga_tg.arn
-  }
-}
-
 resource "aws_acm_certificate" "ga_certificate" {
   domain_name               = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
   validation_method         = "DNS"
@@ -484,34 +472,34 @@ resource "aws_acm_certificate_validation" "ga_certificate_validation" {
   validation_record_fqdns = [for record in aws_route53_record.ga_record_cname : record.fqdn]
 }
 
-# resource "aws_alb_listener" "ga-443" {
-#   load_balancer_arn = aws_lb.ga-lb.arn
-#   port              = 443
-#   protocol          = "HTTPS"
-#   certificate_arn   = PASTE CERTIFICATE ARN
-#   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+resource "aws_alb_listener" "ga_443" {
+  load_balancer_arn = aws_lb.ga_lb.arn
+  port              = 443
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.ga_certificate.arn
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
 
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_alb_target_group.ga-tg.arn
-#   }
-# }
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.ga_tg.arn
+  }
+}
 
-# resource "aws_alb_listener" "http-80" {
-#   load_balancer_arn = aws_lb.ga-lb.arn
-#   port              = 80
-#   protocol          = "HTTP"
+resource "aws_alb_listener" "http_80" {
+  load_balancer_arn = aws_lb.ga_lb.arn
+  port              = 80
+  protocol          = "HTTP"
 
-#   default_action {
-#     type = "redirect"
+  default_action {
+    type = "redirect"
 
-#     redirect {
-#       port        = "443"
-#       protocol    = "HTTPS"
-#       status_code = "HTTP_301"
-#     }
-#   }
-# }
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
 resource "aws_alb_target_group" "ga_tg" {
   name     = "ga-${var.BRANCH_NAME}-tg"
@@ -528,8 +516,3 @@ resource "aws_alb_target_group" "ga_tg" {
     type    = "lb_cookie"
   }
 }
-
-# resource "aws_lb_listener_certificate" "alt_domain_certificate" {
-#   listener_arn    = aws_alb_listener.ga-lb.arn
-#   certificate_arn = PASTE CERTIFICATE ARN
-# }
