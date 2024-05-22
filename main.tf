@@ -516,3 +516,36 @@ resource "aws_alb_target_group" "ga_tg" {
     type    = "lb_cookie"
   }
 }
+
+resource "aws_ecs_cluster" "ga_cluster" {
+  name = "ga-cluster-${var.BRANCH_NAME}"
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+}
+
+resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
+  cluster_name = aws_ecs_cluster.ga_cluster.name
+
+  capacity_providers = ["FARGATE"]
+}
+
+resource "aws_ecs_task_definition" "ga_task_definition" {
+  family                = "ga-task-definition-${var.BRANCH_NAME}"
+  container_definitions = file("task-definitions/ga_task_definition.json")
+
+  volume {
+    name = "root"
+
+    efs_volume_configuration {
+      file_system_id          = aws_efs_file_system.ga_efs.id
+      root_directory          = "/"
+      transit_encryption      = "ENABLED"
+      authorization_config {
+        access_point_id = aws_efs_access_point.ga_ap_root.id
+      }
+    }
+  }
+}

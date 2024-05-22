@@ -1,0 +1,101 @@
+[
+    {
+        "name": "mft1",
+        "image": "public.ecr.aws/d4k8a6e0/mft",
+        "cpu": 0,
+        "portMappings": [
+            {
+                "name": "mft1-8000-tcp",
+                "containerPort": 8000,
+                "hostPort": 80,
+                "protocol": "tcp",
+                "appProtocol": "http"
+            }
+        ],
+        "essential": true,
+        "environment": [
+            {
+                "name": "SYSTEM_NAME",
+                "value": "MFT-1"
+            },
+            {
+                "name": "CLUSTER_PORT",
+                "value": "8006"
+            },
+            {
+                "name": "DB_USERNAME",
+                "value": "GADATA"
+            },
+            {
+                "name": "DB_URL",
+                "value": "DB_URL"
+            },
+            {
+                "name": "DB_PASSWORD",
+                "value": "DB_PASSWORD"
+            },
+            {
+                "name": "MFT_CLUSTER",
+                "value": "TRUE"
+            }
+        ],
+        "mountPoints": [
+            {
+                "sourceVolume": "userdatadir",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/userdata/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "sharedconfig",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/sharedconfig/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "upgrader",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/upgrader/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "configdir",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/config/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "tomcatserver",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/tomcat/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "tomcat",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/tomcat/logs/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ghttpsroot",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/ghttpsroot/custom/",
+                "readOnly": false
+            }
+        ],
+        "volumesFrom": [],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "/ecs/ga-td",
+                "awslogs-region": "ca-central-1",
+                "awslogs-stream-prefix": "ecs"
+            }
+        },
+        "healthCheck": {
+            "command": [
+                "CMD-SHELL",
+                "curl -f http://localhost:8000/ || exit 1"
+            ],
+            "interval": 30,
+            "timeout": 5,
+            "retries": 3,
+            "startPeriod": 120
+        },
+        "systemControls": []
+    }
+]
