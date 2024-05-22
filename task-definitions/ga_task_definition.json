@@ -42,38 +42,8 @@
         ],
         "mountPoints": [
             {
-                "sourceVolume": "userdatadir",
-                "containerPath": "/opt/HelpSystems/GoAnywhere/userdata/",
-                "readOnly": false
-            },
-            {
-                "sourceVolume": "sharedconfig",
-                "containerPath": "/etc/HelpSystems/GoAnywhere/sharedconfig/",
-                "readOnly": false
-            },
-            {
-                "sourceVolume": "upgrader",
-                "containerPath": "/opt/HelpSystems/GoAnywhere/upgrader/",
-                "readOnly": false
-            },
-            {
-                "sourceVolume": "configdir",
-                "containerPath": "/etc/HelpSystems/GoAnywhere/config/",
-                "readOnly": false
-            },
-            {
-                "sourceVolume": "tomcatserver",
-                "containerPath": "/etc/HelpSystems/GoAnywhere/tomcat/",
-                "readOnly": false
-            },
-            {
-                "sourceVolume": "tomcat",
-                "containerPath": "/opt/HelpSystems/GoAnywhere/tomcat/logs/",
-                "readOnly": false
-            },
-            {
-                "sourceVolume": "ghttpsroot",
-                "containerPath": "/opt/HelpSystems/GoAnywhere/ghttpsroot/custom/",
+                "sourceVolume": "root",
+                "containerPath": "/",
                 "readOnly": false
             }
         ],
