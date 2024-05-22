@@ -434,7 +434,6 @@ resource "aws_route53_record" "ga_record_a" {
   zone_id = aws_route53_zone.ga_zone.zone_id
   name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
   type    = "A"
-  ttl     = 300
 
   alias {
     name                   = aws_lb.ga_lb.dns_name
@@ -450,7 +449,7 @@ data "aws_route53_zone" "ga_dev_zone" {
 
 resource "aws_route53_record" "ga_record_ns" {
   allow_overwrite = true
-  zone_id = aws_route53_zone.ga_dev_zone.zone_id
+  zone_id = data.aws_route53_zone.ga_dev_zone.zone_id
   name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
   type    = "NS"
   ttl     = 172800
