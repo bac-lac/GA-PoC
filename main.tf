@@ -426,12 +426,45 @@ resource "aws_acm_certificate" "ga_certificate" {
   }
 }
 
-data "aws_route53_zone" "ga_zone" {
-  name         = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+resource "aws_route53_zone" "ga_zone" {
+  name = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
   private_zone = false
 }
 
-resource "aws_route53_record" "ga_record" {
+resource "aws_route53_record" "ga_record_a" {
+  zone_id = aws_route53_zone.ga_zone.zone_id
+  name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+  type    = "A"
+  ttl     = 300
+
+  alias {
+    name                   = aws_lb.ga_lb.dns_name
+    zone_id                = aws_lb.ga_lb.zone_id
+    evaluate_target_health = true
+  }
+}
+
+data "aws_route53_zone" "ga_dev_zone" {
+  name         = "ga-dev.bac-lac.ca"
+  private_zone = false
+}
+
+resource "aws_route53_record" "ga_record_ns" {
+  allow_overwrite = true
+  zone_id = aws_route53_zone.ga_dev_zone.zone_id
+  name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+  type    = "NS"
+  ttl     = 172800
+
+  records = [
+    aws_route53_zone.ga_zone.name_servers[0],
+    aws_route53_zone.ga_zone.name_servers[1],
+    aws_route53_zone.ga_zone.name_servers[2],
+    aws_route53_zone.ga_zone.name_servers[3],
+  ]
+}
+
+resource "aws_route53_record" "ga_record_cname" {
   for_each = {
     for dvo in aws_acm_certificate.ga_certificate.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -445,12 +478,12 @@ resource "aws_route53_record" "ga_record" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.ga_zone.zone_id
+  zone_id         = aws_route53_zone.ga_zone.zone_id
 }
 
 resource "aws_acm_certificate_validation" "ga_certificate_validation" {
   certificate_arn         = aws_acm_certificate.ga_certificate.arn
-  validation_record_fqdns = [for record in aws_route53_record.ga_record : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.ga_record_cname : record.fqdn]
 }
 
 # resource "aws_alb_listener" "ga-443" {
