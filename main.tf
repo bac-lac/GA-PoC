@@ -536,7 +536,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   family                = "ga-task-definition-${var.BRANCH_NAME}"
   container_definitions = file("task-definitions/ga_task_definition.json")
 
-  volume [{
+  volume = [{
     name = "root"
 
     efs_volume_configuration {
