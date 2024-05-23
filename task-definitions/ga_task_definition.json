@@ -42,7 +42,7 @@
         ],
         "mountPoints": [
             {
-                "sourceVolume": "root",
+                "sourceVolume": "ga_ap_root",
                 "containerPath": "/",
                 "readOnly": false
             }
