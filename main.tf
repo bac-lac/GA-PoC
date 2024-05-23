@@ -634,7 +634,7 @@ resource "aws_ecs_service" "ga_service" {
   network_configuration {
     subnets           = data.aws_subnets.app.ids
     security_groups   = aws_security_group.ga_app_sg.id
-    assign_public_ip  = FALSE
+    assign_public_ip  = false
   }
   load_balancer {
     target_group_arn = aws_alb_target_group.ga_tg.arn
