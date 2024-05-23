@@ -623,27 +623,23 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   }
 }
 
-# resource "aws_ecs_service" "ga_service" {
-#   name            = "ga-service-${var.BRANCH_NAME}"
-#   cluster         = aws_ecs_cluster.ga_cluster.id
-#   task_definition = aws_ecs_task_definition.ga_task_definition.arn
-#   desired_count   = 3
-#   iam_role        = aws_iam_role.foo.arn
-#   depends_on      = [aws_iam_role_policy.foo]
+resource "aws_ecs_service" "ga_service" {
+  name                = "ga-service-${var.BRANCH_NAME}"
+  cluster             = aws_ecs_cluster.ga_cluster.id
+  task_definition     = aws_ecs_task_definition.ga_task_definition.arn
+  launch_type         = "FARGATE"
+  platform_version    = "LATEST"
+  scheduling_strategy = "REPLICA"
+  desired_count       = 1
+  network_configuration {
+    subnets           = data.aws_subnets.app.ids
+    security_groups   = aws_security_group.ga_app_sg.id
+    assign_public_ip  = FALSE
+  }
+  load_balancer {
+    target_group_arn = aws_alb_target_group.ga_tg.arn
+    container_name   = "mft1"
+    container_port   = 8000
+  }
 
-#   ordered_placement_strategy {
-#     type  = "binpack"
-#     field = "cpu"
-#   }
-
-#   load_balancer {
-#     target_group_arn = aws_lb_target_group.foo.arn
-#     container_name   = "mongo"
-#     container_port   = 8080
-#   }
-
-#   placement_constraints {
-#     type       = "memberOf"
-#     expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
-#   }
-# }
+}
