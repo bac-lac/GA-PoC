@@ -537,17 +537,6 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   container_definitions = file("task-definitions/ga_task_definition.json")
 
   volume {
-    name = "ga_ap_root"
-
-    efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.ga_efs.id
-      transit_encryption      = "ENABLED"
-      authorization_config {
-        access_point_id = aws_efs_access_point.ga_ap_root.id
-      }
-    }
-  }
-  volume {
     name = "ga_ap_userdata"
 
     efs_volume_configuration {
@@ -555,6 +544,72 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
       transit_encryption      = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.ga_ap_userdata.id
+      }
+    }
+  }
+  volume {
+  name = "ga_ap_sharedconfig"
+
+  efs_volume_configuration {
+    file_system_id          = aws_efs_file_system.ga_efs.id
+    transit_encryption      = "ENABLED"
+    authorization_config {
+      access_point_id = aws_efs_access_point.ga_ap_sharedconfig.id
+    }
+  }
+  }
+  volume {
+  name = "ga_ap_upgrader1"
+
+  efs_volume_configuration {
+    file_system_id          = aws_efs_file_system.ga_efs.id
+    transit_encryption      = "ENABLED"
+    authorization_config {
+      access_point_id = aws_efs_access_point.ga_ap_upgrader1.id
+    }
+  }
+  }
+  volume {
+  name = "ga_ap_config1"
+
+  efs_volume_configuration {
+    file_system_id          = aws_efs_file_system.ga_efs.id
+    transit_encryption      = "ENABLED"
+    authorization_config {
+      access_point_id = aws_efs_access_point.ga_ap_config1.id
+    }
+  }
+  }
+  volume {
+  name = "ga_ap_tomcatserver1"
+
+  efs_volume_configuration {
+    file_system_id          = aws_efs_file_system.ga_efs.id
+    transit_encryption      = "ENABLED"
+    authorization_config {
+      access_point_id = aws_efs_access_point.ga_ap_tomcatserver1.id
+    }
+  }
+  }
+  volume {
+  name = "ga_ap_tomcatlog1"
+
+  efs_volume_configuration {
+    file_system_id          = aws_efs_file_system.ga_efs.id
+    transit_encryption      = "ENABLED"
+    authorization_config {
+      access_point_id = aws_efs_access_point.ga_ap_tomcatlog1.id
+    }
+  }
+  }
+   volume {
+    name = "ga_ap_ghttpsroot1"
+
+    efs_volume_configuration {
+      file_system_id          = aws_efs_file_system.ga_efs.id
+      transit_encryption      = "ENABLED"
+      authorization_config {
+        access_point_id = aws_efs_access_point.ga_ap_ghttpsroot1.id
       }
     }
   }

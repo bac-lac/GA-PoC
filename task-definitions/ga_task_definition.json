@@ -42,8 +42,38 @@
         ],
         "mountPoints": [
             {
-                "sourceVolume": "ga_ap_root",
-                "containerPath": "/",
+                "sourceVolume": "ga_ap_userdata",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/userdata/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_sharedconfig",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/sharedconfig/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_upgrader1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/upgrader/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_config1",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/config/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_tomcatserver1",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/tomcat/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_tomcatlog1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/tomcat/logs/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_ghttpsroot1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/ghttpsroot/custom/",
                 "readOnly": false
             }
         ],
