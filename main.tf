@@ -537,11 +537,10 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   container_definitions = file("task-definitions/ga_task_definition.json")
 
   volume {
-    name = "root"
+    name = "ga_ap_root"
 
     efs_volume_configuration {
       file_system_id          = aws_efs_file_system.ga_efs.id
-      root_directory          = "/"
       transit_encryption      = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.ga_ap_root.id
@@ -553,7 +552,6 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
 
     efs_volume_configuration {
       file_system_id          = aws_efs_file_system.ga_efs.id
-      root_directory          = "/userdata"
       transit_encryption      = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.ga_ap_userdata.id
