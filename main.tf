@@ -633,7 +633,7 @@ resource "aws_ecs_service" "ga_service" {
   desired_count       = 1
   network_configuration {
     subnets           = data.aws_subnets.app.ids
-    security_groups   = ["aws_security_group.ga_app_sg.id"]
+    security_groups   = [aws_security_group.ga_app_sg.id]
     assign_public_ip  = false
   }
   load_balancer {
