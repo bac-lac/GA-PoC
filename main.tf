@@ -539,7 +539,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   network_mode              = "awsvpc"
   cpu                       = 1024
   memory                    = 3072
-  execution_role_arn        = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
+  execution_role_arn        = "arn:aws:iam::${var.ACCOUNT}:role/ecsTaskExecutionRole"
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
@@ -623,3 +623,27 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   }
 }
 
+# resource "aws_ecs_service" "ga_service" {
+#   name            = "ga-service-${var.BRANCH_NAME}"
+#   cluster         = aws_ecs_cluster.ga_cluster.id
+#   task_definition = aws_ecs_task_definition.ga_task_definition.arn
+#   desired_count   = 3
+#   iam_role        = aws_iam_role.foo.arn
+#   depends_on      = [aws_iam_role_policy.foo]
+
+#   ordered_placement_strategy {
+#     type  = "binpack"
+#     field = "cpu"
+#   }
+
+#   load_balancer {
+#     target_group_arn = aws_lb_target_group.foo.arn
+#     container_name   = "mongo"
+#     container_port   = 8080
+#   }
+
+#   placement_constraints {
+#     type       = "memberOf"
+#     expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
+#   }
+# }
