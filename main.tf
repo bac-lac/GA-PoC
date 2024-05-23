@@ -539,7 +539,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   network_mode              = "awsvpc"
   cpu                       = 1024
   memory                    = 3072
-  #execution_role_arn        = "arn:aws:iam::627773035696:role/ecsTaskExecutionRole"
+  execution_role_arn        = "arn:aws:iam::${var.ACCOUNT}:role/ecsTaskExecutionRole"
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
