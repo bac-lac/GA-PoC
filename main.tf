@@ -533,15 +533,23 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 }
 
 resource "aws_ecs_task_definition" "ga_task_definition" {
-  family                = "ga-task-definition-${var.BRANCH_NAME}"
-  container_definitions = file("task-definitions/ga_task_definition.json")
-
+  family                    = "ga-task-definition-${var.BRANCH_NAME}"
+  container_definitions     = file("task-definitions/ga_task_definition.json")
+  requires_compatibilities  = ["FARGATE"]
+  network_mode              = "awsvpc"
+  cpu                       = 1024
+  memory                    = 3072
+  #execution_role_arn        = "arn:aws:iam::627773035696:role/ecsTaskExecutionRole"
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
   volume {
     name = "ga_ap_userdata"
 
     efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.ga_efs.id
-      transit_encryption      = "ENABLED"
+      file_system_id        = aws_efs_file_system.ga_efs.id
+      transit_encryption    = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.ga_ap_userdata.id
       }
@@ -606,8 +614,8 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
     name = "ga_ap_ghttpsroot1"
 
     efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.ga_efs.id
-      transit_encryption      = "ENABLED"
+      file_system_id        = aws_efs_file_system.ga_efs.id
+      transit_encryption    = "ENABLED"
       authorization_config {
         access_point_id = aws_efs_access_point.ga_ap_ghttpsroot1.id
       }

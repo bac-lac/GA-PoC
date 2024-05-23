@@ -3,7 +3,6 @@
         "name": "mft1",
         "image": "helpsystems/goanywhere-mft",
         "cpu": 0,
-        "memory":2048,
         "portMappings": [
             {
                 "name": "mft1-8000-tcp",
