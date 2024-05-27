@@ -1,7 +1,7 @@
 [
     {
         "name": "mft1",
-        "image": "helpsystems/goanywhere-mft",
+        "image": "public.ecr.aws/t3j9o2u0/mft",
         "cpu": 0,
         "portMappings": [
             {
