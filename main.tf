@@ -20,60 +20,6 @@ provider "aws" {
   }
 }
 
-resource "aws_security_group" "ga_db_sg" {
-  name        = "GA-DB-${var.BRANCH_NAME}-sg"
-  description = "Allow traffic between ECS and DB"
-  vpc_id      = var.VPC_ID
-  tags = {
-    Name = "GA-DB-${var.BRANCH_NAME}-sg"
-  }
-}
-
-resource "aws_security_group" "ga_app_sg" {
-  name        = "GA-App-${var.BRANCH_NAME}-sg"
-  description = "Allow traffic between Load Balancer and ECS"
-  vpc_id      = var.VPC_ID
-  tags = {
-    Name = "GA-App-${var.BRANCH_NAME}-sg"
-  }
-}
-
-resource "aws_security_group" "ga_lb_sg" {
-  name        = "GA-LB-${var.BRANCH_NAME}-sg"
-  description = "Allow traffic to Load Balancer"
-  vpc_id      = var.VPC_ID
-  tags = {
-    Name = "GA-LB-${var.BRANCH_NAME}-sg"
-  }
-}
-
-resource "aws_security_group_rule" "allow_tcp_3306" {
-  security_group_id         = aws_security_group.ga_db_sg.id
-  source_security_group_id  = aws_security_group.ga_app_sg.id
-  from_port                 = 3306
-  protocol                  = "tcp"
-  to_port                   = 3306
-  type                      = "ingress"
-}
-
-resource "aws_security_group_rule" "allow_tcp_443" {
-  security_group_id         = aws_security_group.ga_app_sg.id
-  source_security_group_id  = aws_security_group.ga_lb_sg.id
-  from_port                 = 443
-  protocol                  = "tcp"
-  to_port                   = 443
-  type                      = "ingress"
-}
-
-resource "aws_security_group_rule" "allow_internet" {
-  security_group_id         = aws_security_group.ga_lb_sg.id
-  cidr_blocks               = ["0.0.0.0/0"]
-  from_port                 = 443
-  protocol                  = "tcp"
-  to_port                   = 443
-  type                      = "ingress"
-}
-
 data "aws_subnets" "data" {
   filter {
     name   = "tag:Name"
@@ -104,7 +50,7 @@ resource "aws_db_instance" "ga_mysql" {
   parameter_group_name      = "default.mysql8.0"
   skip_final_snapshot       = true
   storage_encrypted         = true
-  vpc_security_group_ids    = [aws_security_group.ga_db_sg.id]
+  vpc_security_group_ids    = [data.aws_security_group.data.id]
   db_subnet_group_name      = aws_db_subnet_group.data.name
 }
 
@@ -124,15 +70,36 @@ data "aws_subnets" "app" {
   }
 }
 
+data "aws_security_group" "app" {
+  filter {
+    name   = "tag:Name"
+    values = ["*App*"]
+  }
+}
+
+data "aws_security_group" "web" {
+  filter {
+    name   = "tag:Name"
+    values = ["*Web*"]
+  }
+}
+
+data "aws_security_group" "data" {
+  filter {
+    name   = "tag:Name"
+    values = ["*Data*"]
+  }
+}
+
 resource "aws_efs_mount_target" "ga_efs_mount_target_1" {
   file_system_id  = aws_efs_file_system.ga_efs.id
-  security_groups = [aws_security_group.ga_app_sg.id]           
+  security_groups = [data.aws_security_group.app.id]           
   subnet_id       = element(data.aws_subnets.app.ids, 1)
 }
 
 resource "aws_efs_mount_target" "ga_efs_mount_target_2" {
   file_system_id  = aws_efs_file_system.ga_efs.id
-  security_groups = [aws_security_group.ga_app_sg.id]
+  security_groups = [data.aws_security_group.app.id]
   subnet_id       = element(data.aws_subnets.app.ids, 2)
 }
 
@@ -387,7 +354,7 @@ resource "aws_lb" "ga_lb" {
   name               = "ga-${var.BRANCH_NAME}-lb"
   internal           = true
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.ga_lb_sg.id]
+  security_groups    = [data.aws_security_group.web.id]
   subnets            = data.aws_subnets.web.ids
 
   drop_invalid_header_fields = false
@@ -633,7 +600,7 @@ resource "aws_ecs_service" "ga_service" {
   desired_count       = 1
   network_configuration {
     subnets           = data.aws_subnets.app.ids
-    security_groups   = [aws_security_group.ga_app_sg.id]
+    security_groups   = [data.aws_security_group.app.id]
     assign_public_ip  = false
   }
   load_balancer {
