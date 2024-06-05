@@ -1,7 +1,7 @@
 [
     {
         "name": "mft1",
-        "image": "908516990241.dkr.ecr.ca-central-1.amazonaws.com/testjc",
+        "image": "helpsystems/goanywhere-mft",
         "cpu": 0,
         "portMappings": [
             {
