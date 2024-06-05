@@ -1,7 +1,7 @@
 [
     {
         "name": "mft1",
-        "image": "908516990241.dkr.ecr.ca-central-1.amazonaws.com/testjc",
+        "image": "654654488989.dkr.ecr.ca-central-1.amazonaws.com/mft",
         "cpu": 0,
         "portMappings": [
             {
