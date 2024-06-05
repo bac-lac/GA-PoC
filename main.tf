@@ -35,7 +35,7 @@ data "aws_subnets" "web" {
 }
 
 resource "aws_db_subnet_group" "data" {
-  name       = "ga-db-${var.BRANCH_NAME}-subnet-group"
+  name       = "ga-db-subnet-group-${var.BRANCH_NAME}"
   subnet_ids = data.aws_subnets.data.ids
 }
 
@@ -55,11 +55,11 @@ resource "aws_db_instance" "ga_mysql" {
 }
 
 resource "aws_efs_file_system" "ga_efs" {
-  creation_token  = "ga-${var.BRANCH_NAME}-efs"
+  creation_token  = "ga-efs-${var.BRANCH_NAME}"
   encrypted       = true
   throughput_mode = "elastic"
   tags = {
-    Name = "ga-${var.BRANCH_NAME}-efs"
+    Name = "ga-efs-${var.BRANCH_NAME}"
   }
 }
 
@@ -351,7 +351,7 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
 }
 
 resource "aws_lb" "ga_lb" {
-  name               = "ga-${var.BRANCH_NAME}-lb"
+  name               = "ga-lb-${var.BRANCH_NAME}"
   internal           = true
   load_balancer_type = "application"
   security_groups    = [data.aws_security_group.web.id]
@@ -362,12 +362,12 @@ resource "aws_lb" "ga_lb" {
 
   access_logs {
     bucket  = ""
-    prefix  = "ga-${var.BRANCH_NAME}_lb_logs"
+    prefix  = "ga_lb_logs-${var.BRANCH_NAME}"
     enabled = false
   }
 
   tags = {
-    Name = "ga-${var.BRANCH_NAME}-lb"
+    Name = "ga-lb-${var.BRANCH_NAME}"
     Environment = "${var.ENV}"
   }
 }
@@ -469,7 +469,7 @@ resource "aws_alb_listener" "http_80" {
 }
 
 resource "aws_alb_target_group" "ga_tg" {
-  name     = "ga-${var.BRANCH_NAME}-tg"
+  name     = "ga-tg-${var.BRANCH_NAME}"
   port     = 80
   protocol = "HTTP"
   target_type = "ip"
