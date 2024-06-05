@@ -17,6 +17,9 @@ jobs:
   Terraform-Apply:
     runs-on: ubuntu-latest
     environment: "dev"
+    defaults:
+      run:
+        working-directory: ./terraform
     steps:
       - uses: actions/checkout@v4
 
@@ -37,12 +40,10 @@ jobs:
 
       - name: Terraform-Init
         id: Init
-        working-directory: ./terraform
         run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
       - name: Terraform-Plan
         id: Plan
-        working-directory: ./terraform
         run: terraform plan 
           -var ENV=${{vars.ENV}}
           -var ACCOUNT=${{secrets.ACCOUNT}}
@@ -53,7 +54,6 @@ jobs:
 
       - name: Terraform-Apply
         id: Apply
-        working-directory: ./terraform
         run: terraform apply 
           -var ENV=${{vars.ENV}}
           -var ACCOUNT=${{secrets.ACCOUNT}}
