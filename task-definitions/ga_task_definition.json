@@ -1,7 +1,7 @@
 [
     {
         "name": "mft1",
-        "image": "vpce-0bb5851e8ca5ba3c0-d77ivfq2.api.ecr.ca-central-1.vpce.amazonaws.com/mft",
+        "image": "908516990241.dkr.ecr.ca-central-1.amazonaws.com/testjc",
         "cpu": 0,
         "portMappings": [
             {
