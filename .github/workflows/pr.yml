@@ -37,10 +37,12 @@ jobs:
 
       - name: Terraform-Init
         id: Init
+        working-directory: ./terraform
         run: terraform init -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
       - name: Terraform-Plan
         id: Plan
+        working-directory: ./terraform
         run: terraform plan 
           -var ENV=${{vars.ENV}}
           -var ACCOUNT=${{secrets.ACCOUNT}}
@@ -51,6 +53,7 @@ jobs:
 
       - name: Terraform-Apply
         id: Apply
+        working-directory: ./terraform
         run: terraform apply 
           -var ENV=${{vars.ENV}}
           -var ACCOUNT=${{secrets.ACCOUNT}}
@@ -59,27 +62,3 @@ jobs:
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -auto-approve
-
-      - name: Update Pull Request
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{secrets.USER_TOKEN}}
-          script: |
-            const output = `#### Terraform Initialization : ${{steps.Init.outcome}}\`
-            #### Terraform Plan : ${{steps.Plan.outcome}}\`
-            <details><summary>Show Plan</summary>
-      
-            \`\`\`\n
-            ${{ steps.Plan.outputs.stdout }}
-            \`\`\`
-
-            </details>
-
-            *Pushed by: @${{github.actor}}, Action: \`${{github.event_name}}\`*`;
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
