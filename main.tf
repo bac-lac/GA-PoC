@@ -73,21 +73,21 @@ data "aws_subnets" "app" {
 data "aws_security_group" "app" {
   filter {
     name   = "tag:Name"
-    values = ["*App*"]
+    values = ["App"]
   }
 }
 
 data "aws_security_group" "web" {
   filter {
     name   = "tag:Name"
-    values = ["*Web*"]
+    values = ["Web"]
   }
 }
 
 data "aws_security_group" "data" {
   filter {
     name   = "tag:Name"
-    values = ["*Data*"]
+    values = ["Data"]
   }
 }
 
