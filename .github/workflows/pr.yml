@@ -1,4 +1,4 @@
-name: pull-request
+name: Pull Request
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ permissions:
       contents: read
 
 jobs:
-  Terraform-Apply:
+  Pull-request:
     runs-on: ubuntu-latest
     environment: "dev"
     defaults:
