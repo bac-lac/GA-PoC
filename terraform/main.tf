@@ -501,7 +501,7 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 
 resource "aws_ecs_task_definition" "ga_task_definition" {
   family                    = "ga-task-definition-${var.BRANCH_NAME}"
-  container_definitions     = file("task-definitions/ga_task_definition.json")
+  #container_definitions     = file("task-definitions/ga_task_definition.json")
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
   cpu                       = 1024
@@ -588,6 +588,106 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
       }
     }
   }
+  container_definitions = jsonencode([
+    {
+        "name": "mft1",
+        "image": ${var.ECR_IMAGE},
+        "cpu": 0,
+        "portMappings": [
+            {
+                "name": "mft1-8000-tcp",
+                "containerPort": 8000,
+                "protocol": "tcp",
+                "appProtocol": "http"
+            }
+        ],
+        "essential": true,
+        "environment": [
+            {
+                "name": "SYSTEM_NAME",
+                "value": "MFT-1"
+            },
+            {
+                "name": "CLUSTER_PORT",
+                "value": "8006"
+            },
+            {
+                "name": "DB_USERNAME",
+                "value": "GADATA"
+            },
+            {
+                "name": "DB_URL",
+                "value": "DB_URL"
+            },
+            {
+                "name": "DB_PASSWORD",
+                "value": "DB_PASSWORD"
+            },
+            {
+                "name": "MFT_CLUSTER",
+                "value": "TRUE"
+            }
+        ],
+        "mountPoints": [
+            {
+                "sourceVolume": "ga_ap_userdata",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/userdata/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_sharedconfig",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/sharedconfig/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_upgrader1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/upgrader/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_config1",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/config/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_tomcatserver1",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/tomcat/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_tomcatlog1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/tomcat/logs/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_ghttpsroot1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/ghttpsroot/custom/",
+                "readOnly": false
+            }
+        ],
+        "volumesFrom": [],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "/ecs/ga-td",
+                "awslogs-region": "ca-central-1",
+                "awslogs-stream-prefix": "ecs"
+            }
+        },
+        "healthCheck": {
+            "command": [
+                "CMD-SHELL",
+                "curl -f http://localhost:8000/ || exit 1"
+            ],
+            "interval": 30,
+            "timeout": 5,
+            "retries": 3,
+            "startPeriod": 120
+        },
+        "systemControls": []
+    }
+])
 }
 
 resource "aws_ecs_service" "ga_service" {
