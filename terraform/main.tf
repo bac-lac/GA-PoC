@@ -591,7 +591,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
   container_definitions = jsonencode([
     {
         "name": "mft1",
-        "image": ${var.ECR_IMAGE},
+        "image": "${var.ECR_IMAGE}",
         "cpu": 0,
         "portMappings": [
             {
