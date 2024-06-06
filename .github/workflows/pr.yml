@@ -38,6 +38,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, and push docker image to Amazon ECR
+        id: build-push
         working-directory: ./docker
         env:
           REGISTRY: ${{steps.login-ecr.outputs.registry}}
@@ -68,7 +69,7 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
-          -var ECR_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/mft:${{env.BRANCH_NAME}}-${{github.sha}}
 
       - name: Terraform-Apply
         id: Apply
@@ -79,5 +80,5 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
-          -var ECR_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/mft:${{env.BRANCH_NAME}}-${{github.sha}}
           -auto-approve
