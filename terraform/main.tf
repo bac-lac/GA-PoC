@@ -501,7 +501,6 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 
 resource "aws_ecs_task_definition" "ga_task_definition" {
   family                    = "ga-task-definition-${var.BRANCH_NAME}"
-  #container_definitions     = file("task-definitions/ga_task_definition.json")
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
   cpu                       = 1024
