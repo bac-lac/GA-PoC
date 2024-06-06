@@ -43,9 +43,20 @@ jobs:
           audience: sts.amazonaws.com
       
       - name: Login to Amazon ECR
-        if: ${{vars.ENV}} == 'dev'
+        if: ${{vars.ENV == 'dev'}}
         id: login-ecr
-        run: echo "Login to Amazon ECR; ${{vars.ENV}}"
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build, tag, and push docker image to Amazon ECR
+        if: ${{vars.ENV == 'dev'}}
+        working-directory: ./docker
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: mft
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       
       - name: Terraform-Setup
         id: Setup
@@ -68,4 +79,5 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
+          -var ECR_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           -auto-approve

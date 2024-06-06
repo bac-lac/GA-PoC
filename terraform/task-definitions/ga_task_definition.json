@@ -1,7 +1,7 @@
 [
     {
         "name": "mft1",
-        "image": "211125753903.dkr.ecr.ca-central-1.amazonaws.com/mft",
+        "image": "${var.ECR_IMAGE}",
         "cpu": 0,
         "portMappings": [
             {

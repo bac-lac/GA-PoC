@@ -32,3 +32,9 @@ variable "BRANCH_NAME" {
   sensitive = true
   description = "The branch name used for resources creation."
 }
+
+variable "ECR_IMAGE" {
+  type = string
+  sensitive = true
+  description = "The image name used for task definition."
+}
