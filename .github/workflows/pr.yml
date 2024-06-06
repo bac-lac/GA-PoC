@@ -8,6 +8,8 @@ on:
 env:
   AWS_REGION : "ca-central-1"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  REPOSITORY: mft
+  IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
 
 permissions:
       id-token: write
@@ -40,13 +42,9 @@ jobs:
       - name: Build, tag, and push docker image to Amazon ECR
         id: build-push
         working-directory: ./docker
-        env:
-          REGISTRY: ${{steps.login-ecr.outputs.registry}}
-          REPOSITORY: mft
-          IMAGE_TAG: "${{env.BRANCH_NAME}}-${{github.sha}}"
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
+          docker push ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
 
       - name: Terraform-Setup
         id: Setup
@@ -69,7 +67,7 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
-          -var ECR_IMAGE=${{steps.build-push.env.registry}}/mft:${{env.BRANCH_NAME}}-${{github.sha}}
+          -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
 
       - name: Terraform-Apply
         id: Apply
@@ -80,5 +78,5 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
-          -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/mft:${{env.BRANCH_NAME}}-${{github.sha}}
+          -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
           -auto-approve
