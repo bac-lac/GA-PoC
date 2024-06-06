@@ -41,7 +41,12 @@ jobs:
           aws-region: ${{env.AWS_REGION}}
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
-
+      
+      - name: Login to Amazon ECR
+        if: ${{vars.ENV}} == 'dev'
+        id: login-ecr
+        run: echo "Login to Amazon ECR; ${{vars.ENV}}"
+      
       - name: Terraform-Setup
         id: Setup
         uses: hashicorp/setup-terraform@v3
