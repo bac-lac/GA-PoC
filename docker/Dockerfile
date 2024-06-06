@@ -1,21 +1,21 @@
 FROM helpsystems/goanywhere-mft:latest
 
-#USER root
+USER root
 
-#COPY scripts/entrypoint.sh /usr/bin/
+COPY scripts/entrypoint.sh /usr/bin/
 
 # Copy default xml configs.
-#COPY configs/ /tmp/sharedconfig/ 
-#RUN chmod -R 777 /tmp/sharedconfig/ 
+COPY configs/ /tmp/sharedconfig/ 
+RUN chmod -R 777 /tmp/sharedconfig/ 
 
-#RUN chmod +x /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
 
-#RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
+RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 # Installing dependencies.
-#RUN yum update -y \
-#  && yum -y install procps unzip epel-release \
-#  && yum -y clean all \
-#  && rm -rf /var/cache
+RUN yum update -y \
+  && yum -y install procps unzip epel-release \
+  && yum -y clean all \
+  && rm -rf /var/cache
 
-#USER gamft
+USER gamft
