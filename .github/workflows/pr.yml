@@ -34,7 +34,7 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Login to Amazon ECR
-        if: ${{vars.ENV}} == 'test'
+        if: ${{vars.ENV == 'test'}}
         id: login-ecr
         run: echo "Login to Amazon ECR; ${{vars.ENV}}"
 
