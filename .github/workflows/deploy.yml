@@ -16,6 +16,8 @@ on:
 env:
   AWS_REGION : "ca-central-1"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  REPOSITORY: mft
+  IMAGE_TAG: "latest"
 
 permissions:
       id-token: write
@@ -41,7 +43,19 @@ jobs:
           aws-region: ${{env.AWS_REGION}}
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
-
+      
+      - name: Login to Amazon ECR
+        if: ${{vars.ENV == 'dev'}}
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build, tag, and push docker image to Amazon ECR
+        if: ${{vars.ENV == 'dev'}}
+        working-directory: ./docker
+        run: |
+          docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
+          docker push ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
+      
       - name: Terraform-Setup
         id: Setup
         uses: hashicorp/setup-terraform@v3
@@ -63,4 +77,5 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
+          -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
           -auto-approve
