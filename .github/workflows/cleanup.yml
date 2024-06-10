@@ -56,4 +56,5 @@ jobs:
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
+          -var ECR_IMAGE=
           -auto-approve
