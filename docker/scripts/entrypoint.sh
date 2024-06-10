@@ -16,6 +16,10 @@ echo "********************************************"
 echo "********************************************"
 echo "********************************************"
 
+echo ""
+echo "Branch name: $BRANCH_NAME"
+echo ""
+
 # Variables.
 config_folder="/etc/HelpSystems/GoAnywhere/config"
 program_folder="/opt/HelpSystems/GoAnywhere"
