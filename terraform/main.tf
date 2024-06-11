@@ -713,3 +713,7 @@ resource "aws_ecs_service" "ga_service" {
   }
 
 }
+
+output "db_url_output" {
+  value = "db_url_output"
+}
