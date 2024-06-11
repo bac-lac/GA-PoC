@@ -60,8 +60,6 @@ jobs:
         
       - name: output
         run: |
-          output=$(terraform output db_url_output)
-          echo $output
           echo DB_URL_OUTPUT=$(terraform output db_url_output) >> $GITHUB_ENV
       
       - name: Terraform-Plan
