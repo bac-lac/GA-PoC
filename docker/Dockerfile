@@ -15,9 +15,10 @@ RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 # Installing dependencies.
 RUN yum update -y \
   && yum -y install procps unzip epel-release \
-  && yum install https://centos7.iuscommunity.org/ius-release.rpm \
-  && yum install python36u python36u-devel python36u-pip \
   && yum -y clean all \
   && rm -rf /var/cache
+
+# Installing pip. 
+RUN python3.6 -m ensurepip
 
 USER gamft
