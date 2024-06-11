@@ -1,0 +1,5 @@
+skip-check:
+    - CKV_AWS_129  # Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled
+
+soft-fail-on:
+    - CKV_AWS_293  # Ensure that AWS database instances have deletion protection enabled

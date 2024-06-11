@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-action.json": "file:///c%3A/Users/guindc/Documents/vscode_workspace/GA-PoC/.github/workflows/.checkov.yaml"
+    }
+}
