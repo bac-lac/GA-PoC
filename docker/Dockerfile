@@ -19,6 +19,6 @@ RUN yum update -y \
   && rm -rf /var/cache
 
 # Installing pip. 
-RUN python3.6 -m ensurepip
+RUN python3 -m ensurepip
 
 USER gamft
