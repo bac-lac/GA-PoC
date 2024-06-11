@@ -70,7 +70,9 @@ jobs:
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
       
       - name: output
-        run: echo "output $(terraform output db_url_output)"
+        run: |
+          output=$(terraform output db_url_output)
+          echo $output
 
       - name: Terraform-Apply
         id: Apply
