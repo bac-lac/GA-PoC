@@ -29,7 +29,7 @@ variable "ADMIN_DB_PASSWORD" {
 
 variable "ADMIN_DB_URL" {
   type = string
-  sensitive = true
+  sensitive = false
   description = "The DB url for the admin account."
 }
 
