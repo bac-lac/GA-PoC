@@ -27,6 +27,12 @@ variable "ADMIN_DB_PASSWORD" {
   description = "The DB password for the admin account."
 }
 
+variable "ADMIN_DB_URL" {
+  type = string
+  sensitive = true
+  description = "The DB url for the admin account."
+}
+
 variable "BRANCH_NAME" {
   type = string
   sensitive = true
