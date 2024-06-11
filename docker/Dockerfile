@@ -21,16 +21,10 @@ RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 RUN yum update -y \
   && yum -y install procps unzip epel-release \
-  && yum install https://centos7.iuscommunity.org/ius-release.rpm \
-  && yum install python36u python36u-devel python36u-pip \
   && yum -y clean all \
   && rm -rf /var/cache
 
-RUN wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm \
-  && dnf install mysql80-community-release-el9-1.noarch.rpm -y \
-  && rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 \
-  && dnf install mysql-community-client -y
+# Installing pip. 
+RUN python3.6 -m ensurepip
 
 USER gamft
-
-ENTRYPOINT [ "/temp/init.sh" ]
