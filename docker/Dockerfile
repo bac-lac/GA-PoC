@@ -14,11 +14,8 @@ RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 # Installing dependencies.
 RUN yum update -y \
-  && yum -y install procps unzip epel-release jq\
+  && yum -y install procps unzip epel-release \
   && yum -y clean all \
   && rm -rf /var/cache
-
-# Installing pip. 
-RUN python3 -m ensurepip
 
 USER gamft
