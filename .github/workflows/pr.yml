@@ -82,7 +82,7 @@ jobs:
 
       - name: Checkov testing terraform plan
         id: checkov-terraform-plan
-        run: checkov -f tfplan.json -o sarif -s
+        run: checkov -f tfplan.json -o sarif
 
       - name: Terraform-Apply
         id: Apply
