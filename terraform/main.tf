@@ -623,6 +623,18 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "value": "DB_PASSWORD"
             },
             {
+                "name": "ADMIN_DB_USERNAME",
+                "value": "GADATA"
+            },
+            {
+                "name": "ADMIN_DB_URL",
+                "value": "DB_URL"
+            },
+            {
+                "name": "ADMIN_DB_PASSWORD",
+                "value": "DB_PASSWORD"
+            },
+            {
                 "name": "MFT_CLUSTER",
                 "value": "TRUE"
             },
