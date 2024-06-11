@@ -18,9 +18,6 @@ RUN yum update -y \
   && yum -y clean all \
   && rm -rf /var/cache
 
-RUN wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm \
-  && dnf install mysql80-community-release-el9-1.noarch.rpm -y \
-  && rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 \
-  && dnf install mysql-community-client -y
+RUN dnf install mysql-community-client -y
 
 USER gamft
