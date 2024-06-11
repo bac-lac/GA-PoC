@@ -57,7 +57,13 @@ jobs:
         run: terraform init 
             -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" 
             -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
-
+        
+      - name: output
+        run: |
+          output=$(terraform output db_url_output)
+          echo $output
+          echo DB_URL_OUTPUT=$(terraform output db_url_output) >> $GITHUB_ENV
+      
       - name: Terraform-Plan
         id: Plan
         run: terraform plan 
@@ -65,16 +71,11 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_URL=$(terraform output db_url_output)
+          -var ADMIN_DB_URL=${{env.DB_URL_OUTPUT}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
       
-      - name: output
-        run: |
-          output=$(terraform output db_url_output)
-          echo $output
-
       - name: Terraform-Apply
         id: Apply
         run: terraform apply 
@@ -82,7 +83,7 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_URL=$(terraform output db_url_output)
+          -var ADMIN_DB_URL=${{env.DB_URL_OUTPUT}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
