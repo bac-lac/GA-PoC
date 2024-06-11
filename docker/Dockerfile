@@ -20,7 +20,7 @@ RUN chmod -R 777 /temp/
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 RUN yum update -y \
-  && yum -y install procps unzip epel-release \
+  && yum -y install procps unzip epel-release jq\
   && yum -y clean all \
   && rm -rf /var/cache
 

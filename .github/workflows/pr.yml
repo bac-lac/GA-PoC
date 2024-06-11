@@ -70,6 +70,11 @@ jobs:
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
+          --out tfplan.binary
+
+      - name: Terraform-Show
+        id: Show
+        run: terraform show -json tfplan.binary | jq > tfplan.json
 
       - name: Install Checkov
         id: checkov
