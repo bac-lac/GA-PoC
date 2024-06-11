@@ -22,6 +22,7 @@ echo ""
 if [ "$BRANCH_NAME" != "main" ]; then
   
   echo "Import Database"
+  printenv
   echo "ADMIN_DB_URL: $ADMIN_DB_URL"
   echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
   echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
