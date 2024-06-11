@@ -81,12 +81,10 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip install checkov
-        continue-on-error: true
 
       - name: Checkov testing terraform plan
         id: checkov-terraform-plan
         run: checkov -f tfplan.json -o sarif -s
-        continue-on-error: true
 
       - name: Terraform-Apply
         id: Apply
