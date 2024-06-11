@@ -71,6 +71,18 @@ jobs:
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
 
+      - name: Install Checkov
+        id: checkov
+        run: |
+          python3 -m pip3 install --upgrade pip3
+          pip3 install checkov
+        continue-on-error: true
+
+      - name: Checkov testing terraform plan
+        id: checkov-terraform-plan
+        run: checkov -f tfplan.json -o sarif -s
+        continue-on-error: true
+
       - name: Terraform-Apply
         id: Apply
         run: terraform apply 
