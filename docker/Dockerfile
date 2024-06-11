@@ -4,6 +4,8 @@ USER root
 
 COPY scripts/entrypoint.sh /usr/bin/
 
+COPY mysql_dump.sql /tmp/sql/mysql_dump.sql
+
 # Copy default xml configs.
 COPY configs/ /tmp/sharedconfig/ 
 RUN chmod -R 777 /tmp/sharedconfig/ 

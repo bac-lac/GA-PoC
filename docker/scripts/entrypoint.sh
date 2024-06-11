@@ -20,8 +20,8 @@ echo ""
 echo "Branch name: $BRANCH_NAME"
 echo ""
 if [ "$BRANCH_NAME" != "main" ]; then
-  echo "Not equals to main"
-  mysqldump
+  echo "Import Database"
+  mysql -u $DB_USERNAME -p $DB_PASSWORD < /tmp/sql/mysql_dump.sql
 fi
 
 
