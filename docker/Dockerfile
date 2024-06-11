@@ -18,6 +18,6 @@ RUN yum update -y \
   && yum -y clean all \
   && rm -rf /var/cache
 
-RUN dnf install mysql-community-client -y
+RUN dnf install mysql-client -y
 
 USER gamft
