@@ -60,6 +60,7 @@ jobs:
         
       - name: output
         run: |
+          echo "::add-mask::$(terraform output db_url_output)"
           echo DB_URL_OUTPUT=$(terraform output db_url_output) >> $GITHUB_ENV
       
       - name: Terraform-Plan
