@@ -21,7 +21,7 @@ echo "Branch name: $BRANCH_NAME"
 echo ""
 if [ "$BRANCH_NAME" != "main" ]; then
   echo "Import Database"
-  mysql -h $DB_URL -u $DB_USERNAME -p $DB_PASSWORD < /tmp/sql/mysql_dump.sql
+  mysql -h $ADMIN_DB_URL -u $ADMIN_DB_USERNAME -p $ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump.sql
 fi
 
 
