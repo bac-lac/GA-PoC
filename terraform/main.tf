@@ -616,7 +616,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "DB_URL",
-                "value": "jdbc:mariadb://${aws_db_instance.ga_mysql.endpoint}/GADATA?useCursorFetch=true&amp;defaultFetchSize=20&amp;characterEncoding=utf8"
+                "value": "${aws_db_instance.ga_mysql.endpoint}"
             },
             {
                 "name": "DB_PASSWORD",
