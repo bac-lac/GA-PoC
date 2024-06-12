@@ -628,7 +628,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "ADMIN_DB_URL",
-                "value": "${var.DB_URL_OUTPUT}"
+                "value": "${var.ADMIN_DB_URL}"
             },
             {
                 "name": "ADMIN_DB_PASSWORD",
