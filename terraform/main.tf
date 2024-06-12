@@ -727,6 +727,6 @@ resource "aws_ecs_service" "ga_service" {
 }
 
 output "db_url_output" {
-  value     = "secret"
+  value     = aws_db_instance.ga_mysql.endpoint
   sensitive = true
 }
