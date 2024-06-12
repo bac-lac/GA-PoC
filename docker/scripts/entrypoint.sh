@@ -20,14 +20,13 @@ echo ""
 echo "IS_PR name: $IS_PR"
 echo ""
 if [ "$IS_PR" = true ]; then
-  
   echo "Import Database"
   echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
   echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
   echo "DB_USERNAME: $DB_USERNAME"
   echo "DB_PASSWORD: $DB_PASSWORD"
   echo "DB_ENDPOINT: $DB_ENDPOINT"
-  #mysql -h $DB_ENDPOINT -u $ADMIN_DB_USERNAME -p $ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump.sql
+  mysql -h $DB_ENDPOINT -u $ADMIN_DB_USERNAME -p $ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump.sql
 fi
 
 
@@ -52,6 +51,7 @@ then
   java -classpath upgrader/ga_upgrade.jar -javaagent:upgrader/ga_upgrade.jar com.linoma.goanywhere.upgrader.Startup skipFiles
   if [ $? -eq 0 ]
   then
+    echo "Move upgrade jar..."
     mv upgrader/ga_upgrade.jar upgrader/ga_upgrade_complete.jar
   fi
   else
@@ -59,6 +59,7 @@ then
 fi
 
 # Update the file cluster.xml with the host values.
+echo "Update the file cluster.xml with the host values."
 if [ "$MFT_CLUSTER" == "TRUE" ]; then
   host=`hostname -i`
   sed -i "s|systemName\">.*<|systemName\">$SYSTEM_NAME<|g" "${config_folder}"/cluster.xml
@@ -68,12 +69,13 @@ if [ "$MFT_CLUSTER" == "TRUE" ]; then
 fi
 
 # Update the file database.xml with the correct values.
+echo "Update the file database.xml with the correct values."
 sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
 sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
 sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ENDPOINT/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
-echo "Cat database.xml..."
-cat ${shareconfig_folder}/database.xml
+
 # Creating symbolic link for application configuration files.
+echo "Creating symbolic link for application configuration files."
 cd "${config_folder}"
 cp cluster.xml /tmp/cluster.xml
 rm -rf *
@@ -108,5 +110,5 @@ then
 fi
 
 EXECUTABLE=tomcat/bin/goanywhere_catalina.sh
-
+echo "Execute Go Anywhere"
 exec "$program_folder"/"$EXECUTABLE" run "$@"

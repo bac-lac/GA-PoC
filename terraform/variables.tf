@@ -52,8 +52,7 @@ variable "DB_PASSWORD" {
 }
 
 variable "IS_PR" {
-  type = string 
-  sensitive = false
+  type = string
   default = "false"
-  description = "True if it's a pull request"
+  description = "If true, it will generate logic to create an empty DB for a pull request."
 }
