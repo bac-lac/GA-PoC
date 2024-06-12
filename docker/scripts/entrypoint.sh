@@ -70,7 +70,7 @@ fi
 # Update the file database.xml with the correct values.
 sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
 sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
-sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_URL/GADATA?useCursorFetch=true&amp;defaultFetchSize=20&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
+sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_URL/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
 echo "Cat database.xml..."
 cat ${shareconfig_folder}/database.xml
 # Creating symbolic link for application configuration files.
