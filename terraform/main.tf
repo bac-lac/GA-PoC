@@ -615,8 +615,8 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "value": "${var.DB_USERNAME}"
             },
             {
-                "name": "DB_ENDPOINT",
-                "value": "${aws_db_instance.ga_mysql.endpoint}"
+                "name": "DB_ADDRESS",
+                "value": "${aws_db_instance.ga_mysql.address}"
             },
             {
                 "name": "DB_PASSWORD",
