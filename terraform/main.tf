@@ -624,15 +624,15 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "ADMIN_DB_USERNAME",
-                "value": "GADATA"
+                "value": "${var.ADMIN_DB_USERNAME}"
             },
             {
                 "name": "ADMIN_DB_URL",
-                "value": "${var.ADMIN_DB_URL}"
+                "value": "${aws_db_instance.ga_mysql.endpoint}"
             },
             {
                 "name": "ADMIN_DB_PASSWORD",
-                "value": "${aws_db_instance.ga_mysql.endpoint}"
+                "value": "${var.ADMIN_DB_PASSWORD}"
             },
             {
                 "name": "MFT_CLUSTER",
@@ -724,9 +724,4 @@ resource "aws_ecs_service" "ga_service" {
     container_port   = 8000
   }
 
-}
-
-output "db_url_output" {
-  value     = aws_db_instance.ga_mysql.endpoint
-  sensitive = true
 }
