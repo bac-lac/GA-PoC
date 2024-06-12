@@ -52,8 +52,8 @@ variable "DB_PASSWORD" {
 }
 
 variable "IS_PR" {
-  type = bool 
+  type = string 
   sensitive = false
-  default = false
+  default = "false"
   description = "True if it's a pull request"
 }

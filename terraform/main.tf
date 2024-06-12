@@ -636,7 +636,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "IS_PR",
-                "value": ${var.IS_PR}
+                "value": "${var.IS_PR}"
             }
         ],
         "mountPoints": [
