@@ -615,7 +615,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "value": "${var.DB_USERNAME}"
             },
             {
-                "name": "DB_URL",
+                "name": "DB_ENDPOINT",
                 "value": "${aws_db_instance.ga_mysql.endpoint}"
             },
             {
@@ -627,10 +627,6 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "value": "${var.ADMIN_DB_USERNAME}"
             },
             {
-                "name": "ADMIN_DB_URL",
-                "value": "${aws_db_instance.ga_mysql.endpoint}"
-            },
-            {
                 "name": "ADMIN_DB_PASSWORD",
                 "value": "${var.ADMIN_DB_PASSWORD}"
             },
@@ -639,8 +635,8 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "value": "TRUE"
             },
             {
-                "name": "BRANCH_NAME",
-                "value": "${var.BRANCH_NAME}"
+                "name": "IS_PR",
+                "value": "${var.IS_PR}"
             }
         ],
         "mountPoints": [

@@ -17,17 +17,17 @@ echo "********************************************"
 echo "********************************************"
 
 echo ""
-echo "Branch name: $BRANCH_NAME"
+echo "IS_PR name: $IS_PR"
 echo ""
-if [ "$BRANCH_NAME" != "main" ]; then
+if [ "$IS_PR" = true ]; then
   
   echo "Import Database"
   echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
   echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
   echo "DB_USERNAME: $DB_USERNAME"
   echo "DB_PASSWORD: $DB_PASSWORD"
-  echo "DB_URL: $DB_URL"
-  #mysql -h $ADMIN_DB_URL -u $ADMIN_DB_USERNAME -p $ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump.sql
+  echo "DB_ENDPOINT: $DB_ENDPOINT"
+  #mysql -h $DB_ENDPOINT -u $ADMIN_DB_USERNAME -p $ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump.sql
 fi
 
 
@@ -70,7 +70,7 @@ fi
 # Update the file database.xml with the correct values.
 sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
 sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
-sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_URL/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
+sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ENDPOINT/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
 echo "Cat database.xml..."
 cat ${shareconfig_folder}/database.xml
 # Creating symbolic link for application configuration files.

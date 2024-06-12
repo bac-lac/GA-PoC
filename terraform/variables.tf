@@ -50,3 +50,10 @@ variable "DB_PASSWORD" {
   sensitive = true
   description = "The DB password for the application."
 }
+
+variable "IS_PR" {
+  type = bool 
+  sensitive = false
+  default = false
+  description = "True if it's a pull request"
+}
