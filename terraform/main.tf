@@ -632,7 +632,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "ADMIN_DB_PASSWORD",
-                "value": "DB_PASSWORD"
+                "value": "${aws_db_instance.ga_mysql.endpoint}"
             },
             {
                 "name": "MFT_CLUSTER",
