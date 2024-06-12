@@ -15,10 +15,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- GTID state at the beginning of the backup 
---
 
+CREATE DATABASE GADATA CHARSET=UTF8;
+GRANT ALL ON GADATA.* to 'GADATA';
 
 --
 -- Table structure for table `dpa_active_job`
