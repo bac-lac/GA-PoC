@@ -612,15 +612,15 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "DB_USERNAME",
-                "value": "GADATA"
+                "value": "${var.DB_USERNAME}"
             },
             {
                 "name": "DB_URL",
-                "value": "DB_URL"
+                "value": "jdbc:mariadb://${aws_db_instance.ga_mysql.endpoint}/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8"
             },
             {
                 "name": "DB_PASSWORD",
-                "value": "DB_PASSWORD"
+                "value": "${var.DB_PASSWORD}"
             },
             {
                 "name": "ADMIN_DB_USERNAME",

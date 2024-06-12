@@ -25,6 +25,9 @@ if [ "$BRANCH_NAME" != "main" ]; then
   echo "ADMIN_DB_URL: $ADMIN_DB_URL"
   echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
   echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
+  echo "DB_USERNAME: $DB_USERNAME"
+  echo "DB_PASSWORD: $DB_PASSWORD"
+  echo "DB_URL: $DB_URL"
   #mysql -h $ADMIN_DB_URL -u $ADMIN_DB_USERNAME -p $ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump.sql
 fi
 

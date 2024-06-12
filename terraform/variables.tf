@@ -38,3 +38,15 @@ variable "ECR_IMAGE" {
   sensitive = true
   description = "The image name used for task definition."
 }
+
+variable "DB_USERNAME" {
+  type = string
+  sensitive = true
+  description = "The DB username for the application."
+}
+
+variable "DB_PASSWORD" {
+  type = string
+  sensitive = true
+  description = "The DB password for the application."
+}
