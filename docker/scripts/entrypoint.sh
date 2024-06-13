@@ -22,10 +22,10 @@ echo ""
 if [ "$IS_PR" = true ]; then
   echo "Import Database"
 
-  echo "ls -la /userdata"
-  ls -la /userdata
-  echo "/sharedconfig"
-  ls -la /sharedconfig
+  echo "ls -la /etc/HelpSystems/GoAnywhere/userdata/"
+  ls -la /etc/HelpSystems/GoAnywhere/userdata/
+  echo "ls -la /etc/HelpSystems/GoAnywhere/userdata/logs/"
+  ls -la /etc/HelpSystems/GoAnywhere/userdata/logs/
   sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /tmp/sql/mysql_dump.sql > /tmp/mysql_dump.sql
   
   # result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
@@ -100,6 +100,11 @@ ln -s "${shareconfig_folder}"/log4j2.xml "${config_folder}"/log4j2.xml
 ln -s "${shareconfig_folder}"/pesit.xml "${config_folder}"/pesit.xml
 ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
 ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
+
+echo "ls -la /etc/HelpSystems/GoAnywhere/"
+ls -la /etc/HelpSystems/GoAnywhere/
+echo "ls -la ${program_folder}"
+ls -la ${program_folder}
 
 JVM='1024'
 if [ -n "$JAVA_MAX_MEMORY" ]; then
