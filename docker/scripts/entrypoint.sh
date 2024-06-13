@@ -117,7 +117,7 @@ elif [ -d "$program_folder/jre" ]
 then
   export JAVA_HOME="$program_folder/jre"
 fi
-
+tail -f /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log &
 EXECUTABLE=tomcat/bin/goanywhere_catalina.sh
 echo "Execute Go Anywhere"
 exec "$program_folder"/"$EXECUTABLE" run "$@"
