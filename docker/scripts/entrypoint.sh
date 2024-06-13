@@ -103,8 +103,8 @@ ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 # ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/
 # echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log"
 # cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log
-# echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log"
-# cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log
+echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log"
+cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log
 
 JVM='1024'
 if [ -n "$JAVA_MAX_MEMORY" ]; then
