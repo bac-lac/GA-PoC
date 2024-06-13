@@ -21,21 +21,21 @@ echo "IS_PR name: $IS_PR"
 echo ""
 if [ "$IS_PR" = true ]; then
   echo "Import Database"
-  #echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
-  #echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
-  #echo "DB_USERNAME: $DB_USERNAME"
-  #echo "DB_PASSWORD: $DB_PASSWORD"
-  #echo "DB_ADDRESS: $DB_ADDRESS"
+
+  echo "ls -la /etc/HelpSystems/GoAnywhere/userdata/"
+  ls -la /etc/HelpSystems/GoAnywhere/userdata/
+  echo "ls -la /etc/HelpSystems/GoAnywhere/userdata/logs/"
+  ls -la /etc/HelpSystems/GoAnywhere/userdata/logs/
   sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /tmp/sql/mysql_dump.sql > /tmp/mysql_dump.sql
   
-  result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
-  if [ -z "$result" ]; then 
-    echo "db does not exists";
-  else
-    echo "db exists";
-  fi
+  # result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
+  # if [ -z "$result" ]; then 
+  #   echo "db does not exists";
+  # else
+  #   echo "db exists";
+  # fi
 
-  mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /tmp/mysql_dump.sql
+  # mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /tmp/mysql_dump.sql
 fi
 
 
@@ -117,7 +117,7 @@ elif [ -d "$program_folder/jre" ]
 then
   export JAVA_HOME="$program_folder/jre"
 fi
-tail -f /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log &
+
 EXECUTABLE=tomcat/bin/goanywhere_catalina.sh
 echo "Execute Go Anywhere"
 exec "$program_folder"/"$EXECUTABLE" run "$@"
