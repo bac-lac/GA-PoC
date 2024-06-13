@@ -99,9 +99,12 @@ ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
 ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
 
-echo "/opt/HelpSystems/GoAnywhere/userdata/logs/"
+echo "ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/"
 ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/
-
+echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log"
+cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log
+echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log"
+cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log
 
 JVM='1024'
 if [ -n "$JAVA_MAX_MEMORY" ]; then
