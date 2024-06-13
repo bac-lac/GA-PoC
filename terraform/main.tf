@@ -642,7 +642,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
         "mountPoints": [
             {
                 "sourceVolume": "ga_ap_userdata",
-                "containerPath": "/etc/HelpSystems/GoAnywhere/userdata/",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/userdata/",
                 "readOnly": false
             },
             {
