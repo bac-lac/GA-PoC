@@ -26,10 +26,15 @@ if [ "$IS_PR" = true ]; then
   #echo "DB_USERNAME: $DB_USERNAME"
   #echo "DB_PASSWORD: $DB_PASSWORD"
   #echo "DB_ADDRESS: $DB_ADDRESS"
-  # cp /tmp/sql/mysql_dump_.sql /tmp/mysql_dump.sql
-  # sed 's/[[DB_USERNAME]]/$DB_USERNAME/' /tmp/sql/mysql_dump.sql > /tmp/mysql_dump.sql
   sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /tmp/sql/mysql_dump.sql > /tmp/mysql_dump.sql
   
+  result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
+  if [ -z "$result" ]; then 
+    echo "db does not exists";
+  else
+    echo "db exists";
+  fi
+
   head -n 25 /tmp/mysql_dump.sql
   mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump_2.sql
 fi
