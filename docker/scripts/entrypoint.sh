@@ -49,9 +49,6 @@ cp /tmp/sharedconfig/*.xml "${shareconfig_folder}"
 cp -R /tmp/sharedconfig/conf/ "${tomcat_folder}"
 cp /tmp/sharedconfig/cluster.xml "${config_folder}"
 
-pwd 
-ls -la
-ls -la upgrader
 # Update login from GoAnywhere.
 # Update will always run if the file ga_upgrade.jar is present.
 if [ -f "upgrader/ga_upgrade.jar" ]
@@ -102,12 +99,12 @@ ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
 ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
 
-echo "ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/"
-ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/
-echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log"
-cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log
-echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log"
-cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log
+# echo "ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/"
+# ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/
+# echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log"
+# cat /opt/HelpSystems/GoAnywhere/userdata/logs/database.log
+# echo "cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log"
+# cat /opt/HelpSystems/GoAnywhere/userdata/logs/goanywhere.log
 
 JVM='1024'
 if [ -n "$JAVA_MAX_MEMORY" ]; then

@@ -1,4 +1,4 @@
-FROM helpsystems/goanywhere-mft:latest
+FROM helpsystems/goanywhere-mft:7.5.1
 
 USER root
 
