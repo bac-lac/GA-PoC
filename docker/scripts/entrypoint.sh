@@ -35,8 +35,7 @@ if [ "$IS_PR" = true ]; then
     echo "db exists";
   fi
 
-  head -n 25 /tmp/mysql_dump.sql
-  mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /tmp/sql/mysql_dump_2.sql
+  mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /tmp/mysql_dump.sql
 fi
 
 
