@@ -98,6 +98,11 @@ ln -s "${shareconfig_folder}"/pesit.xml "${config_folder}"/pesit.xml
 ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
 ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
+
+echo "/opt/HelpSystems/GoAnywhere/userdata/logs/"
+ls -la /opt/HelpSystems/GoAnywhere/userdata/logs/
+
+
 JVM='1024'
 if [ -n "$JAVA_MAX_MEMORY" ]; then
   JVM=$JAVA_MAX_MEMORY
