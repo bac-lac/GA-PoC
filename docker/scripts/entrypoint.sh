@@ -22,10 +22,10 @@ echo ""
 if [ "$IS_PR" = true ]; then
   echo "Import Database"
 
-  echo "ls -la /etc/HelpSystems/GoAnywhere/userdata/"
-  ls -la /etc/HelpSystems/GoAnywhere/userdata/
-  echo "ls -la /etc/HelpSystems/GoAnywhere/userdata/logs/"
-  ls -la /etc/HelpSystems/GoAnywhere/userdata/logs/
+  echo "ls -la /userdata"
+  ls -la /userdata
+  echo "/sharedconfig"
+  ls -la /sharedconfig
   sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /tmp/sql/mysql_dump.sql > /tmp/mysql_dump.sql
   
   # result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
