@@ -21,11 +21,12 @@ echo "IS_PR name: $IS_PR"
 echo ""
 if [ "$IS_PR" = true ]; then
   echo "Import Database"
-  echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
-  echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
-  echo "DB_USERNAME: $DB_USERNAME"
-  echo "DB_PASSWORD: $DB_PASSWORD"
-  echo "DB_ADDRESS: $DB_ADDRESS"
+  #echo "ADMIN_DB_USERNAME: $ADMIN_DB_USERNAME"
+  #echo "ADMIN_DB_PASSWORD: $ADMIN_DB_PASSWORD"
+  #echo "DB_USERNAME: $DB_USERNAME"
+  #echo "DB_PASSWORD: $DB_PASSWORD"
+  #echo "DB_ADDRESS: $DB_ADDRESS"
+  pwd
   envsubst < /tmp/sql/mysql_dump.sql > mysql_dump_2.sql
   ls -la mysql_dump_2.sql
   head -n 20 mysql_dump_2.sql
