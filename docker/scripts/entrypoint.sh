@@ -26,7 +26,7 @@ if [ "$IS_PR" = true ]; then
   #echo "DB_USERNAME: $DB_USERNAME"
   #echo "DB_PASSWORD: $DB_PASSWORD"
   #echo "DB_ADDRESS: $DB_ADDRESS"
-  pwd
+  ls -la /
   envsubst < /tmp/sql/mysql_dump.sql > mysql_dump_2.sql
   ls -la mysql_dump_2.sql
   head -n 20 mysql_dump_2.sql
