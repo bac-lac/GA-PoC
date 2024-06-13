@@ -49,6 +49,9 @@ cp /tmp/sharedconfig/*.xml "${shareconfig_folder}"
 cp -R /tmp/sharedconfig/conf/ "${tomcat_folder}"
 cp /tmp/sharedconfig/cluster.xml "${config_folder}"
 
+pwd 
+ls -la
+ls -la upgrader
 # Update login from GoAnywhere.
 # Update will always run if the file ga_upgrade.jar is present.
 if [ -f "upgrader/ga_upgrade.jar" ]
