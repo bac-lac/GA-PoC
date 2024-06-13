@@ -99,8 +99,8 @@ ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
 ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
 
-echo "ls -la ${program_folder}/userdata/logs"
-ls -la ${program_folder}/userdata/logs
+echo "ls -la ${config_folder}"
+ls -la ${config_folder}
 
 JVM='1024'
 if [ -n "$JAVA_MAX_MEMORY" ]; then
