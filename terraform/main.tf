@@ -381,6 +381,11 @@ resource "aws_acm_certificate" "ga_certificate" {
   }
 }
 
+resource "aws_route53_vpc_association_authorization" "ga_vpc_aa" {
+  vpc_id  = var.VPC_ID
+  zone_id = aws_route53_zone.ga_zone.id
+}
+
 resource "aws_route53_zone" "ga_zone" {
   name = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
 
