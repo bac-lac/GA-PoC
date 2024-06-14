@@ -632,7 +632,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             },
             {
                 "name": "MFT_CLUSTER",
-                "value": "TRUE"
+                "value": "FALSE"
             },
             {
                 "name": "IS_PR",
