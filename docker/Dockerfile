@@ -4,12 +4,12 @@ FROM helpsystems/goanywhere-mft:latest as builder
 FROM helpsystems/goanywhere-mft:latest
 USER root
 WORKDIR /tmp
-COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ .
-COPY --from=builder /opt/HelpSystems/GoAnywhere/upgrader/ .
-COPY --from=builder /etc/HelpSystems/GoAnywhere/config/ .
-COPY --from=builder /etc/HelpSystems/GoAnywhere/tomcat/ .
-COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ .
-COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ .
+COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ userdata/
+COPY --from=builder /opt/HelpSystems/GoAnywhere/upgrader/ upgrader/ 
+COPY --from=builder /etc/HelpSystems/GoAnywhere/config/ config/
+COPY --from=builder /etc/HelpSystems/GoAnywhere/tomcat/ tomcat/
+COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ logs/
+COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
 
 COPY scripts/init.sh /usr/bin/
 RUN chmod -R 554 /usr/bin/init.sh
