@@ -13,6 +13,7 @@ COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
 
 COPY scripts/init.sh /usr/bin/
 RUN chmod -R 554 /usr/bin/init.sh
+RUN chmod -R 777 /usr/bin/entrypoint.sh
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
