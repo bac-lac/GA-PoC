@@ -38,7 +38,11 @@ function copy_filesystem() {
     cp -rn /tmp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/logs/
     cp -rn /tmp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
 
+
+    echo"temp config"
     ls -la /tmp/config/
+    echo"real config"
+    ls -la /etc/HelpSystems/GoAnywhere/config/
 
     echo "Copy filesystem completed"
 }
@@ -65,7 +69,8 @@ function configure_propeties() {
     entrypoint="/usr/bin/entrypoint.sh"
 
     cd "${program_folder}"
-
+    echo "ls entrypoint"
+    ls -la /usr/bin/entrypoint.sh
     # Remove update logic in the entrypoint
     sed -i 'echo "Updating default database location..."' "${entrypoint}"
     sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" "${entrypoint}"
@@ -78,11 +83,13 @@ function configure_propeties() {
     cat "${entrypoint}"
 
 
-    cat "ls -la ${config_folder}"
+    echo "ls -la ${config_folder}"
     ls -la "${config_folder}"
     # Copy config files to the shared folder.
     cp "${config_folder}"/*.xml "${shareconfig_folder}"
-    
+    echo "ls -la ${shareconfig_folder}"
+    ls -la "${shareconfig_folder}"
+
     # Update the file database.xml with the correct values.
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
