@@ -39,9 +39,9 @@ function copy_filesystem() {
     cp -rn /tmp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
 
 
-    echo"temp config"
+    echo "temp config"
     ls -la /tmp/config/
-    echo"real config"
+    echo "real config"
     ls -la /etc/HelpSystems/GoAnywhere/config/
 
     echo "Copy filesystem completed"
