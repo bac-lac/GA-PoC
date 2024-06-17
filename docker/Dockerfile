@@ -14,7 +14,7 @@ COPY --from=builder /usr/bin/entrypoint.sh .
 
 COPY scripts/init.sh /usr/bin/
 RUN chmod -R 554 /usr/bin/init.sh
-RUN chmod -R 777 /tmp/entrypoint.sh
+RUN chmod -R 777 /tmp
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 

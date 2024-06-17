@@ -98,6 +98,9 @@ function configure_propeties() {
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|url\">.*<|url\">$DB_URL<|g" "${shareconfig_folder}"/database.xml
 
+    echo "database.xml
+    cat "${shareconfig_folder}"/database.xml
+
     # Creating symbolic link for application configuration files.
     cd "${config_folder}"
     cp cluster.xml /tmp/cluster.xml
