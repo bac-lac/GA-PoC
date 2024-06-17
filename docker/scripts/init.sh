@@ -44,6 +44,11 @@ function copy_filesystem() {
     echo "real config"
     ls -la /etc/HelpSystems/GoAnywhere/config/
 
+    # Copy config files to the shared folder.
+    cp "${config_folder}"/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
+    echo "ls -la /etc/HelpSystems/GoAnywhere/sharedconfig"
+    ls -la /etc/HelpSystems/GoAnywhere/sharedconfig
+
     echo "Copy filesystem completed"
 }
 
@@ -70,25 +75,22 @@ function configure_propeties() {
 
     cd "${program_folder}"
     echo "ls entrypoint"
-    ls -la /usr/bin/entrypoint.sh
+    ls -la /tmp/entrypoint.sh
     # Remove update logic in the entrypoint
-    sed -i 'echo "Updating default database location..."' /usr/bin/entrypoint.sh
-    sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" /usr/bin/entrypoint.sh
+    sed -i 'echo "Updating default database location..."' /tmp/entrypoint.sh
+    sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" /tmp/entrypoint.sh
     
     # Update the cluster logic in the entrypoint.
-    sed -i "s|clusterBindPort\">.*<|clusterBindPort\">$CLUSTER_PORT<|g" /usr/bin/entrypoint.sh
+    sed -i "s|clusterBindPort\">.*<|clusterBindPort\">$CLUSTER_PORT<|g" /tmp/entrypoint.sh
 
 
-    echo "cat ${entrypoint}"
-    cat "${entrypoint}"
+    echo "cat /tmp/entrypoint.sh"
+    cat /tmp/entrypoint.sh
 
 
     echo "ls -la ${config_folder}"
     ls -la "${config_folder}"
-    # Copy config files to the shared folder.
-    cp "${config_folder}"/*.xml "${shareconfig_folder}"
-    echo "ls -la ${shareconfig_folder}"
-    ls -la "${shareconfig_folder}"
+    
 
     # Update the file database.xml with the correct values.
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml

@@ -10,10 +10,11 @@ COPY --from=builder /etc/HelpSystems/GoAnywhere/config/ config/
 COPY --from=builder /etc/HelpSystems/GoAnywhere/tomcat/ tomcat/
 COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ logs/
 COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
+COPY --from=builder /usr/bin/entrypoint.sh .
 
 COPY scripts/init.sh /usr/bin/
 RUN chmod -R 554 /usr/bin/init.sh
-RUN chmod -R 777 /usr/bin/entrypoint.sh
+RUN chmod -R 777 /tmp/entrypoint.sh
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
