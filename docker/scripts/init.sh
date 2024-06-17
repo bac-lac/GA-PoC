@@ -74,8 +74,8 @@ function configure_propeties() {
     entrypoint="/usr/bin/entrypoint.sh"
 
     cd "${program_folder}"
-    echo "ls entrypoint"
-    ls -la /tmp/entrypoint.sh
+    echo "ls -la /temp"
+    ls -la /temp
     # Remove update logic in the entrypoint
     sed -i '14d' /tmp/entrypoint.sh
     #sed -i 'echo "Updating default database location..."' /tmp/entrypoint.sh
