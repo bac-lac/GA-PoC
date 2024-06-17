@@ -60,7 +60,6 @@ function configure_propeties() {
     config_folder="/etc/HelpSystems/GoAnywhere/config"
     program_folder="/opt/HelpSystems/GoAnywhere"
     shareconfig_folder="/etc/HelpSystems/GoAnywhere/sharedconfig"
-    tomcat_folder="/etc/HelpSystems/GoAnywhere/tomcat"
     entrypoint="/usr/bin/entrypoint.sh"
 
     cd "${program_folder}"
@@ -77,10 +76,8 @@ function configure_propeties() {
     cat "${entrypoint}"
 
 
-    # Copy temporary files to their default location.
-    cp /tmp/sharedconfig/*.xml "${shareconfig_folder}"
-    cp -R /tmp/sharedconfig/conf/ "${tomcat_folder}"
-    cp /tmp/sharedconfig/cluster.xml "${config_folder}"
+    # Copy config files to the shared folder.
+    cp "${config_folder}"/*.xml "${shareconfig_folder}"
     
     # Update the file database.xml with the correct values.
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml

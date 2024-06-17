@@ -13,10 +13,6 @@ COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ .
 
 COPY scripts/init.sh /usr/bin/
 
-# Copy default xml configs.
-COPY configs/ /tmp/sharedconfig/ 
-RUN chmod -R 777 /tmp/sharedconfig/ 
-
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 # Installing dependencies.
