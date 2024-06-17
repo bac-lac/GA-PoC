@@ -72,11 +72,11 @@ function configure_propeties() {
     echo "ls entrypoint"
     ls -la /usr/bin/entrypoint.sh
     # Remove update logic in the entrypoint
-    sed -i 'echo "Updating default database location..."' "${entrypoint}"
-    sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" "${entrypoint}"
+    sed -i 'echo "Updating default database location..."' /usr/bin/entrypoint.sh
+    sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" /usr/bin/entrypoint.sh
     
     # Update the cluster logic in the entrypoint.
-    sed -i "s|clusterBindPort\">.*<|clusterBindPort\">$CLUSTER_PORT<|g" "${entrypoint}"
+    sed -i "s|clusterBindPort\">.*<|clusterBindPort\">$CLUSTER_PORT<|g" /usr/bin/entrypoint.sh
 
 
     echo "cat ${entrypoint}"
