@@ -38,6 +38,8 @@ function copy_filesystem() {
     cp -rn /tmp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/logs/
     cp -rn /tmp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
 
+    ls -la /tmp/config/
+
     echo "Copy filesystem completed"
 }
 
@@ -76,6 +78,8 @@ function configure_propeties() {
     cat "${entrypoint}"
 
 
+    cat "ls -la ${config_folder}"
+    ls -la "${config_folder}"
     # Copy config files to the shared folder.
     cp "${config_folder}"/*.xml "${shareconfig_folder}"
     
