@@ -12,6 +12,7 @@ COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ .
 COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ .
 
 COPY scripts/init.sh /usr/bin/
+RUN chmod -R 554 /usr/bin/init.sh
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
