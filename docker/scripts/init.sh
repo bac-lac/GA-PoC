@@ -30,7 +30,7 @@ function main() {
 #######################################
 function copy_filesystem() {
     echo "Copy filesystem"
-
+    ls -la /tmp
     cp -rn /tmp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
     cp -rn /tmp/updrager/ /opt/HelpSystems/GoAnywhere/upgrader/
     cp -rn /tmp/config/ /etc/HelpSystems/GoAnywhere/config/
