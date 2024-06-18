@@ -15,7 +15,6 @@ function main() {
     configure
     start
 
-    echo "Main completed"
 }
 
 #######################################
@@ -37,7 +36,6 @@ function configure() {
     local shareconfig_folder="/etc/HelpSystems/GoAnywhere/sharedconfig"
 
     echo "Copy filesystem"
-
     cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
     cp -rn /temp/upgrader/ /opt/HelpSystems/GoAnywhere/upgrader/
     cp -rn /temp/config/ /etc/HelpSystems/GoAnywhere/config/
@@ -48,18 +46,19 @@ function configure() {
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml "${shareconfig_folder}"
 
-    echo "Copy filesystem completed"
-
     # Remove "update default database location" in the entrypoint
+    echo "Update entrypoint"
     sed -i '14,15d' /temp/entrypoint.sh 
 
     # Update the file database.xml with the correct values.
-    # sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
+    echo "Update database config"
+    sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|url\">.*<|url\">$DB_URL<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
 
     # Creating symbolic link for application configuration files.
+    echo "Create symbolic link"
     cd "${config_folder}"
     cp cluster.xml /tmp/cluster.xml
     rm -rf *
@@ -76,7 +75,6 @@ function configure() {
     ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
-    echo "Configure properties completed"
 }
 
 #######################################
