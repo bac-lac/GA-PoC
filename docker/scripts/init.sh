@@ -39,15 +39,8 @@ function copy_filesystem() {
     cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
 
 
-    # echo "temp config"
-    # ls -la /tmp/config/
-    # echo "real config"
-    # ls -la /etc/HelpSystems/GoAnywhere/config/
-
     # Copy config files to the shared folder.
-    cp /temp/config/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
-    # echo "ls -la /etc/HelpSystems/GoAnywhere/sharedconfig"
-    # ls -la /etc/HelpSystems/GoAnywhere/sharedconfig
+    cp -rn /temp/config/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
 
     echo "Copy filesystem completed"
 }
@@ -55,7 +48,6 @@ function copy_filesystem() {
 #######################################
 # Configure properties files
 # Globals:
-#   CLUSTER_PORT
 #   DB_PASSWORD
 #   DB_USERNAME
 #   DB_URL
@@ -74,30 +66,19 @@ function configure_propeties() {
     entrypoint="/usr/bin/entrypoint.sh"
 
     cd "${program_folder}"
-    echo "ls -la /temp"
-    ls -la /temp
+
     # Remove update logic in the entrypoint
     sed -i '14,15d' /temp/entrypoint.sh
-    #sed -i 'echo "Updating default database location..."' /tmp/entrypoint.sh
-    #sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" /tmp/entrypoint.sh
-    
-    # Update the cluster logic in the entrypoint.
-    sed -i 's|">8006<"|"$CLUSTER_PORT"|g'  /temp/entrypoint.sh
-
 
     echo "cat /temp/entrypoint.sh"
-    cat /temp/entrypoint.sh
-
-
-    echo "ls -la ${config_folder}"
-    ls -la "${config_folder}"
-    
+    cat /temp/entrypoint.sh    
 
     # Update the file database.xml with the correct values.
     # sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|url\">.*<|url\">$DB_URL<|g" "${shareconfig_folder}"/database.xml
 
+    echo "DB_USERNAME= $DB_USERNAME"
     echo "database.xml"
     cat "${shareconfig_folder}"/database.xml
 
