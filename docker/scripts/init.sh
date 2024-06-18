@@ -82,7 +82,7 @@ function configure_propeties() {
     #sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" /tmp/entrypoint.sh
     
     # Update the cluster logic in the entrypoint.
-    sed -i '/8006/\\$CLUSTER_PORT' /temp/entrypoint.sh
+    sed -i 's|"0"|"$CLUSTER_PORT"|g'  /temp/entrypoint.sh
 
 
     echo "cat /temp/entrypoint.sh"
