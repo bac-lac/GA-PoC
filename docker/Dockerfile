@@ -3,7 +3,7 @@ FROM helpsystems/goanywhere-mft:latest as builder
 
 FROM helpsystems/goanywhere-mft:latest
 USER root
-WORKDIR /tmp
+WORKDIR /temp
 COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ userdata/
 COPY --from=builder /opt/HelpSystems/GoAnywhere/upgrader/ upgrader/ 
 COPY --from=builder /etc/HelpSystems/GoAnywhere/config/ config/

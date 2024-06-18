@@ -30,24 +30,24 @@ function main() {
 #######################################
 function copy_filesystem() {
     echo "Copy filesystem"
-    ls -la /tmp
-    cp -rn /tmp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
-    cp -rn /tmp/upgrader/ /opt/HelpSystems/GoAnywhere/upgrader/
-    cp -rn /tmp/config/ /etc/HelpSystems/GoAnywhere/config/
-    cp -rn /tmp/tomcat/ /etc/HelpSystems/GoAnywhere/tomcat/
-    cp -rn /tmp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/logs/
-    cp -rn /tmp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
+    ls -la /temp
+    cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
+    cp -rn /temp/upgrader/ /opt/HelpSystems/GoAnywhere/upgrader/
+    cp -rn /temp/config/ /etc/HelpSystems/GoAnywhere/config/
+    cp -rn /temp/tomcat/ /etc/HelpSystems/GoAnywhere/tomcat/
+    cp -rn /temp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/logs/
+    cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
 
 
-    echo "temp config"
-    ls -la /tmp/config/
-    echo "real config"
-    ls -la /etc/HelpSystems/GoAnywhere/config/
+    # echo "temp config"
+    # ls -la /tmp/config/
+    # echo "real config"
+    # ls -la /etc/HelpSystems/GoAnywhere/config/
 
     # Copy config files to the shared folder.
-    cp /tmp/config/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
-    echo "ls -la /etc/HelpSystems/GoAnywhere/sharedconfig"
-    ls -la /etc/HelpSystems/GoAnywhere/sharedconfig
+    cp /temp/config/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
+    # echo "ls -la /etc/HelpSystems/GoAnywhere/sharedconfig"
+    # ls -la /etc/HelpSystems/GoAnywhere/sharedconfig
 
     echo "Copy filesystem completed"
 }
@@ -77,12 +77,12 @@ function configure_propeties() {
     echo "ls -la /temp"
     ls -la /temp
     # Remove update logic in the entrypoint
-    sed -i '14d' /temp/entrypoint.sh
+    sed -i '14,15d' /temp/entrypoint.sh
     #sed -i 'echo "Updating default database location..."' /tmp/entrypoint.sh
     #sed -i "sed -i 's|/usr/local/HelpSystems/GoAnywhere|/opt/HelpSystems/GoAnywhere|g' /etc/HelpSystems/GoAnywhere/config/database.xml" /tmp/entrypoint.sh
     
     # Update the cluster logic in the entrypoint.
-    sed -i '/8006/$CLUSTER_PORT' /temp/entrypoint.sh
+    sed -i '/8006/\$CLUSTER_PORT' /temp/entrypoint.sh
 
 
     echo "cat /temp/entrypoint.sh"
