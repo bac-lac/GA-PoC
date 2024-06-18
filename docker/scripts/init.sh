@@ -12,23 +12,30 @@
 function main() {
     echo "Main function"
 
-    copy_filesystem
-    configure_propeties
-    start_app
+    configure
+    start
 
     echo "Main completed"
 }
 
 #######################################
-# Copy filesystem to mount drive if it doesn't exists.
+# Configure the application
 # Globals:
-#   None
+#   DB_PASSWORD
+#   DB_USERNAME
+#   DB_URL
 # Arguments:
 #   None
 # Outputs:
 #   None
 #######################################
-function copy_filesystem() {
+function configure() {
+    echo "Configure"
+
+    # Variables.
+    local config_folder="/etc/HelpSystems/GoAnywhere/config"
+    local shareconfig_folder="/etc/HelpSystems/GoAnywhere/sharedconfig"
+
     echo "Copy filesystem"
 
     cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
@@ -39,47 +46,18 @@ function copy_filesystem() {
     cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
 
     # Copy config files to the shared folder.
-    cp -rn /temp/config/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
+    cp -rn /temp/config/*.xml "${shareconfig_folder}"
 
     echo "Copy filesystem completed"
-}
 
-#######################################
-# Configure properties files
-# Globals:
-#   DB_PASSWORD
-#   DB_USERNAME
-#   DB_URL
-# Arguments:
-#   None
-# Outputs:
-#   None
-#######################################
-function configure_propeties() {
-    echo "Configure properties"
-
-    # Variables.
-    config_folder="/etc/HelpSystems/GoAnywhere/config"
-    program_folder="/opt/HelpSystems/GoAnywhere"
-    shareconfig_folder="/etc/HelpSystems/GoAnywhere/sharedconfig"
-    entrypoint="/usr/bin/entrypoint.sh"
-
-    cd "${program_folder}"
-
-    # Remove update logic in the entrypoint
-    sed -i '14,15d' /temp/entrypoint.sh
-
-    echo "cat /temp/entrypoint.sh"
-    cat /temp/entrypoint.sh    
+    # Remove "update default database location" in the entrypoint
+    sed -i '14,15d' /temp/entrypoint.sh 
 
     # Update the file database.xml with the correct values.
     # sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|url\">.*<|url\">$DB_URL<|g" "${shareconfig_folder}"/database.xml
-
-    echo "DB_URL= $DB_URL"
-    echo "database.xml"
-    cat "${shareconfig_folder}"/database.xml
+    sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
 
     # Creating symbolic link for application configuration files.
     cd "${config_folder}"
@@ -110,10 +88,11 @@ function configure_propeties() {
 # Outputs:
 #   None
 #######################################
-function start_app() {
+function start() {
+
     echo "Start application"
 
-    exec /usr/bin/entrypoint.sh
+    exec /temp/entrypoint.sh
 
 }
 

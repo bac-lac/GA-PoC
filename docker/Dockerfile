@@ -12,8 +12,8 @@ COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ logs/
 COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
 COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
-COPY scripts/init.sh /usr/bin/
-RUN chmod -R 554 /usr/bin/init.sh
+COPY scripts/init.sh /temp/
+RUN chmod -R 554 /temp/init.sh
 RUN chmod -R 777 /temp/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
@@ -26,4 +26,4 @@ RUN yum update -y \
 
 USER gamft
 
-ENTRYPOINT [ "/usr/bin/init.sh" ]
+ENTRYPOINT [ "/temp/init.sh" ]
