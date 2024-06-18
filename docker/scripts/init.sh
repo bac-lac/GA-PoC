@@ -30,14 +30,13 @@ function main() {
 #######################################
 function copy_filesystem() {
     echo "Copy filesystem"
-    ls -la /temp
+
     cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
     cp -rn /temp/upgrader/ /opt/HelpSystems/GoAnywhere/upgrader/
     cp -rn /temp/config/ /etc/HelpSystems/GoAnywhere/config/
     cp -rn /temp/tomcat/ /etc/HelpSystems/GoAnywhere/tomcat/
     cp -rn /temp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/logs/
     cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
-
 
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml /etc/HelpSystems/GoAnywhere/sharedconfig
@@ -78,7 +77,7 @@ function configure_propeties() {
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|url\">.*<|url\">$DB_URL<|g" "${shareconfig_folder}"/database.xml
 
-    echo "DB_USERNAME= $DB_USERNAME"
+    echo "DB_URL= $DB_URL"
     echo "database.xml"
     cat "${shareconfig_folder}"/database.xml
 
