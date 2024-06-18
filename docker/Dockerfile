@@ -1,14 +1,19 @@
+FROM helpsystems/goanywhere-mft:latest as builder
+
+
 FROM helpsystems/goanywhere-mft:latest
-
 USER root
+WORKDIR /temp
+COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ userdata/
+COPY --from=builder /opt/HelpSystems/GoAnywhere/upgrader/ upgrader/ 
+COPY --from=builder /etc/HelpSystems/GoAnywhere/config/ config/
+COPY --from=builder /etc/HelpSystems/GoAnywhere/tomcat/ tomcat/
+COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ logs/
+COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
+COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
-COPY scripts/entrypoint.sh /usr/bin/
-
-# Copy default xml configs.
-COPY configs/ /tmp/sharedconfig/ 
-RUN chmod -R 777 /tmp/sharedconfig/ 
-
-RUN chmod +x /usr/bin/entrypoint.sh
+COPY scripts/init.sh /temp/
+RUN chmod -R 777 /temp/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
@@ -19,3 +24,5 @@ RUN yum update -y \
   && rm -rf /var/cache
 
 USER gamft
+
+ENTRYPOINT [ "/temp/init.sh" ]
