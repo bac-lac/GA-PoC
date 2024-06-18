@@ -2,7 +2,7 @@ FROM helpsystems/goanywhere-mft:latest as builder
 
 
 FROM helpsystems/goanywhere-mft:latest
-USER root
+USER gamft
 WORKDIR /temp
 COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ userdata/
 COPY --from=builder /opt/HelpSystems/GoAnywhere/upgrader/ upgrader/ 
@@ -13,8 +13,9 @@ COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
 COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
 COPY scripts/init.sh /temp/
-RUN chmod -R 777 /temp/
+RUN chmod -R 554 /temp/
 
+USER root
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 # Installing dependencies.
