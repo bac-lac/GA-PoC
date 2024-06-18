@@ -607,30 +607,38 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "value": "MFT-1"
             },
             {
-                "name": "CLUSTER_PORT",
-                "value": "8006"
-            },
-            {
                 "name": "DB_USERNAME",
-                "value": "GADATA"
+                "value": "${var.DB_USERNAME}"
             },
             {
-                "name": "DB_URL",
-                "value": "DB_URL"
+                "name": "DB_ADDRESS",
+                "value": "${aws_db_instance.ga_mysql.address}"
             },
             {
                 "name": "DB_PASSWORD",
-                "value": "DB_PASSWORD"
+                "value": "${var.DB_PASSWORD}"
+            },
+            {
+                "name": "ADMIN_DB_USERNAME",
+                "value": "${var.ADMIN_DB_USERNAME}"
+            },
+            {
+                "name": "ADMIN_DB_PASSWORD",
+                "value": "${var.ADMIN_DB_PASSWORD}"
             },
             {
                 "name": "MFT_CLUSTER",
-                "value": "TRUE"
+                "value": "FALSE"
+            },
+            {
+                "name": "IS_PR",
+                "value": "${var.IS_PR}"
             }
         ],
         "mountPoints": [
             {
                 "sourceVolume": "ga_ap_userdata",
-                "containerPath": "/etc/HelpSystems/GoAnywhere/userdata/",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/userdata/",
                 "readOnly": false
             },
             {

@@ -65,9 +65,12 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
+          -var DB_USERNAME=${{secrets.DB_USERNAME}}
+          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
+          -var IS_PR=true
 
       - name: Terraform-Apply
         id: Apply
@@ -76,7 +79,10 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
+          -var DB_USERNAME=${{secrets.DB_USERNAME}}
+          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
+          -var IS_PR=true
           -auto-approve

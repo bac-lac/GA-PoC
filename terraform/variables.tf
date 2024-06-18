@@ -38,3 +38,21 @@ variable "ECR_IMAGE" {
   sensitive = true
   description = "The image name used for task definition."
 }
+
+variable "DB_USERNAME" {
+  type = string
+  sensitive = true
+  description = "The DB username for the application."
+}
+
+variable "DB_PASSWORD" {
+  type = string
+  sensitive = true
+  description = "The DB password for the application."
+}
+
+variable "IS_PR" {
+  type = string
+  default = "false"
+  description = "If true, it will create an empty DB for a pull request."
+}

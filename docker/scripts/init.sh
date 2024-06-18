@@ -12,8 +12,47 @@
 function main() {
     echo "Main function"
 
+    create_db
     configure
     start
+
+}
+
+#######################################
+# Create Database for a pull request
+# Globals:
+#   ADMIN_DB_PASSWORD
+#   ADMIN_DB_USERNAME
+#   DB_ADDRESS
+#   DB_PASSWORD
+#   DB_USERNAME
+#   IS_PR
+# Arguments:
+#   None
+# Outputs:
+#   None
+#######################################
+function create_db() {
+    echo "Create Database"
+
+    if [ "$IS_PR" = true ]; then
+        echo "Import Database"
+
+        sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql > /temp/mysql_dump.sql
+
+        echo "dump"
+        head -25 /temp/mysql_dump.sql
+
+        # result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
+        # if [ -z "$result" ]; then 
+        #    echo "db does not exists";
+           
+        # else
+        #    echo "db exists";
+        # fi
+
+        # mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /temp/mysql_dump_2.sql
+    fi
 
 }
 
@@ -54,8 +93,9 @@ function configure() {
     echo "Update database config"
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
-    sed -i "s|url\">.*<|url\">$DB_URL<|g" "${shareconfig_folder}"/database.xml
+    sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
+    sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
 
     # Creating symbolic link for application configuration files.
     echo "Create symbolic link"
