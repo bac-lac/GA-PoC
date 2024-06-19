@@ -12,7 +12,7 @@
 function main() {
     echo "Main function"
     echo "ping mount"
-    echo "mountpoint /opt/HelpSystems/GoAnywhere/userdata"
+    echo "$(mountpoint /opt/HelpSystems/GoAnywhere/userdata/)"
     wait_for_database_service_availability
     create_database_and_credentials
     configure
@@ -71,6 +71,7 @@ function create_database_and_credentials() {
     echo "Create Database"
 
     result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
+    echo "result= $result"
     if [ -z "$result" ]; then 
         echo "Database does not exists";
 
