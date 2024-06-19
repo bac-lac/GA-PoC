@@ -41,10 +41,10 @@ function create_db() {
         echo "dump before"
         head -n 25 /temp/mysql_dump.sql
 
-        sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql > /temp/mysql_dump.sql
+        sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql > /temp/mysql_dump_2.sql
 
         echo "dump after"
-        head -n 25 /temp/mysql_dump.sql
+        head -n 25 /temp/mysql_dump_2.sql
 
         # result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
         # if [ -z "$result" ]; then 
