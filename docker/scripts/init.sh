@@ -11,52 +11,95 @@
 #######################################
 function main() {
     echo "Main function"
-
-    create_db
+    echo "ping mount"
+    echo "mountpoint /opt/HelpSystems/GoAnywhere/userdata"
+    wait_for_database_service_availability
+    create_database_and_credentials
     configure
     start
 
 }
 
 #######################################
-# Create Database for a pull request
+# Wait until a given database service becomes available.
+# Fail if the database service is not availble after a given duration.
+# Globals:
+#   DB_ADDRESS
+# Arguments:
+#   None
+# Outputs:
+#   None
+#######################################
+function wait_for_database_service_availability() {
+  # Parameters
+  local database_host="$DB_ADDRESS"
+  local maximum_wait="15"
+  local database_port="3306"
+
+  # Variables
+  local wait_time
+
+  echo "Pinging database service ${database_host}:${database_port} until readiness for a maximum of ${maximum_wait} seconds..."
+  wait_time=0
+  until mysqladmin ping --host "${database_host}" --port "${database_port}" --silent; do
+    if [[ ${wait_time} -ge ${maximum_wait} ]]; then
+      echo "The database service did not start within ${wait_time} s. Aborting."
+      exit 1
+    else
+      echo "Waiting for the database service to start (${wait_time} s)..."
+      sleep 1
+      ((++wait_time))
+    fi
+  done
+  echo "Database service is up and running."
+}
+
+#######################################
+# Create Database and Credentials
 # Globals:
 #   ADMIN_DB_PASSWORD
 #   ADMIN_DB_USERNAME
 #   DB_ADDRESS
 #   DB_PASSWORD
 #   DB_USERNAME
-#   IS_PR
 # Arguments:
 #   None
 # Outputs:
 #   None
 #######################################
-function create_db() {
+function create_database_and_credentials() {
     echo "Create Database"
 
-    if [ "$IS_PR" = true ]; then
-        echo "Import Database"
+    result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
+    if [ -z "$result" ]; then 
+        echo "Database does not exists";
 
-        echo "dump before"
-        head -n 25 /temp/mysql_dump.sql
+        echo "Creating MySQL database if not existing..."
+        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; CREATE DATABASE IF NOT EXISTS 'GADATA' CHARSET=UTF8;")"
 
-        sed -i "s/\${DB_USERNAME}/$DB_USERNAME/" /temp/mysql_dump.sql
-        sed -i "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql
+        echo "Creating MySQL database user if not existing..."
+        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; CREATE USER IF NOT EXISTS '$DB_USERNAME' IDENTIFIED BY '$DB_PASSWORD';")"
+
+        echo "Granting all privileges on MySQL database objects to user..."
+        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; GRANT ALL PRIVILEGES ON GADATA.* TO '$DB_USERNAME';")"
+
+        echo "Importing empty database..."
+        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /temp/mysql_dump.sql)"
+    else
+        echo "Database exists";
+    fi
+    
+
+    # if [ "$IS_PR" = true ]; then
+    #     echo "Import Database"
+
+    #     sed -i "s/\${DB_USERNAME}/$DB_USERNAME/" /temp/mysql_dump.sql
+    #     sed -i "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql
+
         
-        echo "dump after"
-        head -n 25 /temp/mysql_dump.sql
-
-        # result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'"); 
-        # if [ -z "$result" ]; then 
-        #    echo "db does not exists";
-           
-        # else
-        #    echo "db exists";
-        # fi
 
         # mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /temp/mysql_dump_2.sql
-    fi
+    # fi
 
 }
 
