@@ -42,8 +42,8 @@ function create_db() {
         head -n 25 /temp/mysql_dump.sql
 
         sed -i "s/\${DB_USERNAME}/$DB_USERNAME/" /temp/mysql_dump.sql
-        # sed -e "s/\${DB_USERNAME}/$DB_USERNAME/" -e "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql > /temp/mysql_dump_2.sql
-
+        sed -i "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql
+        
         echo "dump after"
         head -n 25 /temp/mysql_dump.sql
 
@@ -79,12 +79,12 @@ function configure() {
     local shareconfig_folder="/etc/HelpSystems/GoAnywhere/sharedconfig"
 
     echo "Copy filesystem"
-    cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/userdata/
-    cp -rn /temp/upgrader/ /opt/HelpSystems/GoAnywhere/upgrader/
-    cp -rn /temp/config/ /etc/HelpSystems/GoAnywhere/config/
-    cp -rn /temp/tomcat/ /etc/HelpSystems/GoAnywhere/tomcat/
-    cp -rn /temp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/logs/
-    cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/
+    cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/
+    cp -rn /temp/upgrader/ /opt/HelpSystems/GoAnywhere/
+    cp -rn /temp/config/ /etc/HelpSystems/GoAnywhere/
+    cp -rn /temp/tomcat/ /etc/HelpSystems/GoAnywhere/
+    cp -rn /temp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/
+    cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/
 
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml "${shareconfig_folder}"
