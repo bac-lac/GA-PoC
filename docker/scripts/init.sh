@@ -11,6 +11,9 @@
 #######################################
 function main() {
     echo "Main function"
+    # Exit on error
+    set -e
+
     echo "ping mount"
     echo "$(mountpoint /opt/HelpSystems/GoAnywhere/userdata/)"
     wait_for_database_service_availability
