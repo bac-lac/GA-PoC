@@ -124,8 +124,9 @@ function create_database_and_credentials() {
     result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
     echo "result=$result"
     if [[ $result =~ "GADATA" ]]; then 
+        echo "Database exists";
+    else
         echo "Database does not exists";
-
         echo "Creating MySQL database if not existing..."
         echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; CREATE DATABASE IF NOT EXISTS 'GADATA' CHARSET=UTF8;")"
 
@@ -137,8 +138,6 @@ function create_database_and_credentials() {
 
         echo "Importing empty database..."
         echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /temp/mysql_dump.sql)"
-    else
-        echo "Database exists";
     fi
 
 }
