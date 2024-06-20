@@ -122,6 +122,7 @@ function create_database_and_credentials() {
 
     # check if the database already exists
     result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
+    echo "result=$result"
     if [ -z "$result" ]; then 
         echo "Database does not exists";
 
