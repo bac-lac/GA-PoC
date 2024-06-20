@@ -10,8 +10,7 @@
 #   None
 #######################################
 function main() {
-    echo "Main function"
-    
+    echo "Main function"    
     # Exit script when any command fails
     set -e
     # Keep track of the last executed command
@@ -44,30 +43,30 @@ function main() {
 #   None
 #######################################
 function wait_for_mount_availability() {
-  readonly MOUNT_MAX_WAIT=30
-  echo "Wait for mount"
+    echo "Wait for mount"
+    readonly MOUNT_MAX_WAIT=30    
 
-  # Local variables
-  local mount_ping_statement
-  local wait_time
+    # Local variables
+    local mount_ping_statement
+    local wait_time
 
-  echo "Checking if file service is mounted..."
+    echo "Checking if file service is mounted..."
 
-  mount_ping_statement="mountpoint -q /opt/HelpSystems/GoAnywhere/userdata/"
+    mount_ping_statement="mountpoint -q /opt/HelpSystems/GoAnywhere/userdata/"
 
-  # Wait for mount readiness.
-  wait_time=0
-  until ${mount_ping_statement}; do
-    if [[ ${wait_time} -ge ${MOUNT_MAX_WAIT} ]]; then
-      echo "The file service did not mount within ${wait_time} s. Aborting."
-      exit 1
-    else
-      echo "Waiting for the file service to mount (${wait_time} s)..."
-      sleep 1
-      ((++wait_time))
-    fi
-  done
-  echo "File service is mounted."
+    # Wait for mount readiness.
+    wait_time=0
+    until ${mount_ping_statement}; do
+        if [[ ${wait_time} -ge ${MOUNT_MAX_WAIT} ]]; then
+        echo "The file service did not mount within ${wait_time} s. Aborting."
+        exit 1
+        else
+        echo "Waiting for the file service to mount (${wait_time} s)..."
+        sleep 1
+        ((++wait_time))
+        fi
+    done
+    echo "File service is mounted."
 }
 
 #######################################
@@ -121,6 +120,7 @@ function wait_for_database_service_availability() {
 function create_database_and_credentials() {
     echo "Create Database"
 
+    # check if the database already exists
     result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
     if [ -z "$result" ]; then 
         echo "Database does not exists";
