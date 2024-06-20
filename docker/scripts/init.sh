@@ -58,12 +58,12 @@ function wait_for_mount_availability() {
     wait_time=0
     until ${mount_ping_statement}; do
         if [[ ${wait_time} -ge ${MOUNT_MAX_WAIT} ]]; then
-        echo "The file service did not mount within ${wait_time} s. Aborting."
-        exit 1
+            echo "The file service did not mount within ${wait_time} s. Aborting."
+            exit 1
         else
-        echo "Waiting for the file service to mount (${wait_time} s)..."
-        sleep 1
-        ((++wait_time))
+            echo "Waiting for the file service to mount (${wait_time} s)..."
+            sleep 1
+            ((++wait_time))
         fi
     done
     echo "File service is mounted."
@@ -93,12 +93,12 @@ function wait_for_database_service_availability() {
     wait_time=0
     until mysqladmin ping --host "${database_host}" --port "${database_port}" --silent; do
         if [[ ${wait_time} -ge ${maximum_wait} ]]; then
-        echo "The database service did not start within ${wait_time} s. Aborting."
-        exit 1
+            echo "The database service did not start within ${wait_time} s. Aborting."
+            exit 1
         else
-        echo "Waiting for the database service to start (${wait_time} s)..."
-        sleep 1
-        ((++wait_time))
+            echo "Waiting for the database service to start (${wait_time} s)..."
+            sleep 1
+            ((++wait_time))
         fi
     done
     echo "Database service is up and running."
