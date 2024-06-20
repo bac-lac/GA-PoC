@@ -17,7 +17,7 @@ function main() {
     trap 'last_command=${BASH_COMMAND}' DEBUG
     # Echo an error message before exiting
     # shellcheck disable=SC2154
-    trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
+    trap 'echo "\"${last_command}\" command failed with exit code $?." ' EXIT
 
     wait_for_mount_availability
     wait_for_database_service_availability
