@@ -11,13 +11,7 @@
 #######################################
 function main() {
     echo "Main function"    
-    # Exit script when any command fails
-    set -e
-    # Keep track of the last executed command
-    trap 'last_command=${BASH_COMMAND}' DEBUG
-    # Echo an error message before exiting
-    # shellcheck disable=SC2154
-    trap 'echo "\"${last_command}\" command failed with exit code $?." ' EXIT
+   
 
     wait_for_mount_availability
     wait_for_database_service_availability
@@ -25,11 +19,7 @@ function main() {
     configure
     start
 
-    # Remove DEBUG and EXIT trap
-    trap - DEBUG
-    trap - EXIT
-    # Allow script to continue on error.
-    set +e
+
 }
 
 #######################################
@@ -119,6 +109,13 @@ function wait_for_database_service_availability() {
 #######################################
 function create_database_and_credentials() {
     echo "Create Database"
+     # Exit script when any command fails
+    set -e
+    # Keep track of the last executed command
+    trap 'last_command=${BASH_COMMAND}' DEBUG
+    # Echo an error message before exiting
+    # shellcheck disable=SC2154
+    trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
 
     # check if the database already exists
     result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
@@ -139,7 +136,11 @@ function create_database_and_credentials() {
     else
         echo "Database exists";
     fi
-
+    # Remove DEBUG and EXIT trap
+    trap - DEBUG
+    trap - EXIT
+    # Allow script to continue on error.
+    set +e
 }
 
 #######################################
