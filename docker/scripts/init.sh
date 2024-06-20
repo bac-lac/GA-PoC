@@ -182,6 +182,8 @@ function configure() {
     sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
+    #temporary
+    sed -i "s|maximumPoolSize\">.*<|maximumPoolSize\">25<|g" "${shareconfig_folder}"/database.xml
 
     # Creating symbolic link for application configuration files.
     echo "Create symbolic link"
