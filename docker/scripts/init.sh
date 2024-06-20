@@ -12,8 +12,13 @@
 function main() {
     echo "Main function"
     
-    # Exit on error
+    # Exit script when any command fails
     set -e
+    # Keep track of the last executed command
+    trap 'last_command=${BASH_COMMAND}' DEBUG
+    # Echo an error message before exiting
+    # shellcheck disable=SC2154
+    trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
 
     wait_for_mount_availability
     wait_for_database_service_availability
@@ -21,6 +26,10 @@ function main() {
     configure
     start
 
+    # Remove DEBUG and EXIT trap
+    trap - DEBUG
+    trap - EXIT
+    # Allow script to continue on error.
     set +e
 }
 
