@@ -11,16 +11,54 @@
 #######################################
 function main() {
     echo "Main function"
+    
     # Exit on error
     set -e
 
-    echo "ping mount"
-    echo "$(mountpoint /opt/HelpSystems/GoAnywhere/userdata/)"
+    wait_for_mount_availability
     wait_for_database_service_availability
     create_database_and_credentials
     configure
     start
 
+    set +e
+}
+
+#######################################
+# Wait until the file service becomes mounted to prevent installation
+# failure. Fails if the file service is not mounted after 30 seconds.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   None
+#######################################
+function wait_for_mount_availability() {
+  readonly MOUNT_MAX_WAIT=30
+  echo "Wait for mount"
+
+  # Local variables
+  local mount_ping_statement
+  local wait_time
+
+  echo "Checking if file service is mounted..."
+
+  mount_ping_statement="mountpoint -q /opt/HelpSystems/GoAnywhere/userdata/"
+
+  # Wait for mount readiness.
+  wait_time=0
+  until ${mount_ping_statement}; do
+    if [[ ${wait_time} -ge ${MOUNT_MAX_WAIT} ]]; then
+      echo "The file service did not mount within ${wait_time} s. Aborting."
+      exit 1
+    else
+      echo "Waiting for the file service to mount (${wait_time} s)..."
+      sleep 1
+      ((++wait_time))
+    fi
+  done
+  echo "File service is mounted."
 }
 
 #######################################
@@ -34,27 +72,28 @@ function main() {
 #   None
 #######################################
 function wait_for_database_service_availability() {
-  # Parameters
-  local database_host="$DB_ADDRESS"
-  local maximum_wait="15"
-  local database_port="3306"
+    echo "Wait for database"
+    # Parameters
+    local database_host="$DB_ADDRESS"
+    local maximum_wait="15"
+    local database_port="3306"
 
-  # Variables
-  local wait_time
+    # Variables
+    local wait_time
 
-  echo "Pinging database service ${database_host}:${database_port} until readiness for a maximum of ${maximum_wait} seconds..."
-  wait_time=0
-  until mysqladmin ping --host "${database_host}" --port "${database_port}" --silent; do
-    if [[ ${wait_time} -ge ${maximum_wait} ]]; then
-      echo "The database service did not start within ${wait_time} s. Aborting."
-      exit 1
-    else
-      echo "Waiting for the database service to start (${wait_time} s)..."
-      sleep 1
-      ((++wait_time))
-    fi
-  done
-  echo "Database service is up and running."
+    echo "Pinging database service ${database_host}:${database_port} until readiness for a maximum of ${maximum_wait} seconds..."
+    wait_time=0
+    until mysqladmin ping --host "${database_host}" --port "${database_port}" --silent; do
+        if [[ ${wait_time} -ge ${maximum_wait} ]]; then
+        echo "The database service did not start within ${wait_time} s. Aborting."
+        exit 1
+        else
+        echo "Waiting for the database service to start (${wait_time} s)..."
+        sleep 1
+        ((++wait_time))
+        fi
+    done
+    echo "Database service is up and running."
 }
 
 #######################################
@@ -74,10 +113,6 @@ function create_database_and_credentials() {
     echo "Create Database"
 
     result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
-
-    
-
-    echo "result=$result"
     if [ -z "$result" ]; then 
         echo "Database does not exists";
 
@@ -95,18 +130,6 @@ function create_database_and_credentials() {
     else
         echo "Database exists";
     fi
-    
-
-    # if [ "$IS_PR" = true ]; then
-    #     echo "Import Database"
-
-    #     sed -i "s/\${DB_USERNAME}/$DB_USERNAME/" /temp/mysql_dump.sql
-    #     sed -i "s/\${DB_PASSWORD}/$DB_PASSWORD/" /temp/mysql_dump.sql
-
-        
-
-        # mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /temp/mysql_dump_2.sql
-    # fi
 
 }
 
