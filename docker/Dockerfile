@@ -12,16 +12,22 @@ COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ logs/
 COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
 COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
+COPY mysql_dump.sql /temp/mysql_dump.sql
+
 COPY scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
-# Installing dependencies.
 RUN yum update -y \
-  && yum -y install procps unzip epel-release \
+  && yum -y install wget procps unzip epel-release \
   && yum -y clean all \
   && rm -rf /var/cache
+
+RUN wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm \
+  && dnf install mysql80-community-release-el9-1.noarch.rpm -y \
+  && rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 \
+  && dnf install mysql-community-client -y
 
 USER gamft
 
