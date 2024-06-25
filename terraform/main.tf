@@ -700,7 +700,6 @@ resource "aws_ecs_service" "ga_service" {
   launch_type           = "FARGATE"
   platform_version      = "LATEST"
   scheduling_strategy   = "REPLICA"
-  force_new_deployment  = true
   desired_count         = 1
   network_configuration {
     subnets             = data.aws_subnets.app.ids
