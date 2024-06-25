@@ -629,10 +629,6 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             {
                 "name": "MFT_CLUSTER",
                 "value": "FALSE"
-            },
-            {
-                "name": "IS_PR",
-                "value": "${var.IS_PR}"
             }
         ],
         "mountPoints": [
