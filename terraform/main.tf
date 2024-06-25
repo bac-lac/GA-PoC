@@ -694,22 +694,23 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
 }
 
 resource "aws_ecs_service" "ga_service" {
-  name                = "ga-service-${var.BRANCH_NAME}"
-  cluster             = aws_ecs_cluster.ga_cluster.id
-  task_definition     = aws_ecs_task_definition.ga_task_definition.arn
-  launch_type         = "FARGATE"
-  platform_version    = "LATEST"
-  scheduling_strategy = "REPLICA"
-  desired_count       = 1
+  name                  = "ga-service-${var.BRANCH_NAME}"
+  cluster               = aws_ecs_cluster.ga_cluster.id
+  task_definition       = aws_ecs_task_definition.ga_task_definition.arn
+  launch_type           = "FARGATE"
+  platform_version      = "LATEST"
+  scheduling_strategy   = "REPLICA"
+  force_new_deployment  = true
+  desired_count         = 1
   network_configuration {
-    subnets           = data.aws_subnets.app.ids
-    security_groups   = [data.aws_security_group.app.id]
-    assign_public_ip  = false
+    subnets             = data.aws_subnets.app.ids
+    security_groups     = [data.aws_security_group.app.id]
+    assign_public_ip    = false
   }
   load_balancer {
-    target_group_arn = aws_alb_target_group.ga_tg.arn
-    container_name   = "mft1"
-    container_port   = 8000
+    target_group_arn    = aws_alb_target_group.ga_tg.arn
+    container_name      = "mft1"
+    container_port      = 8000
   }
 
 }
