@@ -16,7 +16,6 @@ function main() {
     # Keep track of the last executed command
     trap 'last_command=${BASH_COMMAND}' DEBUG
     # Echo an error message before exiting
-    # shellcheck disable=SC2154
     trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
 
     wait_for_mount_availability
@@ -71,7 +70,7 @@ function wait_for_mount_availability() {
 
 #######################################
 # Wait until a given database service becomes available.
-# Fail if the database service is not availble after a given duration.
+# Fail if the database service is not available after a given duration.
 # Globals:
 #   DB_ADDRESS
 # Arguments:
@@ -82,9 +81,9 @@ function wait_for_mount_availability() {
 function wait_for_database_service_availability() {
     echo "Wait for database"
     # Parameters
-    local database_host="$DB_ADDRESS"
-    local maximum_wait="15"
+    local database_host="$DB_ADDRESS"    
     local database_port="3306"
+    local maximum_wait="15"
 
     # Variables
     local wait_time
