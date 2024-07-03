@@ -33,13 +33,13 @@ The following environment variables are used to control the application at run-t
 
 > **ADMIN_DB_PASSWORD**: The DB password for the admin account.
 
-> **BRANCH_NAME**: The branch name used for resources creation. This value is auto-generated.
+> BRANCH_NAME: The branch name used for resources creation. This value is auto-generated.
 
 > **DB_USERNAME**: The DB username for the application.
 
 > **DB_PASSWORD**: The DB password for the application.
 
-> **ECR_IMAGE**: The ECR image name used for the task definition. This value is auto-generated.
+> ECR_IMAGE: The ECR image name used for the task definition. This value is auto-generated.
 
 > **ENV**: The environment in which to deploy the solution.
 - Allowed values: dev, test or prod
