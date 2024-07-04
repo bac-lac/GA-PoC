@@ -454,10 +454,7 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
 
 # Get core load balancer
 data "aws_lb" "core_lb"{
-  filter {
-      name   = "tag:Name"
-      values = ["*core*"]
-    }
+  name = "core-dev-alb"
 }
 
 resource "aws_lb_listener" "http_80" {
