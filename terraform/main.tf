@@ -461,7 +461,7 @@ data "aws_lb" "core_lb"{
 }
 
 resource "aws_lb_listener" "http_80" {
-  load_balancer_arn = aws_lb.core_lb.arn
+  load_balancer_arn = data.aws_lb.core_lb.arn
   port              = 80
   protocol          = "HTTP"
 
