@@ -361,7 +361,6 @@ data "aws_lb_listener" "https" {
 
 resource "aws_lb_listener_rule" "https_rule" {
   listener_arn        = data.aws_lb_listener.https.arn
-  priority            = 100
 
   action {
     type              = "forward"
