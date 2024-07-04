@@ -457,19 +457,24 @@ data "aws_lb" "core_lb"{
   name = "core-dev-alb"
 }
 
-resource "aws_lb_listener" "http_80" {
+data "aws_lb_listener" "https" {
   load_balancer_arn = data.aws_lb.core_lb.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.ga_tg.arn
-  }
+  port              = 443
 }
 
-resource "aws_lb_listener_rule" "http_80_rule" {
-  listener_arn = aws_lb_listener.http_80.arn
+# resource "aws_lb_listener" "http_80" {
+#   load_balancer_arn = data.aws_lb.core_lb.arn
+#   port              = 80
+#   protocol          = "HTTP"
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.ga_tg.arn
+#   }
+# }
+
+resource "aws_lb_listener_rule" "https_rule" {
+  listener_arn = data.aws_lb_listener.https.arn
   priority     = 100
 
   action {
