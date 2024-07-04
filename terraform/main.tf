@@ -351,7 +351,7 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
 }
 
 data "aws_lb" "core_lb"{
-  name = "core-dev-alb"
+  name = "core-${var.ENV}-alb"
 }
 
 data "aws_lb_listener" "https" {
@@ -370,7 +370,7 @@ resource "aws_lb_listener_rule" "https_rule" {
 
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "dev.bac-lac.ca" : "${var.BRANCH_NAME}.ga.dev.bac-lac.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "ga.${var.ENV}.bac-lac.ca" : "${var.BRANCH_NAME}.ga.dev.bac-lac.ca"]
     }
   }
 }
