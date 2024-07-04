@@ -350,125 +350,144 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
   }
 }
 
-resource "aws_lb" "ga_lb" {
-  name               = "ga-lb-${var.BRANCH_NAME}"
-  internal           = true
-  load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.web.id]
-  subnets            = data.aws_subnets.web.ids
+# resource "aws_lb" "ga_lb" {
+#   name               = "ga-lb-${var.BRANCH_NAME}"
+#   internal           = true
+#   load_balancer_type = "application"
+#   security_groups    = [data.aws_security_group.web.id]
+#   subnets            = data.aws_subnets.web.ids
 
-  drop_invalid_header_fields = false
-  enable_deletion_protection = false
+#   drop_invalid_header_fields = false
+#   enable_deletion_protection = false
 
-  access_logs {
-    bucket  = ""
-    prefix  = "ga_lb_logs-${var.BRANCH_NAME}"
-    enabled = false
-  }
+#   access_logs {
+#     bucket  = ""
+#     prefix  = "ga_lb_logs-${var.BRANCH_NAME}"
+#     enabled = false
+#   }
 
-  tags = {
-    Name = "ga-lb-${var.BRANCH_NAME}"
-    Environment = "${var.ENV}"
-  }
-}
+#   tags = {
+#     Name = "ga-lb-${var.BRANCH_NAME}"
+#     Environment = "${var.ENV}"
+#   }
+# }
 
-resource "aws_acm_certificate" "ga_certificate" {
-  domain_name               = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
-  validation_method         = "DNS"
+# resource "aws_acm_certificate" "ga_certificate" {
+#   domain_name               = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+#   validation_method         = "DNS"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
 
-resource "aws_route53_zone" "ga_zone" {
-  name = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
-}
+# resource "aws_route53_zone" "ga_zone" {
+#   name = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+# }
 
-resource "aws_route53_record" "ga_record_a" {
-  zone_id = aws_route53_zone.ga_zone.zone_id
-  name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
-  type    = "A"
+# resource "aws_route53_record" "ga_record_a" {
+#   zone_id = aws_route53_zone.ga_zone.zone_id
+#   name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+#   type    = "A"
 
-  alias {
-    name                   = aws_lb.ga_lb.dns_name
-    zone_id                = aws_lb.ga_lb.zone_id
-    evaluate_target_health = true
-  }
-}
+#   alias {
+#     name                   = aws_lb.ga_lb.dns_name
+#     zone_id                = aws_lb.ga_lb.zone_id
+#     evaluate_target_health = true
+#   }
+# }
 
-data "aws_route53_zone" "ga_dev_zone" {
-  name         = "ga-dev.bac-lac.ca"
-  private_zone = false
-}
+# data "aws_route53_zone" "ga_dev_zone" {
+#   name         = "ga-dev.bac-lac.ca"
+#   private_zone = false
+# }
 
-resource "aws_route53_record" "ga_record_ns" {
-  allow_overwrite = true
-  zone_id = data.aws_route53_zone.ga_dev_zone.zone_id
-  name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
-  type    = "NS"
-  ttl     = 172800
+# resource "aws_route53_record" "ga_record_ns" {
+#   allow_overwrite = true
+#   zone_id = data.aws_route53_zone.ga_dev_zone.zone_id
+#   name    = "${var.BRANCH_NAME}.ga-dev.bac-lac.ca"
+#   type    = "NS"
+#   ttl     = 172800
 
-  records = [
-    aws_route53_zone.ga_zone.name_servers[0],
-    aws_route53_zone.ga_zone.name_servers[1],
-    aws_route53_zone.ga_zone.name_servers[2],
-    aws_route53_zone.ga_zone.name_servers[3],
-  ]
-}
+#   records = [
+#     aws_route53_zone.ga_zone.name_servers[0],
+#     aws_route53_zone.ga_zone.name_servers[1],
+#     aws_route53_zone.ga_zone.name_servers[2],
+#     aws_route53_zone.ga_zone.name_servers[3],
+#   ]
+# }
 
-resource "aws_route53_record" "ga_record_cname" {
-  for_each = {
-    for dvo in aws_acm_certificate.ga_certificate.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
+# resource "aws_route53_record" "ga_record_cname" {
+#   for_each = {
+#     for dvo in aws_acm_certificate.ga_certificate.domain_validation_options : dvo.domain_name => {
+#       name   = dvo.resource_record_name
+#       record = dvo.resource_record_value
+#       type   = dvo.resource_record_type
+#     }
+#   }
+
+#   allow_overwrite = true
+#   name            = each.value.name
+#   records         = [each.value.record]
+#   ttl             = 60
+#   type            = each.value.type
+#   zone_id         = aws_route53_zone.ga_zone.zone_id
+# }
+
+# resource "aws_acm_certificate_validation" "ga_certificate_validation" {
+#   certificate_arn         = aws_acm_certificate.ga_certificate.arn
+#   validation_record_fqdns = [for record in aws_route53_record.ga_record_cname : record.fqdn]
+# }
+
+# resource "aws_alb_listener" "ga_443" {
+#   load_balancer_arn = aws_lb.ga_lb.arn
+#   port              = 443
+#   protocol          = "HTTPS"
+#   certificate_arn   = aws_acm_certificate.ga_certificate.arn
+#   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_alb_target_group.ga_tg.arn
+#   }
+# }
+
+# Get core load balancer
+data "aws_lb" "core_lb"{
+  filter {
+      name   = "tag:Name"
+      values = ["*core*"]
     }
-  }
-
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = aws_route53_zone.ga_zone.zone_id
 }
 
-resource "aws_acm_certificate_validation" "ga_certificate_validation" {
-  certificate_arn         = aws_acm_certificate.ga_certificate.arn
-  validation_record_fqdns = [for record in aws_route53_record.ga_record_cname : record.fqdn]
-}
-
-resource "aws_alb_listener" "ga_443" {
-  load_balancer_arn = aws_lb.ga_lb.arn
-  port              = 443
-  protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.ga_certificate.arn
-  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.ga_tg.arn
-  }
-}
-
-resource "aws_alb_listener" "http_80" {
-  load_balancer_arn = aws_lb.ga_lb.arn
+resource "aws_lb_listener" "http_80" {
+  load_balancer_arn = aws_lb.core_lb.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    type = "redirect"
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ga_tg.arn
+  }
+}
 
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
+resource "aws_lb_listener_rule" "http_80_rule" {
+  listener_arn = aws_lb_listener.http_80.arn
+  priority     = 100
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.static.arn
+  }
+
+  condition {
+    host_header {
+      values = ["${var.BRANCH_NAME}.ga.dev.bac-lac.ca"]
     }
   }
 }
 
-resource "aws_alb_target_group" "ga_tg" {
+resource "aws_lb_target_group" "ga_tg" {
   name     = "ga-tg-${var.BRANCH_NAME}"
   port     = 80
   protocol = "HTTP"
@@ -707,7 +726,7 @@ resource "aws_ecs_service" "ga_service" {
     assign_public_ip    = false
   }
   load_balancer {
-    target_group_arn    = aws_alb_target_group.ga_tg.arn
+    target_group_arn    = aws_lb_target_group.ga_tg.arn
     container_name      = "mft1"
     container_port      = 8000
   }
