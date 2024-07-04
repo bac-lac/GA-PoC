@@ -359,11 +359,6 @@ data "aws_lb_listener" "https" {
   port              = 443
 }
 
-variable "host_header" {
-  type    = string
-  default = var.BRANCH_NAME == "main" ? "dev.bac-lac.ca" : "${var.BRANCH_NAME}.ga.dev.bac-lac.ca"
-}
-
 resource "aws_lb_listener_rule" "https_rule" {
   listener_arn        = data.aws_lb_listener.https.arn
   priority            = 100
@@ -375,7 +370,7 @@ resource "aws_lb_listener_rule" "https_rule" {
 
   condition {
     host_header {
-      values          = [var.host_header]
+      values          = [var.BRANCH_NAME == "main" ? "dev.bac-lac.ca" : "${var.BRANCH_NAME}.ga.dev.bac-lac.ca"]
     }
   }
 }
