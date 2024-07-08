@@ -16,6 +16,7 @@ function main() {
     # Keep track of the last executed command
     trap 'last_command=${BASH_COMMAND}' DEBUG
     # Echo an error message before exiting
+    # shellcheck disable=SC2154
     trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
 
     wait_for_mount_availability
@@ -120,23 +121,23 @@ function create_database_and_credentials() {
     echo "Create Database"
 
     # check if the database already exists
-    result=$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
+    result=$(mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
     echo "result= $result"
     if [[ $result =~ "GADATA" ]]; then 
         echo "Database exists";
     else
         echo "Database does not exists";
         echo "Creating MySQL database if not existing..."
-        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; CREATE DATABASE IF NOT EXISTS \`GADATA\` CHARSET=UTF8;")"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; CREATE DATABASE IF NOT EXISTS \`GADATA\` CHARSET=UTF8;"
 
         echo "Creating MySQL database user if not existing..."
-        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; CREATE USER IF NOT EXISTS \`$DB_USERNAME\` IDENTIFIED BY '$DB_PASSWORD';")"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; CREATE USER IF NOT EXISTS \`$DB_USERNAME\` IDENTIFIED BY '$DB_PASSWORD';"
 
         echo "Granting all privileges on MySQL database objects to user..."
-        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD --execute "WARNINGS; GRANT ALL PRIVILEGES ON \`GADATA\`.* TO \`$DB_USERNAME\`;")"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; GRANT ALL PRIVILEGES ON \`GADATA\`.* TO \`$DB_USERNAME\`;"
 
         echo "Importing empty database..."
-        echo "$(mysql -h $DB_ADDRESS -u$ADMIN_DB_USERNAME -p$ADMIN_DB_PASSWORD < /temp/mysql_dump.sql)"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" < /temp/mysql_dump.sql
     fi
 
 }
@@ -186,7 +187,7 @@ function configure() {
     echo "Create symbolic link"
     cd "${config_folder}"
     cp cluster.xml /tmp/cluster.xml
-    rm -rf *
+    rm -rf ./*
     cp /tmp/cluster.xml .
     ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
     ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml

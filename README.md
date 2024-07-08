@@ -55,3 +55,7 @@ Edit the dev.tfvars as required.
 ```
 blah blah blah
 ```
+
+# Code Check
+[Checkov](https://www.checkov.io/)
+[shellcheck](https://github.com/koalaman/shellcheck#how-to-use)
