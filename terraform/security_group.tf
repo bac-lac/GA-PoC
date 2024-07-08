@@ -11,3 +11,10 @@ data "aws_security_group" "web" {
     values = ["Web"]
   }
 }
+
+data "aws_security_group" "data" {
+  filter {
+    name   = "tag:Name"
+    values = ["Data"]
+  }
+}

@@ -1,10 +1,3 @@
-data "aws_security_group" "data" {
-  filter {
-    name   = "tag:Name"
-    values = ["Data"]
-  }
-}
-
 resource "aws_db_subnet_group" "data" {
   name       = "ga-db-subnet-group-${var.BRANCH_NAME}"
   subnet_ids = data.aws_subnets.data.ids
