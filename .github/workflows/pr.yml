@@ -24,15 +24,14 @@ jobs:
         working-directory: ./terraform
     steps:
 
-      - uses: actions/checkout@v2
-      - name: run shellcheck
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run shellcheck
         uses: sudo-bot/action-shellcheck@latest
         with:
           # https://github.com/koalaman/shellcheck#how-to-use
           cli-args: "./docker/scripts/*.sh"
-
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
