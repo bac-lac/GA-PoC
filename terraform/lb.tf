@@ -17,7 +17,7 @@ resource "aws_lb_listener_rule" "https_rule" {
 
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "ga.${var.ENV}.bac-lac.ca" : "${var.BRANCH_NAME}.ga.dev.bac-lac.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "${var.ENV}.ga.bac-lac.ca" : "${var.BRANCH_NAME}.ga.bac-lac.ca"]
     }
   }
 }
