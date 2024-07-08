@@ -128,16 +128,16 @@ function create_database_and_credentials() {
     else
         echo "Database does not exists";
         echo "Creating MySQL database if not existing..."
-        echo "$(mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; CREATE DATABASE IF NOT EXISTS \`GADATA\` CHARSET=UTF8;")"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; CREATE DATABASE IF NOT EXISTS \`GADATA\` CHARSET=UTF8;"
 
         echo "Creating MySQL database user if not existing..."
-        echo "$(mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; CREATE USER IF NOT EXISTS \`$DB_USERNAME\` IDENTIFIED BY '$DB_PASSWORD';")"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; CREATE USER IF NOT EXISTS \`$DB_USERNAME\` IDENTIFIED BY '$DB_PASSWORD';"
 
         echo "Granting all privileges on MySQL database objects to user..."
-        echo "$(mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; GRANT ALL PRIVILEGES ON \`GADATA\`.* TO \`$DB_USERNAME\`;")"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; GRANT ALL PRIVILEGES ON \`GADATA\`.* TO \`$DB_USERNAME\`;"
 
         echo "Importing empty database..."
-        echo "$(mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" < /temp/mysql_dump.sql)"
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" < /temp/mysql_dump.sql
     fi
 
 }
