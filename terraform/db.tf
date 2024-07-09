@@ -16,4 +16,5 @@ resource "aws_db_instance" "ga_mysql" {
   storage_encrypted         = true
   vpc_security_group_ids    = [data.aws_security_group.data.id]
   db_subnet_group_name      = aws_db_subnet_group.data.name
+  monitoring_interval       = 5
 }
