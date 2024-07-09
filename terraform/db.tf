@@ -18,4 +18,5 @@ resource "aws_db_instance" "ga_mysql" {
   db_subnet_group_name            = aws_db_subnet_group.data.name
   #monitoring_interval            = 5  -> need monitoring_role_arn 
   enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
+  backup_retention_period         = 35
 }
