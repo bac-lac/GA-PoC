@@ -20,4 +20,5 @@ resource "aws_db_instance" "ga_mysql" {
   enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
   backup_retention_period         = 35
   performance_insights_enabled    = true
+  copy_tags_to_snapshot           = true
 }
