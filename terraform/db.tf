@@ -19,4 +19,5 @@ resource "aws_db_instance" "ga_mysql" {
   #monitoring_interval            = 5  -> need monitoring_role_arn 
   enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
   backup_retention_period         = 35
+  performance_insights_enabled    = true
 }
