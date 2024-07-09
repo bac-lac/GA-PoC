@@ -1,9 +1,7 @@
 skip-check:
     - CKV_AWS_184   # Ensure resource is encrypted by KMS using a customer managed Key (CMK)
-
-soft-fail-on:
-    - CKV_AWS_118   # Ensure that enhanced monitoring is enabled for Amazon RDS instances
     - CKV_AWS_157   # Ensure that RDS instances have Multi-AZ enabled
     - CKV_AWS_161   # Ensure RDS database has IAM authentication enabled
+soft-fail-on:
     - CKV_AWS_293   # Ensure that AWS database instances have deletion protection enabled
     - CKV_AWS_354   # Ensure RDS Performance Insights are encrypted using KMS CMKs
