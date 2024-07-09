@@ -23,7 +23,7 @@ resource "aws_db_instance" "ga_mysql" {
   apply_immediately               = true
   identifier                      = "ee-instance-demo"
   monitoring_interval             = 5
-  monitoring_role_arn             = aws_iam_role.ga_rds_role.arn
+  monitoring_role_arn             = aws_iam_role.ga_rds_monitoring_role.arn
 }
 
 data "aws_iam_policy_document" "assume_role" {
