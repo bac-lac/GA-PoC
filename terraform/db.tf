@@ -6,6 +6,7 @@ resource "aws_db_subnet_group" "data" {
 resource "aws_db_instance" "ga_mysql" {
   allocated_storage               = 20
   apply_immediately               = true
+  auto_minor_version_upgrade      = true
   backup_retention_period         = 35
   copy_tags_to_snapshot           = true
   db_name                         = format("GA%s", replace("${var.BRANCH_NAME}", "-", ""))
