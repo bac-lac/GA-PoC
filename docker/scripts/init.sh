@@ -171,7 +171,7 @@ function configure() {
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml "${shareconfig_folder}"
 
-    # Remove "update default database location" in the entrypoint
+    # Remove "update ports, default database location" in the entrypoint
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh 
 
