@@ -1,12 +1,12 @@
 skip-check:
-    - CKV_AWS_184   # Ensure resource is encrypted by KMS using a customer managed Key (CMK)
+    - CKV_AWS_18    # Ensure the S3 bucket has access logging enabled
+    - CKV_AWS_144   # Ensure that S3 bucket has cross-region replication enabled
+    - CKV_AWS_145   # Ensure that S3 buckets are encrypted with KMS by default
     - CKV_AWS_157   # Ensure that RDS instances have Multi-AZ enabled
+    - CKV_AWS_184   # Ensure resource is encrypted by KMS using a customer managed Key (CMK)
     - CKV_AWS_161   # Ensure RDS database has IAM authentication enabled
     - CKV_AWS_293   # Ensure that AWS database instances have deletion protection enabled
-    - CKV_AWS_354   # Ensure RDS Performance Insights are encrypted using KMS CMKs
-    - CKV2_AWS_62   # Ensure S3 buckets should have event notifications enabled
+    - CKV_AWS_354   # Ensure RDS Performance Insights are encrypted using KMS CMKs    
     - CKV2_AWS_6    # Ensure that S3 bucket has a Public Access block
-    - CKV_AWS_144   # Ensure that S3 bucket has cross-region replication enabled
     - CKV2_AWS_61   # Ensure that an S3 bucket has a lifecycle configuration
-    - CKV_AWS_145   # Ensure that S3 buckets are encrypted with KMS by default
-    - CKV_AWS_18    # Ensure the S3 bucket has access logging enabled
+    - CKV2_AWS_62   # Ensure S3 buckets should have event notifications enabled
