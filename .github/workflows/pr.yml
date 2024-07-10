@@ -38,6 +38,7 @@ jobs:
         with:
           directory: terraform
           output_format: cli
+          soft_fail: false
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
