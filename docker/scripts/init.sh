@@ -171,10 +171,9 @@ function configure() {
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml "${shareconfig_folder}"
 
-    # Remove "update ports, default database location" in the entrypoint
+    # Remove "update default database location" in the entrypoint
     echo "Update entrypoint"
-    cp /temp/entrypoint.sh /opt/HelpSystems/GoAnywhere/upgrader/entrypoint.sh
-    sed -i '10,15d' /opt/HelpSystems/GoAnywhere/upgrader/entrypoint.sh
+    sed -i '10,15d' /temp/entrypoint.sh 
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
@@ -187,9 +186,9 @@ function configure() {
     # Creating symbolic link for application configuration files.
     echo "Create symbolic link"
     cd "${config_folder}"
-    cp cluster.xml "${shareconfig_folder}"/cluster.xml
+    cp cluster.xml /tmp/cluster.xml
     rm -rf ./*
-    cp "${shareconfig_folder}"/cluster.xml .
+    cp /tmp/cluster.xml .
     ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
     ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml
     ln -s "${shareconfig_folder}"/ftp.xml "${config_folder}"/ftp.xml
@@ -217,7 +216,7 @@ function start() {
 
     echo "Start application"
 
-    exec /opt/HelpSystems/GoAnywhere/upgrader/entrypoint.sh
+    exec /temp/entrypoint.sh
 
 }
 
