@@ -173,7 +173,8 @@ function configure() {
 
     # Remove "update ports, default database location" in the entrypoint
     echo "Update entrypoint"
-    sed -i '10,15d' /temp/entrypoint.sh 
+    cp /temp/entrypoint.sh /opt/HelpSystems/GoAnywhere/temp/entrypoint.sh
+    sed -i '10,15d' /opt/HelpSystems/GoAnywhere/temp/entrypoint.sh
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
@@ -216,7 +217,7 @@ function start() {
 
     echo "Start application"
 
-    exec /temp/entrypoint.sh
+    exec /opt/HelpSystems/GoAnywhere/temp/entrypoint.sh
 
 }
 
