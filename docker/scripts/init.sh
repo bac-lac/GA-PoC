@@ -171,9 +171,10 @@ function configure() {
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml "${shareconfig_folder}"
 
-    # Remove "update default database location" in the entrypoint
+    # Update entrypoint
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh 
+    sed -i "s|systemName\">.*<|systemName\">$HOSTNAME<|g" "${config_folder}"/cluster.xml
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
