@@ -187,6 +187,7 @@ function configure() {
     # Creating symbolic link for application configuration files.
     echo "Create symbolic link"
     cd "${config_folder}"
+    mkdir "${config_folder}"/tmp/
     cp cluster.xml "${config_folder}"/tmp/cluster.xml
     rm -rf ./*
     cp "${config_folder}"/tmp/cluster.xml .
