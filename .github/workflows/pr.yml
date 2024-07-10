@@ -32,6 +32,12 @@ jobs:
         with:
           # https://github.com/koalaman/shellcheck#how-to-use
           cli-args: "./docker/scripts/*.sh"
+      
+      - name: Checkov security scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform
+          output_format: cli
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -77,20 +83,6 @@ jobs:
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
-          --out tfplan.binary
-
-      - name: Terraform-Show
-        id: Show
-        run: terraform show -json tfplan.binary | jq > tfplan.json
-
-      - name: Install Checkov
-        id: checkov
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install checkov
-      - name: Checkov testing terraform plan
-        id: checkov-terraform-plan
-        run: checkov -f tfplan.json -o sarif
 
       - name: Terraform-Apply
         id: Apply

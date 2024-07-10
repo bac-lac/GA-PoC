@@ -19,25 +19,6 @@ resource "aws_efs_mount_target" "ga_efs_mount_target_2" {
   subnet_id       = element(data.aws_subnets.app.ids, 2)
 }
 
-resource "aws_efs_access_point" "ga_ap_root" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/"
-  }
-  tags = {
-    Name = "root-${var.BRANCH_NAME}"
-  }
-}
-
 resource "aws_efs_access_point" "ga_ap_userdata" {
   file_system_id  = aws_efs_file_system.ga_efs.id
   posix_user {
