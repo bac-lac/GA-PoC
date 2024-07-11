@@ -25,16 +25,9 @@ permissions:
       contents: read
 
 jobs:
-  Set-Default-Environment:
-    name: Set default environment
-    runs-on: ubuntu-latest         
-    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
-    steps:
-      - run: echo "Set default environment ${{vars.ENV}}"
   Build:
-    needs: Set-Default-Environment
     runs-on: ubuntu-latest
-    if: ${{vars.ENV == 'dev'}}
+    if: ${{ inputs.environment == '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
