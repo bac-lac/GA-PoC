@@ -9,6 +9,7 @@ on:
       environment:
         type: choice
         description: "Name of the environment to deploy"
+        default: dev
         options:
         - test
         - prod
