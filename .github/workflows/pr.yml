@@ -16,21 +16,15 @@ permissions:
       contents: read
 
 jobs:
-  Pull-request:
+  Code-check:
     runs-on: ubuntu-latest
-    environment: "dev"
-    defaults:
-      run:
-        working-directory: ./terraform
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Run shellcheck
         uses: sudo-bot/action-shellcheck@latest
         with:
-          # https://github.com/koalaman/shellcheck#how-to-use
           cli-args: "./docker/scripts/*.sh"
       
       - name: Checkov security scan
@@ -38,6 +32,13 @@ jobs:
         with:
           directory: terraform
           output_format: cli
+
+  Build:
+    needs: Code-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -58,6 +59,26 @@ jobs:
         run: |
           docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
           docker push ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
+
+  Deploy:
+    needs: Build
+    runs-on: ubuntu-latest
+    environment: "dev"
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{secrets.AWS_GITHUB_DEVOPS_ROLE}}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{env.AWS_REGION}}
+          role-skip-session-tagging: true
+          audience: sts.amazonaws.com
 
       - name: Terraform-Setup
         id: Setup
