@@ -24,13 +24,8 @@ permissions:
       contents: read
 
 jobs:
-  Deploy:
+  Build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
-    defaults:
-      run:
-        working-directory: ./terraform
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,7 +50,16 @@ jobs:
         run: |
           docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
           docker push ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
-      
+
+  Deploy:
+    needs: Build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
       - name: Terraform-Setup
         id: Setup
         uses: hashicorp/setup-terraform@v3
