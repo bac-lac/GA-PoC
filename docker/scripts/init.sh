@@ -174,7 +174,7 @@ function configure() {
     # Update entrypoint
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh 
-    sed -i "s|systemName\">.*<|systemName\">$HOSTNAME<|g" "${config_folder}"/cluster.xml
+    sed -i "s|systemName\">.*<|systemName\">${HOSTNAME:1:19}<|g" "${config_folder}"/cluster.xml
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
