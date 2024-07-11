@@ -25,21 +25,13 @@ permissions:
       contents: read
 
 jobs:
-  Set-Variables:
-    name: Set variables
+  Set-Default-Environment:
+    name: Set default environment
     runs-on: ubuntu-latest         
-    outputs:
-      STAGEENV: ${{ steps.init.outputs.stageEnv }}
-    
-    steps:        
-      - name: Make environment variables global 
-        id: init
-        run: |
-          echo "STAGEENV=${{ inputs.environment == '' && 'dev' || inputs.environment }}" >> $GITHUB_OUTPUT
-      
+    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
   Build:
     runs-on: ubuntu-latest
-    if: ${{env.STAGEENV == 'dev'}}
+    if: ${{vars.ENV == 'dev'}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
