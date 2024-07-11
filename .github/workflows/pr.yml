@@ -16,17 +16,9 @@ permissions:
       contents: read
 
 jobs:
-  Pull-request:
+  Code-check:
     runs-on: ubuntu-latest
-    environment: "dev"
-    defaults:
-      run:
-        working-directory: ./terraform
     steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Run shellcheck
         uses: sudo-bot/action-shellcheck@latest
         with:
@@ -38,6 +30,17 @@ jobs:
         with:
           directory: terraform
           output_format: cli
+
+  Pull-request:
+    runs-on: ubuntu-latest
+    environment: "dev"
+    defaults:
+      run:
+        working-directory: ./terraform
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
