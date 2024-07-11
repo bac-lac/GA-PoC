@@ -27,7 +27,7 @@ permissions:
 jobs:
   Build:
     runs-on: ubuntu-latest
-    if: ${{ inputs.environment == '' }}
+    if: ${{ inputs.environment != '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
