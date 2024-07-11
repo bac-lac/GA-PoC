@@ -26,9 +26,9 @@ permissions:
 
 jobs:
   Build:
-    environment: dev
-    if: ${{vars.ENV == 'dev'}}
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
+    if: ${{vars.ENV == 'dev'}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
