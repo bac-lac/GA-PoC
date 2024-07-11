@@ -182,7 +182,6 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                 "readOnly": false
             }
         ],
-        "readonlyRootFilesystem": true,
         "volumesFrom": [],
         "logConfiguration": {
             "logDriver": "awslogs",
