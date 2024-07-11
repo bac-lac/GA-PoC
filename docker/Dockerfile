@@ -27,7 +27,6 @@ RUN yum update -y \
 RUN dnf update -y \
   && wget https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
-  && dnf module enable mysql:8.0 \
   && dnf install mysql-community-client -y
 
 USER gamft
