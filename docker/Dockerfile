@@ -24,9 +24,10 @@ RUN yum update -y \
   && yum -y clean all \
   && rm -rf /var/cache
 
-RUN wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm \
-  && dnf install mysql80-community-release-el9-1.noarch.rpm -y \
-  && rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 \
+RUN dnf update -y \
+  && wget https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
+  && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
+  && dnf module enable mysql:8.0 \
   && dnf install mysql-community-client -y
 
 USER gamft
