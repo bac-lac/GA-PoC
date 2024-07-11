@@ -18,17 +18,28 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   REPOSITORY: mft
   IMAGE_TAG: "latest"
-  
+  STAGEENV: "default"
 
 permissions:
       id-token: write
       contents: read
 
 jobs:
+  Set-Variables:
+    name: Set variables
+    runs-on: ubuntu-latest         
+    outputs:
+      STAGEENV: ${{ steps.init.outputs.stageEnv }}
+    
+    steps:        
+      - name: Make environment variables global 
+        id: init
+        run: |
+          echo "STAGEENV=${{ inputs.environment == '' && 'dev' || inputs.environment }}" >> $GITHUB_OUTPUT
+      
   Build:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
-    if: ${{vars.ENV == 'dev'}}
+    if: ${{env.STAGEENV == 'dev'}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
