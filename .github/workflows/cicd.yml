@@ -25,6 +25,7 @@ permissions:
 
 jobs:
   Build:
+    if: ${{vars.ENV == 'dev'}}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -40,12 +41,10 @@ jobs:
           audience: sts.amazonaws.com
       
       - name: Login to Amazon ECR
-        if: ${{vars.ENV == 'dev'}}
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
       
       - name: Build, tag, and push docker image to Amazon ECR
-        if: ${{vars.ENV == 'dev'}}
         working-directory: ./docker
         run: |
           docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
@@ -71,11 +70,6 @@ jobs:
           aws-region: ${{env.AWS_REGION}}
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
-      
-      - name: Login to Amazon ECR
-        if: ${{vars.ENV == 'dev'}}
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
       
       - name: Terraform-Setup
         id: Setup
