@@ -9,9 +9,7 @@ on:
       environment:
         type: choice
         description: "Name of the environment to deploy"
-        default: dev
         options:
-        - dev
         - test
         - prod
   
@@ -27,6 +25,7 @@ permissions:
 
 jobs:
   Build:
+    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
     if: ${{vars.ENV == 'dev'}}
     runs-on: ubuntu-latest
     steps:
@@ -55,7 +54,6 @@ jobs:
   Deploy:
     needs: Build
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
     defaults:
       run:
         working-directory: ./terraform
