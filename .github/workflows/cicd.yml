@@ -29,6 +29,8 @@ jobs:
     name: Set default environment
     runs-on: ubuntu-latest         
     environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
+    steps:
+      - run: echo "Set default environment $environment"
   Build:
     runs-on: ubuntu-latest
     if: ${{vars.ENV == 'dev'}}
