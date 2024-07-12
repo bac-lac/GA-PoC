@@ -57,7 +57,7 @@ jobs:
       - name: Set ECR Registry 
         id: set-ecr
         run: |
-          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_OUTPUT
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
 
       - name: Echo ECR_REGISTRY
         run: echo ${{ env.ECR_REGISTRY }}
