@@ -25,7 +25,7 @@ RUN yum update -y \
   && rm -rf /var/cache
 
 RUN dnf update -y \
-  && wget https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
+  && curl -o https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
   && dnf install mysql-community-client -y
 
