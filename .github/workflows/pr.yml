@@ -59,6 +59,9 @@ jobs:
         run: |
           echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_OUTPUT
 
+      - name: Echo ECR_REGISTRY
+        run: echo ${{ env.ECR_REGISTRY }}
+
       - name: Build, tag, and push docker image to Amazon ECR
         id: build-push
         working-directory: ./docker
