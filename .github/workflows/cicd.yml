@@ -71,13 +71,14 @@ jobs:
       - name: Terraform-Apply
         id: Apply
         run: terraform apply
-          -var ENV=${{vars.ENV}}
           -var ACCOUNT=${{secrets.ACCOUNT}}
-          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var DB_USERNAME=${{secrets.DB_USERNAME}}
-          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
+          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
-          -var VPC_ID=${{secrets.VPC_ID}}
+          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
+          -var DB_USERNAME=${{secrets.DB_USERNAME}}
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
+          -var ENV=${{vars.ENV}}
+          -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
+          -var VPC_ID=${{secrets.VPC_ID}}
           -auto-approve
