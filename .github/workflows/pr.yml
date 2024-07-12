@@ -38,7 +38,7 @@ jobs:
     needs: Code-check
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.login-ecr.outputs.registry }}
+      ecr_registry: ${{ steps.login-ecr.outputs.registry }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,15 +55,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-        
-      # - name: Set ECR Registry 
-      #   id: set-ecr
-      #   run: |
-      #     echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
-      #     echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_OUTPUT
-
-      # - name: Echo ECR_REGISTRY
-      #   run: echo ${{ env.ECR_REGISTRY }}
 
       - name: Build, tag, and push docker image to Amazon ECR
         id: build-push
@@ -115,7 +106,7 @@ jobs:
           -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
-          -var ECR_IMAGE=${{needs.Build.outputs.output1}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
+          -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
 
       - name: Terraform-Apply
         id: Apply
@@ -128,5 +119,5 @@ jobs:
           -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var VPC_ID=${{secrets.VPC_ID}}
-          -var ECR_IMAGE=${{env.ECR_REGISTRY}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
+          -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
           -auto-approve
