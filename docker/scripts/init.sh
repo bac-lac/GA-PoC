@@ -120,7 +120,7 @@ function wait_for_database_service_availability() {
 #######################################
 function create_database_and_credentials() {
     echo "Create Database"
-
+    echo "FORCE_REFRESH $FORCE_REFRESH"
     # Drop database if FORCE_REFRESH is true
     if [[ $FORCE_REFRESH == "true" ]]; then 
         echo "Drop MySQL database..."
