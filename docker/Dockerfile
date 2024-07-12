@@ -1,6 +1,5 @@
 FROM helpsystems/goanywhere-mft:latest as builder
 
-
 FROM helpsystems/goanywhere-mft:latest
 USER root
 WORKDIR /temp
@@ -19,15 +18,12 @@ RUN chmod -R 777 /temp/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
-RUN yum update -y \
-  && yum -y install wget procps unzip epel-release \
-  && yum -y clean all \
+RUN dnf update -y \
+  && curl -v -L -O https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
+  && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
+  && dnf install unzip epel-release mysql-community-client -y \
+  && dnf -y clean all \
   && rm -rf /var/cache
-
-RUN wget https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm \
-  && dnf install mysql80-community-release-el9-1.noarch.rpm -y \
-  && rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 \
-  && dnf install mysql-community-client -y
 
 USER gamft
 
