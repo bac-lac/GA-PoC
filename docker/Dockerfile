@@ -19,15 +19,12 @@ RUN chmod -R 777 /temp/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
-RUN yum update -y \
-  && yum -y install wget procps unzip epel-release \
-  && yum -y clean all \
-  && rm -rf /var/cache
-
 RUN dnf update -y \
   && curl -v -L -O https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
-  && dnf install mysql-community-client -y
+  && dnf install procps unzip epel-release mysql-community-client -y \
+  && dnf -y clean all \
+  && rm -rf /var/cache
 
 USER gamft
 
