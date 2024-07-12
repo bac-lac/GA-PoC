@@ -112,6 +112,7 @@ function wait_for_database_service_availability() {
 #   DB_ADDRESS
 #   DB_PASSWORD
 #   DB_USERNAME
+#   FORCE_REFRESH
 # Arguments:
 #   None
 # Outputs:
@@ -120,9 +121,17 @@ function wait_for_database_service_availability() {
 function create_database_and_credentials() {
     echo "Create Database"
 
+    # Drop database if FORCE_REFRESH is true
+    if [[ $FORCE_REFRESH == "true" ]]; then 
+        echo "Drop MySQL database..."
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; DROP DATABASE IF EXISTS \`GADATA\`;"
+
+        echo "Deleting MySQL database user..."
+        mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; DROP USER IF EXISTS \`$DB_USERNAME\`;"
+    fi
+
     # check if the database already exists
     result=$(mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='GADATA'" 2>&1)
-    echo "result= $result"
     if [[ $result =~ "GADATA" ]]; then 
         echo "Database exists";
     else
