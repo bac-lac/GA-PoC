@@ -143,6 +143,10 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
             {
                 "name": "MFT_CLUSTER",
                 "value": "FALSE"
+            },
+            {
+                "name": "FORCE_REFRESH",
+                "value": "${var.FORCE_REFRESH}"
             }
         ],
         "mountPoints": [
