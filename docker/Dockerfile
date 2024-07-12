@@ -1,6 +1,5 @@
 FROM helpsystems/goanywhere-mft:latest as builder
 
-
 FROM helpsystems/goanywhere-mft:latest
 USER root
 WORKDIR /temp
@@ -22,7 +21,7 @@ RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 RUN dnf update -y \
   && curl -v -L -O https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
-  && dnf install procps unzip epel-release mysql-community-client -y \
+  && dnf install unzip epel-release mysql-community-client -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 

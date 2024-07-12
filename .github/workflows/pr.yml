@@ -10,7 +10,6 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   REPOSITORY: mft
   IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
-  ECR_REGISTRY: ""
 
 permissions:
       id-token: write
