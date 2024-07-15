@@ -101,7 +101,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
       }
     }
   }
-  container_definitions = templatefile("task-definitions/mft1.json", {
+  container_definitions = templatefile("task-definitions/mft.tftpl", {
                                         ECR_IMAGE         = var.ECR_IMAGE,
                                         DB_USERNAME       = var.DB_USERNAME,
                                         DB_ADDRESS        = aws_db_instance.ga_mysql.address,
