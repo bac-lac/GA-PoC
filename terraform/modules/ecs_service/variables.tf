@@ -78,11 +78,6 @@ variable "FORCE_REFRESH" {
   description = "The number of the MFT."
 }
 
-variable "MFT_NUMBER" {
-  type = string
-  description = "The number of the MFT."
-}
-
 variable "BRANCH_NAME" {
   type = string
   description = "The number of the MFT."
