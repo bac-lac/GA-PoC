@@ -1,0 +1,108 @@
+[
+    {
+        "name": "mft1",
+        "image": "${var.ECR_IMAGE}",
+        "cpu": 0,
+        "portMappings": [
+            {
+                "name": "mft1-8000-tcp",
+                "containerPort": 8000,
+                "protocol": "tcp",
+                "appProtocol": "http"
+            }
+        ],
+        "essential": true,
+        "environment": [
+            {
+                "name": "SYSTEM_NAME",
+                "value": "MFT-1"
+            },
+            {
+                "name": "DB_USERNAME",
+                "value": "${var.DB_USERNAME}"
+            },
+            {
+                "name": "DB_ADDRESS",
+                "value": "${aws_db_instance.ga_mysql.address}"
+            },
+            {
+                "name": "DB_PASSWORD",
+                "value": "${var.DB_PASSWORD}"
+            },
+            {
+                "name": "ADMIN_DB_USERNAME",
+                "value": "${var.ADMIN_DB_USERNAME}"
+            },
+            {
+                "name": "ADMIN_DB_PASSWORD",
+                "value": "${var.ADMIN_DB_PASSWORD}"
+            },
+            {
+                "name": "MFT_CLUSTER",
+                "value": "FALSE"
+            },
+            {
+                "name": "FORCE_REFRESH",
+                "value": "${var.FORCE_REFRESH}"
+            }
+        ],
+        "mountPoints": [
+            {
+                "sourceVolume": "ga_ap_userdata",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/userdata/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_sharedconfig",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/sharedconfig/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_upgrader1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/upgrader/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_config1",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/config/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_tomcatserver1",
+                "containerPath": "/etc/HelpSystems/GoAnywhere/tomcat/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_tomcatlog1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/tomcat/logs/",
+                "readOnly": false
+            },
+            {
+                "sourceVolume": "ga_ap_ghttpsroot1",
+                "containerPath": "/opt/HelpSystems/GoAnywhere/ghttpsroot/custom/",
+                "readOnly": false
+            }
+        ],
+        "volumesFrom": [],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "/ecs/ga-td",
+                "awslogs-region": "ca-central-1",
+                "awslogs-stream-prefix": "ecs"
+            }
+        },
+        "healthCheck": {
+            "command": [
+                "CMD-SHELL",
+                "curl -f http://localhost:8000/ || exit 1"
+            ],
+            "interval": 30,
+            "timeout": 5,
+            "retries": 3,
+            "startPeriod": 120
+        },
+        "systemControls": []
+    }
+]
