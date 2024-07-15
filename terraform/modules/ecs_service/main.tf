@@ -94,7 +94,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
                                         ADMIN_DB_USERNAME = var.ADMIN_DB_USERNAME,
                                         ADMIN_DB_PASSWORD = var.ADMIN_DB_PASSWORD,
                                         FORCE_REFRESH     = var.FORCE_REFRESH,
-                                        MFT_NUMBER        = var.MFT_NUMBER}
+                                        MFT_NUMBER        = var.MFT_NUMBER
                                       })
 }
 
