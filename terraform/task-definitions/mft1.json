@@ -1,7 +1,7 @@
 [
     {
         "name": "mft1",
-        "image": "${var.ECR_IMAGE}",
+        "image": "${ECR_IMAGE}",
         "cpu": 0,
         "portMappings": [
             {
