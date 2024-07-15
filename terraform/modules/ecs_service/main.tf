@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "ga_task_definition_mft" {
-  family                    = "ga-task-definition-mft${var.MFT_NUMBER}-${var.BRANCH_NAME}"
+  family                    = "ga-task-definition-mft${var.mft_number}-${var.BRANCH_NAME}"
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
   cpu                       = 1024
@@ -94,12 +94,12 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
                                         ADMIN_DB_USERNAME = var.ADMIN_DB_USERNAME,
                                         ADMIN_DB_PASSWORD = var.ADMIN_DB_PASSWORD,
                                         FORCE_REFRESH     = var.FORCE_REFRESH,
-                                        MFT_NUMBER        = var.MFT_NUMBER
+                                        MFT_NUMBER        = var.mft_number
                                       })
 }
 
 resource "aws_ecs_service" "ga_service_mft" {
-  name                  = "ga-service-mft${var.MFT_NUMBER}-${var.BRANCH_NAME}"
+  name                  = "ga-service-mft${var.mft_number}-${var.BRANCH_NAME}"
   cluster               = aws_ecs_cluster.ga_cluster.id
   task_definition       = aws_ecs_task_definition.ga_task_definition_mft.arn
   launch_type           = "FARGATE"
@@ -113,7 +113,7 @@ resource "aws_ecs_service" "ga_service_mft" {
   }
   load_balancer {
     target_group_arn    = aws_lb_target_group.ga_tg.arn
-    container_name      = "MFT-${var.MFT_NUMBER}"
+    container_name      = "MFT-${var.mft_number}"
     container_port      = 8000
   }
 }
