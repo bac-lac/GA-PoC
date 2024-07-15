@@ -25,4 +25,12 @@ module "ecs_service" {
   ga_ap_tomcatlog1_id  = aws_efs_access_point.ga_ap_tomcatlog1.id
   ga_ap_ghttpsroot1_id  = aws_efs_access_point.ga_ap_ghttpsroot1.id
   db_address  = aws_db_instance.ga_mysql.address
+  BRANCH_NAME = var.BRANCH_NAME
+  ACCOUNT = var.ACCOUNT
+  ECR_IMAGE = var.ECR_IMAGE
+  DB_USERNAME = var.DB_USERNAME
+  DB_PASSWORD = var.DB_PASSWORD
+  ADMIN_DB_USERNAME = var.ADMIN_DB_USERNAME
+  ADMIN_DB_PASSWORD = var.ADMIN_DB_PASSWORD
+  FORCE_REFRESH = var.FORCE_REFRESH
 }
