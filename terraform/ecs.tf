@@ -102,7 +102,7 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
     }
   }
   container_definitions = templatefile("task-definitions/mft1.json", {
-                                        ECR_IMAGE       = var.ECR_IMAGE
+                                        ECR_IMAGE       = ${var.ECR_IMAGE}
                                       })
 }
 
