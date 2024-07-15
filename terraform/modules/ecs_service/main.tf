@@ -13,10 +13,10 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
     name = "ga_ap_userdata"
 
     efs_volume_configuration {
-      file_system_id        = aws_efs_file_system.ga_efs.id
+      file_system_id        = var.file_system_id
       transit_encryption    = "ENABLED"
       authorization_config {
-        access_point_id = aws_efs_access_point.ga_ap_userdata.id
+        access_point_id = var.ga_ap_userdata_id
       }
     }
   }
@@ -24,10 +24,10 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_sharedconfig"
 
   efs_volume_configuration {
-    file_system_id          = aws_efs_file_system.ga_efs.id
+    file_system_id          = var.file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
-      access_point_id = aws_efs_access_point.ga_ap_sharedconfig.id
+      access_point_id = var..ga_ap_sharedconfig_id
     }
   }
   }
@@ -35,10 +35,10 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_upgrader1"
 
   efs_volume_configuration {
-    file_system_id          = aws_efs_file_system.ga_efs.id
+    file_system_id          = var.file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
-      access_point_id = aws_efs_access_point.ga_ap_upgrader1.id
+      access_point_id = var.ga_ap_upgrader1_id
     }
   }
   }
@@ -46,10 +46,10 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_config1"
 
   efs_volume_configuration {
-    file_system_id          = aws_efs_file_system.ga_efs.id
+    file_system_id          = var.file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
-      access_point_id = aws_efs_access_point.ga_ap_config1.id
+      access_point_id = var.ga_ap_config1_id
     }
   }
   }
@@ -57,10 +57,10 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_tomcatserver1"
 
   efs_volume_configuration {
-    file_system_id          = aws_efs_file_system.ga_efs.id
+    file_system_id          = var.file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
-      access_point_id = aws_efs_access_point.ga_ap_tomcatserver1.id
+      access_point_id = var.ga_ap_tomcatserver1_id
     }
   }
   }
@@ -68,10 +68,10 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_tomcatlog1"
 
   efs_volume_configuration {
-    file_system_id          = aws_efs_file_system.ga_efs.id
+    file_system_id          = var.file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
-      access_point_id = aws_efs_access_point.ga_ap_tomcatlog1.id
+      access_point_id = var.ga_ap_tomcatlog1_id
     }
   }
   }
@@ -79,17 +79,17 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
     name = "ga_ap_ghttpsroot1"
 
     efs_volume_configuration {
-      file_system_id        = aws_efs_file_system.ga_efs.id
+      file_system_id        = var.file_system_id
       transit_encryption    = "ENABLED"
       authorization_config {
-        access_point_id = aws_efs_access_point.ga_ap_ghttpsroot1.id
+        access_point_id = var.ga_ap_ghttpsroot1_id
       }
     }
   }
   container_definitions = templatefile("task-definitions/mft.tftpl", {
                                         ECR_IMAGE         = var.ECR_IMAGE,
                                         DB_USERNAME       = var.DB_USERNAME,
-                                        DB_ADDRESS        = aws_db_instance.ga_mysql.address,
+                                        DB_ADDRESS        = var.db_address,
                                         DB_PASSWORD       = var.DB_PASSWORD,
                                         ADMIN_DB_USERNAME = var.ADMIN_DB_USERNAME,
                                         ADMIN_DB_PASSWORD = var.ADMIN_DB_PASSWORD,
