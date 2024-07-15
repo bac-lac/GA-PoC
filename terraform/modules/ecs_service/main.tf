@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
     file_system_id          = var.file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
-      access_point_id = var..ga_ap_sharedconfig_id
+      access_point_id = var.ga_ap_sharedconfig_id
     }
   }
   }
