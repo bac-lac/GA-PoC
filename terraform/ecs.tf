@@ -13,8 +13,8 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
   capacity_providers = ["FARGATE"]
 }
 
-resource "aws_ecs_task_definition" "ga_task_definition" {
-  family                    = "ga-task-definition-${var.BRANCH_NAME}"
+resource "aws_ecs_task_definition" "ga_task_definition_mft1" {
+  family                    = "ga-task-definition-mft1-${var.BRANCH_NAME}"
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
   cpu                       = 1024
@@ -113,10 +113,10 @@ resource "aws_ecs_task_definition" "ga_task_definition" {
                                       })
 }
 
-resource "aws_ecs_service" "ga_service" {
-  name                  = "ga-service-${var.BRANCH_NAME}"
+resource "aws_ecs_service" "ga_service_mft1" {
+  name                  = "ga-service-mft1-${var.BRANCH_NAME}"
   cluster               = aws_ecs_cluster.ga_cluster.id
-  task_definition       = aws_ecs_task_definition.ga_task_definition.arn
+  task_definition       = aws_ecs_task_definition.ga_task_definition_mft1.arn
   launch_type           = "FARGATE"
   platform_version      = "LATEST"
   scheduling_strategy   = "REPLICA"
