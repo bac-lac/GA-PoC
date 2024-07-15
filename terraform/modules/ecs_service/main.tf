@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
     name = "ga_ap_userdata"
 
     efs_volume_configuration {
-      file_system_id        = var.file_system_id
+      file_system_id        = var.ee_file_system_id
       transit_encryption    = "ENABLED"
       authorization_config {
         access_point_id = var.ga_ap_userdata_id
@@ -24,7 +24,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_sharedconfig"
 
   efs_volume_configuration {
-    file_system_id          = var.file_system_id
+    file_system_id          = var.ee_file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
       access_point_id = var.ga_ap_sharedconfig_id
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_upgrader1"
 
   efs_volume_configuration {
-    file_system_id          = var.file_system_id
+    file_system_id          = var.ee_file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
       access_point_id = var.ga_ap_upgrader1_id
@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_config1"
 
   efs_volume_configuration {
-    file_system_id          = var.file_system_id
+    file_system_id          = var.ee_file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
       access_point_id = var.ga_ap_config1_id
@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_tomcatserver1"
 
   efs_volume_configuration {
-    file_system_id          = var.file_system_id
+    file_system_id          = var.ee_file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
       access_point_id = var.ga_ap_tomcatserver1_id
@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   name = "ga_ap_tomcatlog1"
 
   efs_volume_configuration {
-    file_system_id          = var.file_system_id
+    file_system_id          = var.ee_file_system_id
     transit_encryption      = "ENABLED"
     authorization_config {
       access_point_id = var.ga_ap_tomcatlog1_id
@@ -79,7 +79,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
     name = "ga_ap_ghttpsroot1"
 
     efs_volume_configuration {
-      file_system_id        = var.file_system_id
+      file_system_id        = var.ee_file_system_id
       transit_encryption    = "ENABLED"
       authorization_config {
         access_point_id = var.ga_ap_ghttpsroot1_id

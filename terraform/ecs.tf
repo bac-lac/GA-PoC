@@ -16,7 +16,7 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 module "ecs_service" {
   source              = "./modules/ecs_service/"
   mft_number      = "1"
-  file_system_id  = file_system_id
+  ee_file_system_id  = aws_efs_file_system.ga_efs.id
   ga_ap_userdata_id  = aws_efs_access_point.ga_ap_userdata.id
   ga_ap_sharedconfig_id  = aws_efs_access_point.ga_ap_sharedconfig.id
   ga_ap_upgrader1_id  = aws_efs_access_point.ga_ap_upgrader1.id
