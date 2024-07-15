@@ -19,23 +19,23 @@
             },
             {
                 "name": "DB_USERNAME",
-                "value": "${var.DB_USERNAME}"
+                "value": "${DB_USERNAME}"
             },
             {
                 "name": "DB_ADDRESS",
-                "value": "${aws_db_instance.ga_mysql.address}"
+                "value": "${DB_ADDRESS}"
             },
             {
                 "name": "DB_PASSWORD",
-                "value": "${var.DB_PASSWORD}"
+                "value": "${DB_PASSWORD}"
             },
             {
                 "name": "ADMIN_DB_USERNAME",
-                "value": "${var.ADMIN_DB_USERNAME}"
+                "value": "${ADMIN_DB_USERNAME}"
             },
             {
                 "name": "ADMIN_DB_PASSWORD",
-                "value": "${var.ADMIN_DB_PASSWORD}"
+                "value": "${ADMIN_DB_PASSWORD}"
             },
             {
                 "name": "MFT_CLUSTER",
@@ -43,7 +43,7 @@
             },
             {
                 "name": "FORCE_REFRESH",
-                "value": "${var.FORCE_REFRESH}"
+                "value": "${FORCE_REFRESH}"
             }
         ],
         "mountPoints": [
