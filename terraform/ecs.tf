@@ -128,7 +128,7 @@ resource "aws_ecs_service" "ga_service" {
   }
   load_balancer {
     target_group_arn    = aws_lb_target_group.ga_tg.arn
-    container_name      = "mft1"
+    container_name      = "MFT-1"
     container_port      = 8000
   }
 }
