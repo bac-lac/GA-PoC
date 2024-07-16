@@ -18,7 +18,7 @@ variable "ADMIN_DB_USERNAME" {
 
 variable "BRANCH_NAME" {
   type = string
-  sensitive = true
+  sensitive = false
   description = "The branch name used for resources creation."
 }
 
@@ -36,7 +36,7 @@ variable "DB_USERNAME" {
 
 variable "ECR_IMAGE" {
   type = string
-  sensitive = true
+  sensitive = false
   description = "The image name used for task definition."
 }
 
