@@ -15,15 +15,16 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 
 module "ecs_service" {
   source                      = "./modules/ecs_service/"
-  MOD_MFT_NUMBER              = "1"
+  for_each                    = toset(["1", "2"])
+  MOD_MFT_NUMBER              = each.key
   MOD_FILE_SYSTEM_ID          = aws_efs_file_system.ga_efs.id
   MOD_GA_AP_USERDATA_ID       = aws_efs_access_point.ga_ap_userdata.id
   MOD_GA_AP_SHAREDCONFIG_ID   = aws_efs_access_point.ga_ap_sharedconfig.id
-  MOD_GA_AP_UPGRADER_ID       = aws_efs_access_point.ga_ap_upgrader1.id
-  MOD_GA_AP_CONFIG_ID         = aws_efs_access_point.ga_ap_config1.id
-  MOD_GA_AP_TOMCATSERVER_ID   = aws_efs_access_point.ga_ap_tomcatserver1.id
-  MOD_GA_AP_TOMCATLOG_ID      = aws_efs_access_point.ga_ap_tomcatlog1.id
-  MOD_GA_AP_GHTTPSROOT_ID     = aws_efs_access_point.ga_ap_ghttpsroot1.id
+  MOD_GA_AP_UPGRADER_ID       = each.key == "1" ? aws_efs_access_point.ga_ap_upgrader1.id : aws_efs_access_point.ga_ap_upgrader2.id
+  MOD_GA_AP_CONFIG_ID         = each.key == "1" ? aws_efs_access_point.ga_ap_config1.id : aws_efs_access_point.ga_ap_config2.id
+  MOD_GA_AP_TOMCATSERVER_ID   = each.key == "1" ? aws_efs_access_point.ga_ap_tomcatserver1.id : aws_efs_access_point.ga_ap_tomcatserver2.id
+  MOD_GA_AP_TOMCATLOG_ID      = each.key == "1" ? aws_efs_access_point.ga_ap_tomcatlog1.id : aws_efs_access_point.ga_ap_tomcatlog2.id
+  MOD_GA_AP_GHTTPSROOT_ID     = each.key == "1" ? aws_efs_access_point.ga_ap_ghttpsroot1.id : aws_efs_access_point.ga_ap_ghttpsroot2.id
   MOD_DB_ADDRESS              = aws_db_instance.ga_mysql.address
   MOD_BRANCH_NAME             = var.BRANCH_NAME
   MOD_ACCOUNT                 = var.ACCOUNT
