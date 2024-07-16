@@ -100,19 +100,19 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
 
 resource "aws_ecs_service" "ga_service_mft" {
   name                  = "ga-service-mft${var.MOD_MFT_NUMBER}-${var.MOD_BRANCH_NAME}"
-  cluster               = MOD_CLUSTER_ID
+  cluster               = var.MOD_CLUSTER_ID
   task_definition       = aws_ecs_task_definition.ga_task_definition_mft.arn
   launch_type           = "FARGATE"
   platform_version      = "LATEST"
   scheduling_strategy   = "REPLICA"
   desired_count         = 1
   network_configuration {
-    subnets             = MOD_SUBNETS
-    security_groups     = [MOD_SECURITY_GROUP_ID]
+    subnets             = var.MOD_SUBNETS
+    security_groups     = [var.MOD_SECURITY_GROUP_ID]
     assign_public_ip    = false
   }
   load_balancer {
-    target_group_arn    = MOD_TARGET_GROUP_ARN
+    target_group_arn    = var.MOD_TARGET_GROUP_ARN
     container_name      = "MFT-${var.MOD_MFT_NUMBER}"
     container_port      = 8000
   }
