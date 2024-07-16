@@ -209,6 +209,8 @@ function configure() {
     ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
+    # Modify license page
+    sed 's/#{bundle['text.notLicensed']}/#{bundle['text.notLicensed']} lol/' /opt/HelpSystems/GoAnywhere/adminroot/license/Unlicensed.xhtml
 }
 
 #######################################
