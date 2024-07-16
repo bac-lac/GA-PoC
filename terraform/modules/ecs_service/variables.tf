@@ -18,27 +18,27 @@ variable "MOD_GA_AP_SHAREDCONFIG_ID" {
   description = "The number of the MFT."
 }
 
-variable "MOD_GA_AP_UPGRADER1_ID" {
+variable "MOD_GA_AP_UPGRADER_ID" {
   type = string
   description = "The number of the MFT."
 }
 
-variable "MOD_GA_AP_CONFIG1_ID" {
+variable "MOD_GA_AP_CONFIG_ID" {
   type = string
   description = "The number of the MFT."
 }
 
-variable "MOD_GA_AP_TOMCATSERVER1_ID" {
+variable "MOD_GA_AP_TOMCATSERVER_ID" {
   type = string
   description = "The number of the MFT."
 }
 
-variable "MOD_GA_AP_TOMCATLOG1_ID" {
+variable "MOD_GA_AP_TOMCATLOG_ID" {
   type = string
   description = "The number of the MFT."
 }
 
-variable "MOD_GA_AP_GHTTPSROOT1_ID" {
+variable "MOD_GA_AP_GHTTPSROOT_ID" {
   type = string
   description = "The number of the MFT."
 }
