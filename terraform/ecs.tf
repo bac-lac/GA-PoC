@@ -15,8 +15,9 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 
 module "ecs_service" {
   source                      = "./modules/ecs_service/"
-  for_each                    = toset(["1", "2"])
+  for_each                    = var.BRANCH_NAME == "main" ? toset(["1", "2"]) : toset(["1"])
   MOD_MFT_NUMBER              = each.key
+  MOD_CLUSTER                 = var.BRANCH_NAME == "main" ? "TRUE" : "FALSE"
   MOD_FILE_SYSTEM_ID          = aws_efs_file_system.ga_efs.id
   MOD_GA_AP_USERDATA_ID       = aws_efs_access_point.ga_ap_userdata.id
   MOD_GA_AP_SHAREDCONFIG_ID   = aws_efs_access_point.ga_ap_sharedconfig.id

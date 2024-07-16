@@ -107,3 +107,8 @@ variable "MOD_TARGET_GROUP_ARN" {
   type = string
   description = "The Target Group ARN."
 }
+
+variable "MOD_CLUSTER" {
+  type = string
+  description = "Cluster mode (True or False)."
+}
