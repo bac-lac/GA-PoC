@@ -65,7 +65,7 @@ jobs:
   Deploy:
     needs: Build
     runs-on: ubuntu-latest
-    environment: "dev"
+    environment: "pr"
     defaults:
       run:
         working-directory: ./terraform
@@ -106,6 +106,7 @@ jobs:
           -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
           -var ENV=${{vars.ENV}}
           -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
+          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
           -var VPC_ID=${{secrets.VPC_ID}}
 
       - name: Terraform-Apply
@@ -120,5 +121,6 @@ jobs:
           -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
           -var ENV=${{vars.ENV}}
           -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
+          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -auto-approve

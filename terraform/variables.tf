@@ -50,6 +50,12 @@ variable "FORCE_REFRESH" {
   description = "If set to true, this will start the application with an empty database."
 }
 
+variable "MFT_CLUSTER" {
+  type = string
+  description = "If set to true, this will start the application in cluster mode."
+  default = "TRUE"
+}
+
 variable "VPC_ID" {
   type = string
   sensitive = true
