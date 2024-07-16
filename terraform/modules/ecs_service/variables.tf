@@ -94,7 +94,7 @@ variable "MOD_CLUSTER_ID" {
 }
 
 variable "MOD_SUBNETS" {
-  type = string
+  type = list
   description = "The number of the MFT."
 }
 
