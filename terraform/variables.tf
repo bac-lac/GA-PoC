@@ -18,7 +18,7 @@ variable "ADMIN_DB_USERNAME" {
 
 variable "BRANCH_NAME" {
   type = string
-  sensitive = true
+  sensitive = false
   description = "The branch name used for resources creation."
 }
 
@@ -36,7 +36,7 @@ variable "DB_USERNAME" {
 
 variable "ECR_IMAGE" {
   type = string
-  sensitive = true
+  sensitive = false
   description = "The image name used for task definition."
 }
 
@@ -48,6 +48,12 @@ variable "ENV" {
 variable "FORCE_REFRESH" {
   type = string
   description = "If set to true, this will start the application with an empty database."
+}
+
+variable "MFT_CLUSTER" {
+  type = string
+  description = "If set to true, this will start the application in cluster mode."
+  default = "TRUE"
 }
 
 variable "VPC_ID" {

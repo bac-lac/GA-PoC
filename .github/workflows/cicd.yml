@@ -80,5 +80,6 @@ jobs:
           -var ECR_IMAGE=${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
           -var ENV=${{vars.ENV}}
           -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
+          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
           -var VPC_ID=${{secrets.VPC_ID}}
           -auto-approve
