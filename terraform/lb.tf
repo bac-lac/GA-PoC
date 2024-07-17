@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "ga_tg" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = var.VPC_ID
+  vpc_id      = data.aws_vpc.vpc.id
   health_check {
   path        = "/"
     matcher   = "200,302"

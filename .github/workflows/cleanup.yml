@@ -59,5 +59,4 @@ jobs:
           -var ECR_IMAGE=
           -var ENV=${{vars.ENV}}
           -var FORCE_REFRESH=
-          -var VPC_ID=${{secrets.VPC_ID}}
           -auto-approve

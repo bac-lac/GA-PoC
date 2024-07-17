@@ -82,5 +82,4 @@ jobs:
           -var ENV=${{vars.ENV}}
           -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
           -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
-          -var VPC_ID=${{secrets.VPC_ID}}
           -auto-approve

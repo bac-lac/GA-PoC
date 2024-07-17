@@ -44,7 +44,10 @@ The following environment variables are used to control the application at run-t
 > **ENV**: The environment in which to deploy the solution.
 - Allowed values: dev, test or prod
 
-> **VPC_ID**: VPC ID in which to create the security groups.
+> **FORCE_REFRESH**: If set to true, this will start the application with an empty database.
+
+> **MFT_CLUSTER**: If set to true, this will start the application in cluster mode.
+- Default value: TRUE
 
 ## Run the Application Locally
 ```
