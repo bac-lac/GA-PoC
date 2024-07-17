@@ -31,9 +31,21 @@ data "aws_iam_policy_document" "ga_ecs_role_assume_role" {
   }
 }
 
+data "aws_iam_policy_document" "ga_ecs_role_inline_policy" {
+  statement {
+    effect    = "Allow"
+    actions   = ["logs:CreateLogGroup"]
+    resources = ["*"]
+  }
+}
+
 resource "aws_iam_role" "ga_ecs_role" {
   name                = "ga_ecs_role-${var.BRANCH_NAME}"
   description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
+  inline_policy {
+    name   = "ga_ecs_role_inline_policy"
+    policy = data.aws_iam_policy_document.ga_ecs_role_inline_policy.json
+  }
 }
