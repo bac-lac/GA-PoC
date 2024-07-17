@@ -4,7 +4,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   network_mode              = "awsvpc"
   cpu                       = 1024
   memory                    = 3072
-  execution_role_arn        = "arn:aws:iam::${var.MOD_ACCOUNT}:role/ecsTaskExecutionRole"
+  execution_role_arn        = var.MOD_ECS_ROLE_ARN
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"

@@ -83,9 +83,9 @@ variable "MOD_BRANCH_NAME" {
   description = "The branch name used for resources creation."
 }
 
-variable "MOD_ACCOUNT" {
+variable "MOD_ECS_ROLE_ARN" {
   type = string
-  description = "The account number."
+  description = "The ECS Role ARN."
 }
 
 variable "MOD_CLUSTER_ID" {

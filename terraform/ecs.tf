@@ -28,7 +28,7 @@ module "ecs_service" {
   MOD_GA_AP_GHTTPSROOT_ID     = each.key == "1" ? aws_efs_access_point.ga_ap_ghttpsroot1.id : aws_efs_access_point.ga_ap_ghttpsroot2.id
   MOD_DB_ADDRESS              = aws_db_instance.ga_mysql.address
   MOD_BRANCH_NAME             = var.BRANCH_NAME
-  MOD_ACCOUNT                 = var.ACCOUNT
+  MOD_ECS_ROLE_ARN            = aws_iam_role.ga_ecs_role.arn
   MOD_ECR_IMAGE               = var.ECR_IMAGE
   MOD_DB_USERNAME             = var.DB_USERNAME
   MOD_DB_PASSWORD             = var.DB_PASSWORD
