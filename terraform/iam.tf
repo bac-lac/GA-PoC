@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "ga_ecs_role_inline_policy" {
   statement {
     effect    = "Allow"
     actions   = ["logs:CreateLogGroup"]
-    resources = ["*"]
+    resources = ["arn:aws:logs:ca-central-1:${var.ACCOUNT}:log-group:*:*"]
   }
 }
 
