@@ -19,44 +19,6 @@ resource "aws_efs_mount_target" "ga_efs_mount_target_2" {
   subnet_id       = element(data.aws_subnets.app.ids, 2)
 }
 
-resource "aws_efs_access_point" "ga_ap_userdata" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/userdata"
-  }
-  tags = {
-    Name = "userdata-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_sharedconfig" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/sharedconfig"
-  }
-  tags = {
-    Name = "sharedconfig-${var.BRANCH_NAME}"
-  }
-}
-
 resource "aws_efs_access_point" "ga_ap_upgrader1" {
   file_system_id  = aws_efs_file_system.ga_efs.id
   posix_user {
@@ -247,10 +209,10 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
   }
 }
 
-resource "aws_efs_access_point" "ga_ap_test" {
+resource "aws_efs_access_point" "ga_ap" {
   for_each = tomap({
-    testa   = "eastus"
-    testb   = "westus2"
+    sharedconfig   = "sharedconfig"
+    userdata   = "userdata"
   })
   file_system_id  = aws_efs_file_system.ga_efs.id
   posix_user {

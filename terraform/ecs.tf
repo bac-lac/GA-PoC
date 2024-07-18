@@ -19,8 +19,8 @@ module "ecs_service" {
   MOD_MFT_NUMBER              = each.key
   MOD_CLUSTER                 = var.MFT_CLUSTER
   MOD_FILE_SYSTEM_ID          = aws_efs_file_system.ga_efs.id
-  MOD_GA_AP_USERDATA_ID       = aws_efs_access_point.ga_ap_userdata.id
-  MOD_GA_AP_SHAREDCONFIG_ID   = aws_efs_access_point.ga_ap_sharedconfig.id
+  MOD_GA_AP_USERDATA_ID       = aws_efs_access_point.ga_ap["userdata"].id
+  MOD_GA_AP_SHAREDCONFIG_ID   = aws_efs_access_point.ga_ap["sharedconfig"].id
   MOD_GA_AP_UPGRADER_ID       = each.key == "1" ? aws_efs_access_point.ga_ap_upgrader1.id : aws_efs_access_point.ga_ap_upgrader2.id
   MOD_GA_AP_CONFIG_ID         = each.key == "1" ? aws_efs_access_point.ga_ap_config1.id : aws_efs_access_point.ga_ap_config2.id
   MOD_GA_AP_TOMCATSERVER_ID   = each.key == "1" ? aws_efs_access_point.ga_ap_tomcatserver1.id : aws_efs_access_point.ga_ap_tomcatserver2.id
