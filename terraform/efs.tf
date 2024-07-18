@@ -7,19 +7,15 @@ resource "aws_efs_file_system" "ga_efs" {
   }
 }
 
-resource "aws_efs_mount_target" "ga_efs_mount_target_1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  security_groups = [data.aws_security_group.app.id]           
-  subnet_id       = element(data.aws_subnets.app.ids, 1)
-}
-
-resource "aws_efs_mount_target" "ga_efs_mount_target_2" {
+resource "aws_efs_mount_target" "ga_efs_mount_target" {
+  for_each = toset(data.aws_subnets.app.ids)
   file_system_id  = aws_efs_file_system.ga_efs.id
   security_groups = [data.aws_security_group.app.id]
-  subnet_id       = element(data.aws_subnets.app.ids, 2)
+  subnet_id       = each.key
 }
 
-resource "aws_efs_access_point" "ga_ap_userdata" {
+resource "aws_efs_access_point" "ga_ap" {
+  for_each = toset(["sharedconfig","userdata","upgrader1","config1","tomcatserver1","tomcatlog1","ghttpsroot1","upgrader2","config2","tomcatserver2","tomcatlog2","ghttpsroot2"])
   file_system_id  = aws_efs_file_system.ga_efs.id
   posix_user {
     gid = 992
@@ -31,219 +27,9 @@ resource "aws_efs_access_point" "ga_ap_userdata" {
       owner_uid   = 994
       permissions = 777
     }
-    path = "/userdata"
+    path = "/${each.key}"
   }
   tags = {
-    Name = "userdata-${var.BRANCH_NAME}"
+    Name = "${each.key}-${var.BRANCH_NAME}"
   }
 }
-
-resource "aws_efs_access_point" "ga_ap_sharedconfig" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/sharedconfig"
-  }
-  tags = {
-    Name = "sharedconfig-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_upgrader1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/upgrader1"
-  }
-  tags = {
-    Name = "upgrader1-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_config1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/config1"
-  }
-  tags = {
-    Name = "config1-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_tomcatserver1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/tomcatserver1"
-  }
-  tags = {
-    Name = "tomcatserver1-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_tomcatlog1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/tomcatlog1"
-  }
-  tags = {
-    Name = "tomcatlog1-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_ghttpsroot1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/ghttpsroot1"
-  }
-  tags = {
-    Name = "ghttpsrootoot1-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_upgrader2" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/upgrader2"
-  }
-  tags = {
-    Name = "upgrader2-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_config2" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/config2"
-  }
-  tags = {
-    Name = "config2-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_tomcatserver2" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/tomcatserver2"
-  }
-  tags = {
-    Name = "tomcatserver2-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_tomcatlog2" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/tomcatlog2"
-  }
-  tags = {
-    Name = "tomcatlog2-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  posix_user {
-    gid = 992
-    uid = 994
-  }
-  root_directory {
-    creation_info {
-      owner_gid   = 992
-      owner_uid   = 994
-      permissions = 777
-    }
-    path = "/ghttpsroot2"
-  }
-  tags = {
-    Name = "ghttpsrootoot2-${var.BRANCH_NAME}"
-  }
-}
-
