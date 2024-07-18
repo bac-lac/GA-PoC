@@ -247,3 +247,25 @@ resource "aws_efs_access_point" "ga_ap_ghttpsroot2" {
   }
 }
 
+resource "aws_efs_access_point" "ga_ap_test" {
+  for_each = tomap({
+    testa   = "eastus"
+    testb   = "westus2"
+  })
+  file_system_id  = aws_efs_file_system.ga_efs.id
+  posix_user {
+    gid = 992
+    uid = 994
+  }
+  root_directory {
+    creation_info {
+      owner_gid   = 992
+      owner_uid   = 994
+      permissions = 777
+    }
+    path = "/${each.value}"
+  }
+  tags = {
+    Name = "${each.value}-${var.BRANCH_NAME}"
+  }
+}
