@@ -52,7 +52,7 @@ resource "aws_efs_access_point" "ga_ap" {
   }
 }
 
-resource "aws_efs_access_point" "ga_ap" {
+resource "aws_efs_access_point" "ga_appppp" {
   for_each = toset(["aaa","bbb"])
   file_system_id  = aws_efs_file_system.ga_efs.id
   posix_user {
