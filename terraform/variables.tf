@@ -55,9 +55,3 @@ variable "MFT_CLUSTER" {
   description = "If set to true, this will start the application in cluster mode."
   default = "TRUE"
 }
-
-variable "VPC_ID" {
-  type = string
-  sensitive = true
-  description = "VPC ID in which to create the security groups."
-}
