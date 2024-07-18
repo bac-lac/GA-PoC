@@ -20,13 +20,13 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
       ga_ap_ghttpsroot    = var.MOD_GA_AP_GHTTPSROOT_ID
     })
     content {
-      name = each.key
+      name = volume.key
 
       efs_volume_configuration {
         file_system_id        = var.MOD_FILE_SYSTEM_ID
         transit_encryption    = "ENABLED"
         authorization_config {
-          access_point_id = each.value
+          access_point_id = volume.value
         }
       }
     }
