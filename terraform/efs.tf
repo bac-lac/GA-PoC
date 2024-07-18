@@ -7,16 +7,11 @@ resource "aws_efs_file_system" "ga_efs" {
   }
 }
 
-resource "aws_efs_mount_target" "ga_efs_mount_target_1" {
-  file_system_id  = aws_efs_file_system.ga_efs.id
-  security_groups = [data.aws_security_group.app.id]           
-  subnet_id       = element(data.aws_subnets.app.ids, 1)
-}
-
-resource "aws_efs_mount_target" "ga_efs_mount_target_2" {
+resource "aws_efs_mount_target" "ga_efs_mount_target" {
+  for_each = toset(data.aws_subnets.app.ids)
   file_system_id  = aws_efs_file_system.ga_efs.id
   security_groups = [data.aws_security_group.app.id]
-  subnet_id       = element(data.aws_subnets.app.ids, 2)
+  subnet_id       = each.key
 }
 
 resource "aws_efs_access_point" "ga_ap" {
