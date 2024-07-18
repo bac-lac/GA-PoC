@@ -9,80 +9,25 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
   }
-  volume {
-    name = "ga_ap_userdata"
+  dynamic "volume" {
+    for_each = tomap({
+      ga_ap_userdata      = var.MOD_GA_AP_USERDATA_ID
+      ga_ap_sharedconfig  = var.MOD_GA_AP_SHAREDCONFIG_ID
+      ga_ap_upgrader      = var.MOD_GA_AP_UPGRADER_ID
+      ga_ap_config        = var.MOD_GA_AP_CONFIG_ID
+      ga_ap_tomcatserver  = var.MOD_GA_AP_TOMCATSERVER_ID
+      ga_ap_tomcatlog     = var.MOD_GA_AP_TOMCATLOG_ID
+      ga_ap_ghttpsroot    = var.MOD_GA_AP_GHTTPSROOT_ID
+    })
+    content {
+      name = each.key
 
-    efs_volume_configuration {
-      file_system_id        = var.MOD_FILE_SYSTEM_ID
-      transit_encryption    = "ENABLED"
-      authorization_config {
-        access_point_id = var.MOD_GA_AP_USERDATA_ID
-      }
-    }
-  }
-  volume {
-  name = "ga_ap_sharedconfig"
-
-  efs_volume_configuration {
-    file_system_id          = var.MOD_FILE_SYSTEM_ID
-    transit_encryption      = "ENABLED"
-    authorization_config {
-      access_point_id = var.MOD_GA_AP_SHAREDCONFIG_ID
-    }
-  }
-  }
-  volume {
-  name = "ga_ap_upgrader"
-
-  efs_volume_configuration {
-    file_system_id          = var.MOD_FILE_SYSTEM_ID
-    transit_encryption      = "ENABLED"
-    authorization_config {
-      access_point_id = var.MOD_GA_AP_UPGRADER_ID
-    }
-  }
-  }
-  volume {
-  name = "ga_ap_config"
-
-  efs_volume_configuration {
-    file_system_id          = var.MOD_FILE_SYSTEM_ID
-    transit_encryption      = "ENABLED"
-    authorization_config {
-      access_point_id = var.MOD_GA_AP_CONFIG_ID
-    }
-  }
-  }
-  volume {
-  name = "ga_ap_tomcatserver"
-
-  efs_volume_configuration {
-    file_system_id          = var.MOD_FILE_SYSTEM_ID
-    transit_encryption      = "ENABLED"
-    authorization_config {
-      access_point_id = var.MOD_GA_AP_TOMCATSERVER_ID
-    }
-  }
-  }
-  volume {
-  name = "ga_ap_tomcatlog"
-
-  efs_volume_configuration {
-    file_system_id          = var.MOD_FILE_SYSTEM_ID
-    transit_encryption      = "ENABLED"
-    authorization_config {
-      access_point_id = var.MOD_GA_AP_TOMCATLOG_ID
-    }
-  }
-  }
-   volume {
-    name = "ga_ap_ghttpsroot"
-
-    efs_volume_configuration {
-      file_system_id        = var.MOD_FILE_SYSTEM_ID
-      transit_encryption    = "ENABLED"
-      authorization_config {
-        access_point_id = var.MOD_GA_AP_GHTTPSROOT_ID
+      efs_volume_configuration {
+        file_system_id        = var.MOD_FILE_SYSTEM_ID
+        transit_encryption    = "ENABLED"
+        authorization_config {
+          access_point_id = each.value
+        }
       }
     }
   }
