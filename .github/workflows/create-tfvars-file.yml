@@ -18,14 +18,18 @@ jobs:
       - name: Setup Terraform variables
         id: vars
         run: |-
-          cat > pipeline.auto.tfvars <<EOF
+          cat > pipeline.auto.tfvars2 <<EOF
+          ACCOUNT = "${{ secrets.ACCOUNT }}"
+          ADMIN_DB_PASSWORD = "${{ secrets.ADMIN_DB_PASSWORD }}"
+          ADMIN_DB_USERNAME = "${{ secrets.ADMIN_DB_USERNAME }}"
           BRANCH_NAME = "${{ github.head_ref || github.ref_name }}"
+          DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
+          DB_USERNAME = "${{ secrets.DB_USERNAME }}"
           ECR_IMAGE = "${{ inputs.ecr_image }}"
           ENV = "${{ vars.ENV }}"
-          DB_USERNAME = "${{ secrets.DB_USERNAME }}"
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
       - name: Print Terraform variables
         id: print
-        run: cat pipeline.auto.tfvars
+        run: cat pipeline.auto.tfvars2

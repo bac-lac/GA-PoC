@@ -8,7 +8,7 @@ on:
 env:
   AWS_REGION : "ca-central-1"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
+  IMAGE_REPO_TAG: /mft:${{ github.head_ref || github.ref_name }}-${{github.sha}}
 
 permissions:
       id-token: write
@@ -65,8 +65,8 @@ jobs:
         id: build-push
         working-directory: ./docker
         run: |
-          docker build -t ${{steps.login-ecr.outputs.registry}}/mft:${{env.IMAGE_TAG}} .
-          docker push ${{steps.login-ecr.outputs.registry}}/mft:${{env.IMAGE_TAG}}
+          docker build -t ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }} .
+          docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
     needs: Build
@@ -103,6 +103,10 @@ jobs:
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
+        
+      - name: Print Terraform variables
+        id: print
+        run: cat pipeline.auto.tfvars2
 
       - name: Terraform-Setup
         id: Setup
