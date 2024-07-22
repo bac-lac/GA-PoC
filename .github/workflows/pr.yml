@@ -103,9 +103,14 @@ jobs:
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
-        
-      - name: Generate task definition file
-        uses: ./.github/actions/test
+
+      - name: Download file
+        uses: actions/download-artifact@v4
+        with:
+          name: upload-file
+      - shell: bash
+        run: |
+          cat pipeline.auto.tfvars2
 
       - name: Terraform-Setup
         id: Setup
