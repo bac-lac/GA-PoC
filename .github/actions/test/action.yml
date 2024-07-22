@@ -9,7 +9,6 @@ runs:
       run: |-
         cat > pipeline.auto.tfvars3 <<EOF
         BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-        ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/mft:${{env.IMAGE_TAG}}"
         ENV = "${{ vars.ENV }}"
         FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
         MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"

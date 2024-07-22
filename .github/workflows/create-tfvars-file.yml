@@ -19,6 +19,10 @@ jobs:
         id: echo
         run: |
           echo "VARS: ${{ toJSON(vars) }}"
+      - name: echo variables
+        id: echo2
+        run: |
+          echo "SECRETS: ${{ toJSON(secrets) }}"
       - name: Setup Terraform variables
         id: vars
         run: |-
