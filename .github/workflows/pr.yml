@@ -83,20 +83,20 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Setup Terraform variables
-          id: vars
-          run: |
-            cat > pipeline.auto.tfvars <<EOF
-            ACCOUNT = "${{ secrets.ACCOUNT }}"
-            ADMIN_DB_PASSWORD = "${{ secrets.ADMIN_DB_PASSWORD }}"
-            ADMIN_DB_USERNAME = "${{ secrets.ADMIN_DB_USERNAME }}"
-            BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-            DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
-            DB_USERNAME = "${{ secrets.DB_USERNAME }}"
-            ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha }}"
-            ENV = "${{ vars.ENV }}"
-            FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
-            MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
-            EOF
+        id: vars
+        run: |-
+          cat > pipeline.auto.tfvars <<EOF
+          ACCOUNT = "${{ secrets.ACCOUNT }}"
+          ADMIN_DB_PASSWORD = "${{ secrets.ADMIN_DB_PASSWORD }}"
+          ADMIN_DB_USERNAME = "${{ secrets.ADMIN_DB_USERNAME }}"
+          BRANCH_NAME = "${{ env.BRANCH_NAME }}"
+          DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
+          DB_USERNAME = "${{ secrets.DB_USERNAME }}"
+          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha }}"
+          ENV = "${{ vars.ENV }}"
+          FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
+          MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
+          EOF
 
       - name: Terraform-Setup
         id: Setup
