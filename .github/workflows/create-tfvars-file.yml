@@ -1,0 +1,13 @@
+name: Reusable workflow example
+
+on:
+  workflow_call:
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Random Number Generator
+        id: random-number-generator
+        run: echo "HELLO WORLD"
+        shell: bash
