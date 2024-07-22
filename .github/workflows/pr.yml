@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/create-tfvars-file.yml
     with:
       environment: "pr"
-      ecr_image: /mft:${{ env.AWS_REGION }}
+      ecr_image: /mft:${{ github.head_ref || github.ref_name }}-${{github.sha}}
     secrets: inherit
   
   Code-check:
