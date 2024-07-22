@@ -92,7 +92,7 @@ jobs:
           BRANCH_NAME = "${{ env.BRANCH_NAME }}"
           DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
           DB_USERNAME = "${{ secrets.DB_USERNAME }}"
-          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha }}"
+          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.REPOSITORY }}:${{ env.BRANCH_NAME }}-${{ github.sha }}"
           ENV = "${{ vars.ENV }}"
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
@@ -116,15 +116,4 @@ jobs:
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply 
-          -var ACCOUNT=${{secrets.ACCOUNT}}
-          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var BRANCH_NAME=${{env.BRANCH_NAME}}
-          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
-          -var DB_USERNAME=${{secrets.DB_USERNAME}}
-          -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
-          -var ENV=${{vars.ENV}}
-          -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
-          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
-          -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
