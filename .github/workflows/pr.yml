@@ -10,7 +10,7 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   REPOSITORY: mft
   IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
-  TF_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  
 
 permissions:
       id-token: write
@@ -66,6 +66,8 @@ jobs:
   Deploy:
     needs: Build
     runs-on: ubuntu-latest
+    env:
+      TF_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     environment: "pr"
     defaults:
       run:
