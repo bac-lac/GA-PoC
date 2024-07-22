@@ -17,7 +17,8 @@ jobs:
     steps:
       - name: echo variables
         id: echo
-        run: echo "VARS: ${{vars}}"
+        run: |
+          echo "VARS: ${{vars}}"
       - name: Setup Terraform variables
         id: vars
         run: |-
