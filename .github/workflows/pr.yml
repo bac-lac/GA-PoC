@@ -84,7 +84,7 @@ jobs:
 
       - name: Setup Terraform variables
           id: vars
-          run: |-
+          run: |
             cat > pipeline.auto.tfvars <<EOF
             ACCOUNT = "${{ secrets.ACCOUNT }}"
             ADMIN_DB_PASSWORD = "${{ secrets.ADMIN_DB_PASSWORD }}"
