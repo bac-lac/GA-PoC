@@ -19,6 +19,8 @@ runs:
         FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
         MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
         EOF
+      shell: bash
     - name: Print Terraform variables
       id: print
       run: cat pipeline.auto.tfvars3
+      shell: bash
