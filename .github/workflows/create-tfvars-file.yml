@@ -14,5 +14,18 @@ jobs:
     steps:
       - name: Random Number Generator
         id: random-number-generator
-        run: echo "HELLO WORLD ${{ secrets.DB_USERNAME }}"
+        run: echo "HELLO WORLD ${{ github.sha }}"
         shell: bash
+      - name: Setup Terraform variables
+        id: vars
+        run: |-
+          cat > pipeline.auto.tfvars <<EOF
+          BRANCH_NAME = "${{ env.BRANCH_NAME }}"
+          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.REPOSITORY }}:${{ env.BRANCH_NAME }}-${{ github.sha }}"
+          ENV = "${{ vars.ENV }}"
+          FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
+          MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
+          EOF
+      - name: Print Terraform variables
+        id: print
+        run: cat pipeline.auto.tfvars
