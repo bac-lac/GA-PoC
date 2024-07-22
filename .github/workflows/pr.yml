@@ -105,7 +105,7 @@ jobs:
           EOF
         
       - name: Generate task definition file
-        uses: ././.github/actions/action.yml
+        uses: ./.github/actions/test-action.yml
 
       - name: Terraform-Setup
         id: Setup

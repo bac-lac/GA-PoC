@@ -1,6 +1,5 @@
-name: generate-task-definition-json
-author: Raphael Moraes
-decription: Action to generate a custom task definition json file
+name: Create tfvars file
+decription: Create a tfvars file that's going to be used by terraform plan/apply.
 
   runs:
     using: "composite"
