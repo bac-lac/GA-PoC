@@ -12,10 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Random Number Generator
         id: random-number-generator
-        run: echo "HELLO WORLD ${{ vars.ENV }}"
+        run: echo "HELLO WORLD ${{ secrets.DB_USERNAME }}"
         shell: bash
