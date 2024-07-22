@@ -6,10 +6,11 @@ on:
 jobs:
   triage:
     runs-on: ubuntu-latest
+    environment: "pr"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Random Number Generator
         id: random-number-generator
         run: echo "HELLO WORLD ${{ vars.ENV }}"
