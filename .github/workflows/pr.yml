@@ -20,6 +20,7 @@ jobs:
     uses: ./.github/workflows/create-tfvars-file.yml
     with:
       environment: "pr"
+    secrets: inherit
   
   Code-check:
     runs-on: ubuntu-latest
