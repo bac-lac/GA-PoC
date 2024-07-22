@@ -8,12 +8,7 @@ runs:
       id: cv
       run: |-
         cat > pipeline.auto.tfvars3 <<EOF
-        ACCOUNT = "${{ secrets.ACCOUNT }}"
-        ADMIN_DB_PASSWORD = "${{ secrets.ADMIN_DB_PASSWORD }}"
-        ADMIN_DB_USERNAME = "${{ secrets.ADMIN_DB_USERNAME }}"
         BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-        DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
-        DB_USERNAME = "${{ secrets.DB_USERNAME }}"
         ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/mft:${{env.IMAGE_TAG}}"
         ENV = "${{ vars.ENV }}"
         FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"

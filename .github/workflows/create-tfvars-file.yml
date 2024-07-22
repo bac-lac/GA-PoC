@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
+      - name: echo variables
+        id: echo
+        run: echo "VARS: ${{vars}}"
       - name: Setup Terraform variables
         id: vars
         run: |-
