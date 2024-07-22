@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION : "ca-central-1"
-  #BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   REPOSITORY: mft
   IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
   TF_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
@@ -101,7 +101,6 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var DB_USERNAME=${{secrets.DB_USERNAME}}
           -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
@@ -115,7 +114,6 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var DB_USERNAME=${{secrets.DB_USERNAME}}
           -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
