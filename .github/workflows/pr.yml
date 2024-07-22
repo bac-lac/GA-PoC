@@ -8,7 +8,6 @@ on:
 env:
   AWS_REGION : "ca-central-1"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  REPOSITORY: mft
   IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
 
 permissions:
@@ -20,6 +19,7 @@ jobs:
     uses: ./.github/workflows/create-tfvars-file.yml
     with:
       environment: "pr"
+      ecr_image: ${{ needs.Build.outputs.ecr_registry }}/mft:${{env.IMAGE_TAG}}
     secrets: inherit
   
   Code-check:
@@ -65,8 +65,8 @@ jobs:
         id: build-push
         working-directory: ./docker
         run: |
-          docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
-          docker push ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
+          docker build -t ${{steps.login-ecr.outputs.registry}}/mft:${{env.IMAGE_TAG}} .
+          docker push ${{steps.login-ecr.outputs.registry}}/mft:${{env.IMAGE_TAG}}
 
   Deploy:
     needs: Build
@@ -98,7 +98,7 @@ jobs:
           BRANCH_NAME = "${{ env.BRANCH_NAME }}"
           DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
           DB_USERNAME = "${{ secrets.DB_USERNAME }}"
-          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.REPOSITORY }}:${{ env.BRANCH_NAME }}-${{ github.sha }}"
+          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/mft:${{env.IMAGE_TAG}}"
           ENV = "${{ vars.ENV }}"
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"

@@ -6,23 +6,23 @@ on:
       environment:
         required: true
         type: string
+      ecr_image:
+        required: true
+        type: string
 
 jobs:
   triage:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - name: Random Number Generator
-        id: random-number-generator
-        run: echo "HELLO WORLD ${{ github.sha }}"
-        shell: bash
       - name: Setup Terraform variables
         id: vars
         run: |-
           cat > pipeline.auto.tfvars <<EOF
-          BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.REPOSITORY }}:${{ env.BRANCH_NAME }}-${{ github.sha }}"
+          BRANCH_NAME = "${{ github.head_ref || github.ref_name }}"
+          ECR_IMAGE = "${{ inputs.ecr_image }}"
           ENV = "${{ vars.ENV }}"
+          DB_USERNAME = "${{ secrets.DB_USERNAME }}"
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
