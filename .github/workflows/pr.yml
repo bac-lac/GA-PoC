@@ -10,7 +10,6 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   REPOSITORY: mft
   IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
-  
 
 permissions:
       id-token: write
@@ -66,8 +65,6 @@ jobs:
   Deploy:
     needs: Build
     runs-on: ubuntu-latest
-    env:
-      TF_BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     environment: "pr"
     defaults:
       run:
@@ -85,6 +82,22 @@ jobs:
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
 
+      - name: Setup Terraform variables
+          id: vars
+          run: |-
+            cat > pipeline.auto.tfvars <<EOF
+            ACCOUNT = "${{ secrets.ACCOUNT }}"
+            ADMIN_DB_PASSWORD = "${{ secrets.ADMIN_DB_PASSWORD }}"
+            ADMIN_DB_USERNAME = "${{ secrets.ADMIN_DB_USERNAME }}"
+            BRANCH_NAME = "${{ env.BRANCH_NAME }}"
+            DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
+            DB_USERNAME = "${{ secrets.DB_USERNAME }}"
+            ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha }}"
+            ENV = "${{ vars.ENV }}"
+            FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
+            MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
+            EOF
+
       - name: Terraform-Setup
         id: Setup
         uses: hashicorp/setup-terraform@v3
@@ -99,16 +112,7 @@ jobs:
 
       - name: Terraform-Plan
         id: Plan
-        run: terraform plan 
-          -var ACCOUNT=${{secrets.ACCOUNT}}
-          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
-          -var DB_USERNAME=${{secrets.DB_USERNAME}}
-          -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
-          -var ENV=${{vars.ENV}}
-          -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
-          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
+        run: terraform plan -var-file="pipeline.auto.tfvars"
 
       - name: Terraform-Apply
         id: Apply
@@ -116,6 +120,7 @@ jobs:
           -var ACCOUNT=${{secrets.ACCOUNT}}
           -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
           -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
+          -var BRANCH_NAME=${{env.BRANCH_NAME}}
           -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
           -var DB_USERNAME=${{secrets.DB_USERNAME}}
           -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
