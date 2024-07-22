@@ -9,5 +9,5 @@ jobs:
     steps:
       - name: Random Number Generator
         id: random-number-generator
-        run: echo "HELLO WORLD"
+        run: echo "HELLO WORLD ${{ env.BRANCH_NAME }}"
         shell: bash
