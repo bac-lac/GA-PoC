@@ -104,9 +104,8 @@ jobs:
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
         
-      - name: Print Terraform variables
-        id: print
-        run: cat pipeline.auto.tfvars2
+      - name: Generate task definition file
+        uses: ./.github/action.yml
 
       - name: Terraform-Setup
         id: Setup
