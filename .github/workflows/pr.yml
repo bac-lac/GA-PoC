@@ -18,6 +18,8 @@ permissions:
 jobs:
   call-workflow-2-in-local-repo:
     uses: ./.github/workflows/create-tfvars-file.yml
+    with:
+      environment: "pr"
   
   Code-check:
     runs-on: ubuntu-latest
