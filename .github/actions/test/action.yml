@@ -8,12 +8,21 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set Greeting
-      run: echo "Hello $INPUT_WHO_TO_GREET."
-      shell: bash
-      env:
-        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+    - name: Setup Terraform variables
+      id: vars
+      run: |-
+        cat > pipeline.auto.tfvars2 <<EOF
+        ACCOUNT = "${{ inputs.who-to-greet }}"
+        ADMIN_DB_PASSWORD = "${{ inputs.who-to-greet }}"
+        ADMIN_DB_USERNAME = "${{ inputs.who-to-greet }}"
+        BRANCH_NAME = "${{ github.head_ref || github.ref_name }}"
+        DB_PASSWORD = "${{ inputs.who-to-greet }}"
+        DB_USERNAME = "${{ inputs.who-to-greet }}"
+        ECR_IMAGE = "${{ inputs.who-to-greet }}"
+        ENV = "${{ inputs.who-to-greet }}"
+        FORCE_REFRESH = "${{ inputs.who-to-greet }}"
+        MFT_CLUSTER = "${{ inputs.who-to-greet }}"
+        EOF
     - name: Print Terraform variables
       id: print
-      run: cat pipeline.auto.tfvars3
-      shell: bash
+      run: cat pipeline.auto.tfvars2
