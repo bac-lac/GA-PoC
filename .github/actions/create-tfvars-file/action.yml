@@ -1,10 +1,10 @@
 name: Create tfvars file
 decription: This action will create a tfvars file with all the variables and secrets from github. It will create a pipeline.auto.tfvars file in the terraform folder.
 inputs:
-  VARS:
+  vars:
     description: 'JSON string of github variables'
     required: true
-  SECRETS:
+  secrets:
     description: 'JSON string of github secrets'
     required: true
 runs:
@@ -13,6 +13,12 @@ runs:
     - name: Export
       working-directory: ./terraform
       run: |
-        echo '${{ inputs.SECRETS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
-        echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.secrets }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.vars }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+      shell: bash
+    
+    - name: Remove repo secrets
+      run: |
+        sed '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
+        cat ./terraform/pipeline.auto.tfvars
       shell: bash
