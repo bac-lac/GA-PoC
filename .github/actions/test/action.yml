@@ -57,10 +57,6 @@ runs:
         MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
         EOF
       shell: bash
-    - name: Print Terraform variables
-      id: print
-      run: cat pipeline.auto.tfvars2
-      shell: bash
     - name: Pwd
       id: pwd
       run: pwd && ls -la
