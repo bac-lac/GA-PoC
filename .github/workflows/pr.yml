@@ -114,7 +114,7 @@ jobs:
       - name: Generate task definition file
         uses: ./.github/actions/test
         with:
-          variables: ${{ vars }}
+          variables: ${{ toJSON(vars) }}
       - name: Print Terraform variables3
         id: print3
         run: cat pipeline.auto.tfvars3
