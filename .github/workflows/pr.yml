@@ -91,7 +91,7 @@ jobs:
           BRANCH_NAME = "${{ env.BRANCH_NAME }}"
           DB_PASSWORD = "${{ secrets.DB_PASSWORD }}"
           DB_USERNAME = "${{ secrets.DB_USERNAME }}"
-          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ IMAGE_REPO_TAG }}"
+          ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"
           ENV = "${{ vars.ENV }}"
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
