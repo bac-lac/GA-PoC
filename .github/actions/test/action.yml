@@ -2,6 +2,7 @@ name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
   BRANCH_NAME:
+  variables:
 runs:
   using: "composite"
   steps:
@@ -9,6 +10,7 @@ runs:
       id: echo
       run: |
         echo "variables: ${{ toJSON(inputs.variables) }}"
+      shell: bash
     - name: composite variables
       id: cv
       run: |-

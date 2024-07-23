@@ -100,6 +100,7 @@ jobs:
         uses: ./.github/actions/test
         with:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          variable: ${{ vars }}
       - name: Print Terraform variables3
         id: print3
         run: cat pipeline.auto.tfvars3
