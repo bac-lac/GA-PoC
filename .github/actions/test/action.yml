@@ -29,6 +29,16 @@ runs:
       run: |
         echo "VARS: ${{ inputs.VARS }}"
       shell: bash
+    - name: jq
+      id: jq
+      run: |
+        echo "${{ inputs.VARS }}" |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
+      shell: bash
+    - name: cat
+      id: cat
+      run: |
+        cat test.log
+      shell: bash
     - name: Setup Terraform variables
       working-directory: ./terraform
       id: vars
