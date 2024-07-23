@@ -2,7 +2,6 @@ name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
   ACCOUNT:  # id of input
-    description: 'Who to greet'
     required: true
   ADMIN_DB_PASSWORD:  # id of input
     description: 'Who to greet'
