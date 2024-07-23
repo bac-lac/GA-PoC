@@ -1,14 +1,14 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
-  vars:  # id of input
+  variables:  # id of input
 runs:
   using: "composite"
   steps:
     - name: echo variables
       id: echo
       run: |
-        echo "VARS: ${{ toJSON(inputs.vars) }}"
+        echo "variables: ${{ toJSON(inputs.variables) }}"
     # - name: composite variables
     #   id: cv
       # run: |-
