@@ -20,5 +20,6 @@ runs:
     - name: Remove repo secrets
       run: |
         sed -i '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
+        sed -i '/USER_TOKEN/d' ./terraform/pipeline.auto.tfvars
         cat ./terraform/pipeline.auto.tfvars
       shell: bash

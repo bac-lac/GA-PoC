@@ -106,7 +106,7 @@ jobs:
 
       - name: Terraform-Plan
         id: Plan
-        run: terraform plan -var-file="pipeline.auto.tfvars" -compact-warnings
+        run: terraform plan -var-file="pipeline.auto.tfvars"
 
       # - name: Terraform-Apply
       #   id: Apply
