@@ -1,23 +1,7 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
-  ACCOUNT:
-    required: true
-  ADMIN_DB_PASSWORD:
-    required: true
-  ADMIN_DB_USERNAME:
-    required: true
-  DB_PASSWORD:
-    required: true
-  DB_USERNAME:
-    required: true
   ECR_IMAGE:
-    required: true
-  ENV:
-    required: true
-  FORCE_REFRESH:
-    required: true
-  MFT_CLUSTER:
     required: true
   VARS:
     required: true
@@ -35,9 +19,10 @@ runs:
       working-directory: ./terraform
       id: jq
       run: |
+        echo 'ECR_IMAGE = "${{ inputs.ECR_IMAGE }}"' >> pipeline.auto.tfvars
         echo '${{ inputs.SECRETS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
-        echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipelie.auto.tfvars
-        echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipelie.auto.tfvars
+        echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
       shell: bash
     # - name: cat
     #   id: cat
