@@ -2,26 +2,16 @@ name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
   BRANCH_NAME:
-  variables:
 runs:
   using: "composite"
   steps:
-    - name: echo variables
-      id: echo
-      run: |
-        echo "variables: ${variables}"
-      shell: bash
-      env:
-        variables: ${{ inputs.variables }}
     - name: composite variables
       id: cv
       run: |-
         cat > pipeline.auto.tfvars3 <<EOF
-        BRANCH_NAME = "$BRANCH_NAME"
+        BRANCH_NAME = "${{ inputs.BRANCH_NAME }}"
         EOF
       shell: bash
-      env:
-        BRANCH_NAME: ${{ inputs.BRANCH_NAME }}
     - name: Print Terraform variables
       id: print
       run: cat pipeline.auto.tfvars3
