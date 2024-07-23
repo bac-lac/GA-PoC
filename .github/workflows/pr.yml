@@ -109,9 +109,8 @@ jobs:
           ENV: ${{ vars.ENV }}
           FORCE_REFRESH: ${{ vars.FORCE_REFRESH }}
           MFT_CLUSTER: ${{ vars.MFT_CLUSTER }}
-          VARS: ${{ vars }}
+          VARS: ${{ toJSON(vars) }}
           
-
       - name: Print Terraform variables
         id: print
         run: cat pipeline.auto.tfvars

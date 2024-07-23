@@ -27,7 +27,7 @@ runs:
     - name: echo variables
       id: echo2
       run: |
-        echo "VARS: ${{ toJSON(inputs.VARS) }}"
+        echo "VARS: ${{ inputs.VARS }}"
       shell: bash
     - name: Setup Terraform variables
       working-directory: ./terraform
