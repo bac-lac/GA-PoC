@@ -1,7 +1,7 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
-  who-to-greet:  # id of input
+  account:  # id of input
     description: 'Who to greet'
     required: true
     default: 'World'
@@ -12,16 +12,16 @@ runs:
       id: vars
       run: |-
         cat > pipeline.auto.tfvars2 <<EOF
-        ACCOUNT = "${{ inputs.who-to-greet }}"
-        ADMIN_DB_PASSWORD = "${{ inputs.who-to-greet }}"
-        ADMIN_DB_USERNAME = "${{ inputs.who-to-greet }}"
-        BRANCH_NAME = "${{ github.head_ref || github.ref_name }}"
-        DB_PASSWORD = "${{ inputs.who-to-greet }}"
-        DB_USERNAME = "${{ inputs.who-to-greet }}"
-        ECR_IMAGE = "${{ inputs.who-to-greet }}"
-        ENV = "${{ inputs.who-to-greet }}"
-        FORCE_REFRESH = "${{ inputs.who-to-greet }}"
-        MFT_CLUSTER = "${{ inputs.who-to-greet }}"
+        ACCOUNT = "${{ inputs.account }}"
+        ADMIN_DB_PASSWORD = "${{ inputs.account }}"
+        ADMIN_DB_USERNAME = "${{ inputs.account }}"
+        BRANCH_NAME = "${{ env.BRANCH_NAME }}"
+        DB_PASSWORD = "${{ inputs.account }}"
+        DB_USERNAME = "${{ inputs.account }}"
+        ECR_IMAGE = "${{ env.IMAGE_REPO_TAG }}"
+        ENV = "${{ inputs.account }}"
+        FORCE_REFRESH = "${{ inputs.account }}"
+        MFT_CLUSTER = "${{ inputs.account }}"
         EOF
       shell: bash
     - name: Print Terraform variables
