@@ -69,7 +69,7 @@ jobs:
   #         docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
-    needs: Build
+    # needs: Build
     runs-on: ubuntu-latest
     environment: "pr"
     defaults:
