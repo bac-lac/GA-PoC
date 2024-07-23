@@ -54,5 +54,6 @@ runs:
         ENV = "${{ inputs.ENV }}"
         FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
         MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
+        FAKE_VAR = "FAKE_VALUE"
         EOF
       shell: bash
