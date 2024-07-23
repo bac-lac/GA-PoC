@@ -32,37 +32,37 @@ jobs:
           directory: terraform
           output_format: cli
 
-  # Build:
-  #   needs: Code-check
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     ecr_registry: ${{ steps.login-ecr.outputs.registry }}
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  Build:
+    needs: Code-check
+    runs-on: ubuntu-latest
+    outputs:
+      ecr_registry: ${{ steps.login-ecr.outputs.registry }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         role-to-assume: ${{secrets.AWS_GITHUB_DEVOPS_ROLE}}
-  #         role-session-name: GitHub_to_AWS_via_FederatedOIDC
-  #         aws-region: ${{env.AWS_REGION}}
-  #         role-skip-session-tagging: true
-  #         audience: sts.amazonaws.com
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{secrets.AWS_GITHUB_DEVOPS_ROLE}}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{env.AWS_REGION}}
+          role-skip-session-tagging: true
+          audience: sts.amazonaws.com
 
-  #     - name: Login to Amazon ECR
-  #       id: login-ecr
-  #       uses: aws-actions/amazon-ecr-login@v2
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-  #     - name: Build, tag, and push docker image to Amazon ECR
-  #       id: build-push
-  #       working-directory: ./docker
-  #       run: |
-  #         docker build -t ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }} .
-  #         docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
+      - name: Build, tag, and push docker image to Amazon ECR
+        id: build-push
+        working-directory: ./docker
+        run: |
+          docker build -t ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }} .
+          docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
-    # needs: Build
+    needs: Build
     runs-on: ubuntu-latest
     environment: "pr"
     defaults:
@@ -112,6 +112,6 @@ jobs:
         id: Plan
         run: terraform plan -var-file="pipeline.auto.tfvars"
 
-      # - name: Terraform-Apply
-      #   id: Apply
-      #   run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
+      - name: Terraform-Apply
+        id: Apply
+        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
