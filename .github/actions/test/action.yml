@@ -5,11 +5,11 @@ runs:
   using: "composite"
   steps:
     - name: echo variables
-        id: echo
-        run: |
-          echo "VARS: ${{ toJSON(vars) }}"
-    - name: composite variables
-      id: cv
+      id: echo
+      run: |
+        echo "VARS: ${{ toJSON(vars) }}"
+    # - name: composite variables
+    #   id: cv
       # run: |-
       #   cat > pipeline.auto.tfvars3 <<EOF
       #   BRANCH_NAME = "${{ env.BRANCH_NAME }}"
@@ -17,7 +17,7 @@ runs:
       #   FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
       #   MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
       #   EOF
-      shell: bash
+      # shell: bash
     - name: Print Terraform variables
       id: print
       run: cat pipeline.auto.tfvars3
