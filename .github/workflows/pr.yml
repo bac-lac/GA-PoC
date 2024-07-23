@@ -110,6 +110,7 @@ jobs:
           FORCE_REFRESH: ${{ vars.FORCE_REFRESH }}
           MFT_CLUSTER: ${{ vars.MFT_CLUSTER }}
           SECRETS: ${{ toJSON(secrets) }}
+          VARS: ${{ toJSON(vars) }}
           
       - name: Print Terraform variables
         id: print
