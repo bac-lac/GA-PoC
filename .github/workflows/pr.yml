@@ -99,9 +99,10 @@ jobs:
       - name: Generate task definition file
         uses: ./.github/actions/test
         with:
+          ECR_IMAGE: "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"
           ENV: ${{ vars.ENV }}
-          FORCE_REFRESH: 'a'
-          MFT_CLUSTER: 'b'
+          FORCE_REFRESH: ${{ vars.FORCE_REFRESH }}
+          MFT_CLUSTER: ${{ vars.MFT_CLUSTER }}
       # - name: Print Terraform variables3
       #   id: print3
       #   run: cat pipeline.auto.tfvars3

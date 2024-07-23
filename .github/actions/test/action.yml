@@ -1,6 +1,10 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
+  ECR_IMAGE:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
   ENV:  # id of input
     description: 'Who to greet'
     required: true
@@ -26,7 +30,7 @@ runs:
         BRANCH_NAME = "${{ env.BRANCH_NAME }}"
         DB_PASSWORD = "${{ inputs.ENV }}"
         DB_USERNAME = "${{ inputs.ENV }}"
-        ECR_IMAGE = "${{ env.IMAGE_REPO_TAG }}"
+        ECR_IMAGE = "${{ inputs.ECR_IMAGE }}"
         ENV = "${{ inputs.ENV }}"
         FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
         MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
