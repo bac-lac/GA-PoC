@@ -41,8 +41,8 @@ jobs:
       - name: Print Terraform variables
         id: print
         run: cat pipeline.auto.tfvars2
-      - name: Upload file
-        uses: actions/upload-artifact@v4
-        with:
-          name: upload-file
-          path: pipeline.auto.tfvars2
+      # - name: Upload file
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: upload-file
+      #     path: pipeline.auto.tfvars2
