@@ -104,10 +104,6 @@ jobs:
             -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" 
             -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
-      - name: Terraform-Plan
-        id: Plan
-        run: terraform plan -var-file="pipeline.auto.tfvars"
-
-      # - name: Terraform-Apply
-      #   id: Apply
-      #   run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
+      - name: Terraform-Apply
+        id: Apply
+        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve

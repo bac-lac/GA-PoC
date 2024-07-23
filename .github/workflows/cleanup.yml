@@ -49,14 +49,4 @@ jobs:
 
       - name: Terraform-Destroy
         id: Destroy
-        run: terraform destroy 
-          -var ACCOUNT=${{secrets.ACCOUNT}}
-          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var BRANCH_NAME=${{env.BRANCH_NAME}}
-          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
-          -var DB_USERNAME=${{secrets.DB_USERNAME}}
-          -var ECR_IMAGE=
-          -var ENV=${{vars.ENV}}
-          -var FORCE_REFRESH=
-          -auto-approve
+        run: terraform destroy -auto-approve
