@@ -23,6 +23,8 @@ runs:
         FORCE_REFRESH = "${{ inputs.who-to-greet }}"
         MFT_CLUSTER = "${{ inputs.who-to-greet }}"
         EOF
+      shell: bash
     - name: Print Terraform variables
       id: print
       run: cat pipeline.auto.tfvars2
+      shell: bash
