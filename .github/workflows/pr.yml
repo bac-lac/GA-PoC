@@ -88,6 +88,9 @@ jobs:
           SECRETS: ${{ toJSON(secrets) }}
           VARS: ${{ toJSON(vars) }}
           
+      - name: Add Dynamic Variables
+        run: echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars  
+          
       - name: Print Terraform variables
         id: print
         run: cat pipeline.auto.tfvars
