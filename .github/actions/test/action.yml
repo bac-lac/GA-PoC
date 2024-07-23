@@ -19,7 +19,7 @@ inputs:
     required: true
   MFT_CLUSTER:
     required: true
-  VARS:
+  SECRETS:
     required: true
 runs:
   using: "composite"
@@ -27,12 +27,12 @@ runs:
     - name: echo variables
       id: echo2
       run: |
-        echo "VARS: ${{ inputs.VARS }}"
+        echo "SECRETS: ${{ inputs.SECRETS }}"
       shell: bash
     - name: jq
       id: jq
       run: |
-        echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
+        echo '${{ inputs.SECRETS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
       shell: bash
     - name: cat
       id: cat
@@ -54,6 +54,5 @@ runs:
         ENV = "${{ inputs.ENV }}"
         FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
         MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
-        FAKE_VAR = "FAKE_VALUE"
         EOF
       shell: bash

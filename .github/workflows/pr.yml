@@ -109,7 +109,7 @@ jobs:
           ENV: ${{ vars.ENV }}
           FORCE_REFRESH: ${{ vars.FORCE_REFRESH }}
           MFT_CLUSTER: ${{ vars.MFT_CLUSTER }}
-          VARS: ${{ toJSON(vars) }}
+          SECRETS: ${{ toJSON(secrets) }}
           
       - name: Print Terraform variables
         id: print
