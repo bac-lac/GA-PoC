@@ -5,6 +5,22 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
+  ADMIN_DB_PASSWORD:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+  ADMIN_DB_USERNAME:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+  DB_PASSWORD:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+  DB_USERNAME:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
   ECR_IMAGE:  # id of input
     description: 'Who to greet'
     required: true
@@ -29,11 +45,11 @@ runs:
       run: |-
         cat > pipeline.auto.tfvars2 <<EOF
         ACCOUNT = "${{ inputs.ACCOUNT }}"
-        ADMIN_DB_PASSWORD = "${{ inputs.ENV }}"
-        ADMIN_DB_USERNAME = "${{ inputs.ENV }}"
+        ADMIN_DB_PASSWORD = "${{ inputs.ADMIN_DB_PASSWORD }}"
+        ADMIN_DB_USERNAME = "${{ inputs.ADMIN_DB_USERNAME }}"
         BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-        DB_PASSWORD = "${{ inputs.ENV }}"
-        DB_USERNAME = "${{ inputs.ENV }}"
+        DB_PASSWORD = "${{ inputs.DB_PASSWORD }}"
+        DB_USERNAME = "${{ inputs.DB_USERNAME }}"
         ECR_IMAGE = "${{ inputs.ECR_IMAGE }}"
         ENV = "${{ inputs.ENV }}"
         FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
