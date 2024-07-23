@@ -1,40 +1,24 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
-  ACCOUNT:  # id of input
+  ACCOUNT:
     required: true
-  ADMIN_DB_PASSWORD:  # id of input
-    description: 'Who to greet'
+  ADMIN_DB_PASSWORD:
     required: true
-    default: 'World'
-  ADMIN_DB_USERNAME:  # id of input
-    description: 'Who to greet'
+  ADMIN_DB_USERNAME:
     required: true
-    default: 'World'
-  DB_PASSWORD:  # id of input
-    description: 'Who to greet'
+  DB_PASSWORD:
     required: true
-    default: 'World'
-  DB_USERNAME:  # id of input
-    description: 'Who to greet'
+  DB_USERNAME:
     required: true
-    default: 'World'
-  ECR_IMAGE:  # id of input
-    description: 'Who to greet'
+  ECR_IMAGE:
     required: true
-    default: 'World'
-  ENV:  # id of input
-    description: 'Who to greet'
+  ENV:
     required: true
-    default: 'World'
-  FORCE_REFRESH:  # id of input
-    description: 'Who to greet'
+  FORCE_REFRESH:
     required: true
-    default: 'World'
-  MFT_CLUSTER:  # id of input
-    description: 'Who to greet'
+  MFT_CLUSTER:
     required: true
-    default: 'World'
 runs:
   using: "composite"
   steps:
