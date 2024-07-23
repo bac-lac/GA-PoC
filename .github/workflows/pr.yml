@@ -84,7 +84,7 @@ jobs:
       - name: Create tfvars file
         uses: ./.github/actions/create-tfvars-file
         with:
-          SECRETS: ${{ secrets }}
+          SECRETS: ${{ toJSON(secrets) }}
           VARS: ${{ toJSON(vars) }}
           
       - name: Add Dynamic Variables to tfvars
