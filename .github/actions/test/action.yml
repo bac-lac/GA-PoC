@@ -1,6 +1,10 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
+  ACCOUNT:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
   ECR_IMAGE:  # id of input
     description: 'Who to greet'
     required: true
@@ -24,7 +28,7 @@ runs:
       id: vars
       run: |-
         cat > pipeline.auto.tfvars2 <<EOF
-        ACCOUNT = "${{ inputs.ENV }}"
+        ACCOUNT = "${{ inputs.ACCOUNT }}"
         ADMIN_DB_PASSWORD = "${{ inputs.ENV }}"
         ADMIN_DB_USERNAME = "${{ inputs.ENV }}"
         BRANCH_NAME = "${{ env.BRANCH_NAME }}"
