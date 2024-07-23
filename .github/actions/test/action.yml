@@ -19,9 +19,15 @@ inputs:
     required: true
   MFT_CLUSTER:
     required: true
+  VARS:
+    required: true
 runs:
   using: "composite"
   steps:
+    - name: echo variables
+      id: echo2
+      run: |
+        echo "VARS: ${{ toJSON(input.VARS) }}"
     - name: Setup Terraform variables
       working-directory: ./terraform
       id: vars
