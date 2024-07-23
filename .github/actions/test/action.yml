@@ -8,7 +8,7 @@ runs:
     - name: echo variables
       id: echo
       run: |
-        echo "VARS: ${{ toJSON(input.vars) }}"
+        echo "VARS: ${{ toJSON(inputs.vars) }}"
     # - name: composite variables
     #   id: cv
       # run: |-
