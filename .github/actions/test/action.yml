@@ -15,7 +15,7 @@ runs:
       id: cv
       run: |-
         cat > pipeline.auto.tfvars3 <<EOF
-        BRANCH_NAME = "${{ input.BRANCH_NAME }}"
+        BRANCH_NAME = "${{ inputs.BRANCH_NAME }}"
         EOF
       shell: bash
     - name: Print Terraform variables
