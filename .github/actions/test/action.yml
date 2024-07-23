@@ -57,7 +57,3 @@ runs:
         MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
         EOF
       shell: bash
-    - name: Pwd
-      id: pwd
-      run: pwd && ls -la
-      shell: bash

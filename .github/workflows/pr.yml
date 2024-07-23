@@ -96,6 +96,7 @@ jobs:
           FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
+          
       - name: Generate task definition file
         uses: ./.github/actions/test
         with:
@@ -108,12 +109,10 @@ jobs:
           ADMIN_DB_USERNAME: ${{ secrets.ADMIN_DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      - name: Pwd
-        id: pwd
-        run: pwd && ls -la
+
       - name: Print Terraform variables
         id: print
-        run: cat pipeline.auto.tfvars
+        run: cat pipeline.auto.tfvars2
 
       - name: Terraform-Setup
         id: Setup
