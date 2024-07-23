@@ -1,8 +1,6 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
-  ECR_IMAGE:
-    required: true
   VARS:
     required: true
   SECRETS:
@@ -14,7 +12,6 @@ runs:
       working-directory: ./terraform
       id: jq
       run: |
-        echo 'ECR_IMAGE = "${{ inputs.ECR_IMAGE }}"' >> pipeline.auto.tfvars
         echo '${{ inputs.SECRETS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
         echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
       shell: bash

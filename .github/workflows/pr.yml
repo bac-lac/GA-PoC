@@ -84,12 +84,13 @@ jobs:
       - name: Create tfvars file
         uses: ./.github/actions/create-tfvars-file
         with:
-          ECR_IMAGE: "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"
           SECRETS: ${{ toJSON(secrets) }}
           VARS: ${{ toJSON(vars) }}
           
-      - name: Add Dynamic Variables
-        run: echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars  
+      - name: Add Dynamic Variables to tfvars
+        run: |
+          echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
+          echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"' >> pipeline.auto.tfvars 
           
       - name: Print Terraform variables
         id: print
