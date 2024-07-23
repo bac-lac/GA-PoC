@@ -15,13 +15,6 @@ permissions:
       contents: read
 
 jobs:
-  call-workflow-2-in-local-repo:
-    uses: ./.github/workflows/create-tfvars-file.yml
-    with:
-      environment: "pr"
-      ecr_image: /mft:${{ github.head_ref || github.ref_name }}-${{github.sha}}
-    secrets: inherit
-  
   Code-check:
     runs-on: ubuntu-latest
     steps:
@@ -104,20 +97,9 @@ jobs:
           MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
           EOF
 
-      # - name: Download file
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: upload-file
-      # - shell: bash
-      #   run: |
-      #     cat pipeline.auto.tfvars2
-      - name: Generate task definition file
-        uses: ./.github/actions/test
-        with:
-          variables: "${{ toJSON(vars) }}"
       - name: Print Terraform variables3
         id: print3
-        run: cat pipeline.auto.tfvars3
+        run: cat pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
