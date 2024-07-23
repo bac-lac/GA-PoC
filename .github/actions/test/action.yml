@@ -4,15 +4,19 @@ decription: Create a tfvars file that's going to be used by terraform plan/apply
 runs:
   using: "composite"
   steps:
+    - name: echo variables
+        id: echo
+        run: |
+          echo "VARS: ${{ toJSON(vars) }}"
     - name: composite variables
       id: cv
-      run: |-
-        cat > pipeline.auto.tfvars3 <<EOF
-        BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-        ENV = "${{ vars.ENV }}"
-        FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
-        MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
-        EOF
+      # run: |-
+      #   cat > pipeline.auto.tfvars3 <<EOF
+      #   BRANCH_NAME = "${{ env.BRANCH_NAME }}"
+      #   ENV = "${{ vars.ENV }}"
+      #   FORCE_REFRESH = "${{ vars.FORCE_REFRESH }}"
+      #   MFT_CLUSTER = "${{ vars.MFT_CLUSTER }}"
+      #   EOF
       shell: bash
     - name: Print Terraform variables
       id: print
