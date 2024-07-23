@@ -9,6 +9,7 @@ env:
   AWS_REGION : "ca-central-1"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   IMAGE_REPO_TAG: mft:${{ github.head_ref || github.ref_name }}-${{github.sha}}
+  TF_VAR_AWS_GITHUB_DEVOPS_ROLE:
 
 permissions:
       id-token: write
@@ -90,11 +91,7 @@ jobs:
       - name: Add Dynamic Variables to tfvars
         run: |
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
-          echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"' >> pipeline.auto.tfvars 
-          
-      - name: Print Terraform variables
-        id: print
-        run: cat pipeline.auto.tfvars
+          echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"' >> pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
@@ -112,6 +109,6 @@ jobs:
         id: Plan
         run: terraform plan -var-file="pipeline.auto.tfvars"
 
-      - name: Terraform-Apply
-        id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
+      # - name: Terraform-Apply
+      #   id: Apply
+      #   run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
