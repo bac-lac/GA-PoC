@@ -108,13 +108,10 @@ jobs:
           ADMIN_DB_USERNAME: ${{ secrets.ADMIN_DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      # - name: Print Terraform variables3
-      #   id: print3
-      #   run: cat pipeline.auto.tfvars3
 
       - name: Print Terraform variables
         id: print
-        run: cat pipeline.auto.tfvars2
+        run: cat pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup

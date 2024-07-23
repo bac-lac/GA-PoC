@@ -60,3 +60,7 @@ runs:
       id: print
       run: cat pipeline.auto.tfvars2
       shell: bash
+    - name: Pwd
+      id: pwd
+      run: pwd
+      shell: bash
