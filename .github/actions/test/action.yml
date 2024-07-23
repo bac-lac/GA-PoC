@@ -9,7 +9,7 @@ runs:
     - name: echo variables
       id: echo
       run: |
-        echo "variables: ${{ toJSON(variables) }}"
+        echo "variables: ${variables}"
       shell: bash
       env:
         variables: ${{ inputs.variables }}
@@ -17,7 +17,7 @@ runs:
       id: cv
       run: |-
         cat > pipeline.auto.tfvars3 <<EOF
-        BRANCH_NAME = "${{ BRANCH_NAME }}"
+        BRANCH_NAME = "$BRANCH_NAME"
         EOF
       shell: bash
       env:
