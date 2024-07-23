@@ -9,15 +9,19 @@ runs:
     - name: echo variables
       id: echo
       run: |
-        echo "variables: ${{ toJSON(inputs.variables) }}"
+        echo "variables: ${{ toJSON(variables) }}"
       shell: bash
+      env:
+        variables: ${{ inputs.variables }}
     - name: composite variables
       id: cv
       run: |-
         cat > pipeline.auto.tfvars3 <<EOF
-        BRANCH_NAME = "${{ inputs.BRANCH_NAME }}"
+        BRANCH_NAME = "${{ BRANCH_NAME }}"
         EOF
       shell: bash
+      env:
+        BRANCH_NAME: ${{ inputs.BRANCH_NAME }}
     - name: Print Terraform variables
       id: print
       run: cat pipeline.auto.tfvars3
