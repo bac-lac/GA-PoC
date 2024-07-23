@@ -62,5 +62,5 @@ runs:
       shell: bash
     - name: Pwd
       id: pwd
-      run: pwd
+      run: pwd && ls -la
       shell: bash
