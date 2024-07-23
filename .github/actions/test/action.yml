@@ -2,9 +2,6 @@ name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
   ACCOUNT:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
   ADMIN_DB_PASSWORD:  # id of input
     description: 'Who to greet'
     required: true
@@ -44,7 +41,7 @@ runs:
       working-directory: ./terraform
       id: vars
       run: |-
-        cat > pipeline.auto.tfvars2 <<EOF
+        cat > pipeline.auto.tfvars <<EOF
         ACCOUNT = "${{ inputs.ACCOUNT }}"
         ADMIN_DB_PASSWORD = "${{ inputs.ADMIN_DB_PASSWORD }}"
         ADMIN_DB_USERNAME = "${{ inputs.ADMIN_DB_USERNAME }}"

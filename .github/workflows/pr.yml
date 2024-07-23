@@ -113,7 +113,7 @@ jobs:
 
       - name: Print Terraform variables
         id: print
-        run: cat pipeline.auto.tfvars2
+        run: cat pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
