@@ -32,7 +32,7 @@ runs:
     - name: jq
       id: jq
       run: |
-        echo "${{ inputs.VARS }}" |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
+        echo ${{ inputs.VARS }} |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
       shell: bash
     - name: cat
       id: cat
