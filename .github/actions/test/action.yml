@@ -5,6 +5,14 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
+  FORCE_REFRESH:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+  MFT_CLUSTER:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
 runs:
   using: "composite"
   steps:
@@ -20,8 +28,8 @@ runs:
         DB_USERNAME = "${{ inputs.ENV }}"
         ECR_IMAGE = "${{ env.IMAGE_REPO_TAG }}"
         ENV = "${{ inputs.ENV }}"
-        FORCE_REFRESH = "${{ inputs.ENV }}"
-        MFT_CLUSTER = "${{ inputs.ENV }}"
+        FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
+        MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
         EOF
       shell: bash
     - name: Print Terraform variables

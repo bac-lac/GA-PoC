@@ -100,6 +100,8 @@ jobs:
         uses: ./.github/actions/test
         with:
           ENV: 'Mona the Octocat'
+          FORCE_REFRESH: 'a'
+          MFT_CLUSTER: 'b'
       # - name: Print Terraform variables3
       #   id: print3
       #   run: cat pipeline.auto.tfvars3
