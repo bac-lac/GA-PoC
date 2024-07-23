@@ -1,17 +1,18 @@
 name: Create tfvars file
 decription: Create a tfvars file that's going to be used by terraform plan/apply.
 inputs:
-  BRANCH_NAME:
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
 runs:
   using: "composite"
   steps:
-    - name: composite variables
-      id: cv
-      run: |-
-        cat > pipeline.auto.tfvars3 <<EOF
-        BRANCH_NAME = "${{ inputs.BRANCH_NAME }}"
-        EOF
+    - name: Set Greeting
+      run: echo "Hello $INPUT_WHO_TO_GREET."
       shell: bash
+      env:
+        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
     - name: Print Terraform variables
       id: print
       run: cat pipeline.auto.tfvars3
