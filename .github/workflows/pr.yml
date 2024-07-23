@@ -100,15 +100,7 @@ jobs:
       - name: Generate task definition file
         uses: ./.github/actions/test
         with:
-          ACCOUNT: ${{ secrets.ACCOUNT }}
-          ADMIN_DB_PASSWORD: ${{ secrets.ADMIN_DB_PASSWORD }}
-          ADMIN_DB_USERNAME: ${{ secrets.ADMIN_DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
           ECR_IMAGE: "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"
-          ENV: ${{ vars.ENV }}
-          FORCE_REFRESH: ${{ vars.FORCE_REFRESH }}
-          MFT_CLUSTER: ${{ vars.MFT_CLUSTER }}
           SECRETS: ${{ toJSON(secrets) }}
           VARS: ${{ toJSON(vars) }}
           
