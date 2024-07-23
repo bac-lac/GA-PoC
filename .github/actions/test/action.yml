@@ -26,36 +26,37 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: echo variables
-      id: echo2
-      run: |
-        echo "SECRETS: ${{ inputs.SECRETS }}"
-      shell: bash
+    # - name: echo variables
+    #   id: echo2
+    #   run: |
+    #     echo "SECRETS: ${{ inputs.SECRETS }}"
+    #   shell: bash
     - name: jq
+      working-directory: ./terraform
       id: jq
       run: |
-        echo '${{ inputs.SECRETS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
-        echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> test.log
+        echo '${{ inputs.SECRETS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.VARS }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
       shell: bash
     - name: cat
       id: cat
       run: |
-        cat test.log
+        cat pipeline.auto.tfvars
       shell: bash
-    - name: Setup Terraform variables
-      working-directory: ./terraform
-      id: vars
-      run: |-
-        cat > pipeline.auto.tfvars <<EOF
-        ACCOUNT = "${{ inputs.ACCOUNT }}"
-        ADMIN_DB_PASSWORD = "${{ inputs.ADMIN_DB_PASSWORD }}"
-        ADMIN_DB_USERNAME = "${{ inputs.ADMIN_DB_USERNAME }}"
-        BRANCH_NAME = "${{ env.BRANCH_NAME }}"
-        DB_PASSWORD = "${{ inputs.DB_PASSWORD }}"
-        DB_USERNAME = "${{ inputs.DB_USERNAME }}"
-        ECR_IMAGE = "${{ inputs.ECR_IMAGE }}"
-        ENV = "${{ inputs.ENV }}"
-        FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
-        MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
-        EOF
-      shell: bash
+    # - name: Setup Terraform variables
+    #   working-directory: ./terraform
+    #   id: vars
+    #   run: |-
+    #     cat > pipeline.auto.tfvars <<EOF
+    #     ACCOUNT = "${{ inputs.ACCOUNT }}"
+    #     ADMIN_DB_PASSWORD = "${{ inputs.ADMIN_DB_PASSWORD }}"
+    #     ADMIN_DB_USERNAME = "${{ inputs.ADMIN_DB_USERNAME }}"
+    #     BRANCH_NAME = "${{ env.BRANCH_NAME }}"
+    #     DB_PASSWORD = "${{ inputs.DB_PASSWORD }}"
+    #     DB_USERNAME = "${{ inputs.DB_USERNAME }}"
+    #     ECR_IMAGE = "${{ inputs.ECR_IMAGE }}"
+    #     ENV = "${{ inputs.ENV }}"
+    #     FORCE_REFRESH = "${{ inputs.FORCE_REFRESH }}"
+    #     MFT_CLUSTER = "${{ inputs.MFT_CLUSTER }}"
+    #     EOF
+    #   shell: bash
