@@ -53,8 +53,8 @@ jobs:
         if: ${{vars.ENV == 'dev'}}
         working-directory: ./docker
         run: |
-          docker build -t ${{steps.login-ecr.outputs.registry}}/${{IMAGE_REPO_TAG}} .
-          docker push ${{steps.login-ecr.outputs.registry}}/${{IMAGE_REPO_TAG}}
+          docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.IMAGE_REPO_TAG}} .
+          docker push ${{steps.login-ecr.outputs.registry}}/${{env.IMAGE_REPO_TAG}}
       
       - name: Create tfvars file
         uses: ./.github/actions/create-tfvars-file
