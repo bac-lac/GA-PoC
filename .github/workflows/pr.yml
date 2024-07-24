@@ -8,8 +8,7 @@ on:
 env:
   AWS_REGION : "ca-central-1"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  REPOSITORY: mft
-  IMAGE_TAG: "${{ github.head_ref || github.ref_name }}-${{github.sha}}"
+  IMAGE_REPO_TAG: mft:${{ github.head_ref || github.ref_name }}-${{github.sha}}
 
 permissions:
       id-token: write
@@ -59,8 +58,8 @@ jobs:
         id: build-push
         working-directory: ./docker
         run: |
-          docker build -t ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}} .
-          docker push ${{steps.login-ecr.outputs.registry}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
+          docker build -t ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }} .
+          docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
     needs: Build
@@ -82,6 +81,17 @@ jobs:
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
 
+      - name: Create tfvars file
+        uses: ./.github/actions/create-tfvars-file
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          vars: ${{ toJSON(vars) }}
+          
+      - name: Add Dynamic Variables to tfvars
+        run: |
+          echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
+          echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"' >> pipeline.auto.tfvars
+
       - name: Terraform-Setup
         id: Setup
         uses: hashicorp/setup-terraform@v3
@@ -94,31 +104,6 @@ jobs:
             -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" 
             -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
-      - name: Terraform-Plan
-        id: Plan
-        run: terraform plan 
-          -var ACCOUNT=${{secrets.ACCOUNT}}
-          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var BRANCH_NAME=${{env.BRANCH_NAME}}
-          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
-          -var DB_USERNAME=${{secrets.DB_USERNAME}}
-          -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
-          -var ENV=${{vars.ENV}}
-          -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
-          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
-
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply 
-          -var ACCOUNT=${{secrets.ACCOUNT}}
-          -var ADMIN_DB_PASSWORD=${{secrets.ADMIN_DB_PASSWORD}}
-          -var ADMIN_DB_USERNAME=${{secrets.ADMIN_DB_USERNAME}}
-          -var BRANCH_NAME=${{env.BRANCH_NAME}}
-          -var DB_PASSWORD=${{secrets.DB_PASSWORD}}
-          -var DB_USERNAME=${{secrets.DB_USERNAME}}
-          -var ECR_IMAGE=${{needs.Build.outputs.ecr_registry}}/${{env.REPOSITORY}}:${{env.BRANCH_NAME}}-${{github.sha}}
-          -var ENV=${{vars.ENV}}
-          -var FORCE_REFRESH=${{vars.FORCE_REFRESH}}
-          -var MFT_CLUSTER=${{vars.MFT_CLUSTER}}
-          -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
