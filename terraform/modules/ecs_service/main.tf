@@ -2,8 +2,8 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   family                    = "ga-task-definition-mft${var.MOD_MFT_NUMBER}-${var.MOD_BRANCH_NAME}"
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
-  cpu                       = 1024
-  memory                    = 3072
+  cpu                       = var.MOD_TASK_DEFINITION_CPU
+  memory                    = var.MOD_TASK_DEFINITION_MEMORY
   execution_role_arn        = var.MOD_ECS_ROLE_ARN
   runtime_platform {
     operating_system_family = "LINUX"

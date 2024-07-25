@@ -15,7 +15,7 @@ resource "aws_db_instance" "ga_mysql" {
   engine                          = "mysql"
   engine_version                  = "8.0.35"
   identifier                      = "ga-db-${var.BRANCH_NAME}"
-  instance_class                  = "db.t3.medium"
+  instance_class                  = var.DB_INSTANCE_CLASS
   monitoring_interval             = 5
   monitoring_role_arn             = aws_iam_role.ga_rds_monitoring_role.arn
   parameter_group_name            = "default.mysql8.0"

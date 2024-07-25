@@ -26,6 +26,13 @@ variable "BRANCH_NAME" {
   default = "main"
 }
 
+variable "DB_INSTANCE_CLASS" {
+  type = string
+  sensitive = true
+  description = "The database intance class for the application."
+  default = "db.t3.medium"
+}
+
 variable "DB_PASSWORD" {
   type = string
   sensitive = true
@@ -63,4 +70,16 @@ variable "MFT_CLUSTER" {
   type = string
   description = "If set to true, this will start the application in cluster mode."
   default = "TRUE"
+}
+
+variable "TASK_DEFINITION_CPU" {
+  type = number
+  description = "The task definition CPU."
+  default = 1024
+}
+
+variable "TASK_DEFINITION_MEMORY" {
+  type = number
+  description = "The task definition memory."
+  default = 3072
 }
