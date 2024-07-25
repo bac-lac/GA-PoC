@@ -35,6 +35,8 @@ The following environment variables are used to control the application at run-t
 
 > BRANCH_NAME: The branch name used for resources creation. This value is auto-generated.
 
+> **DB_INSTANCE_CLASS**: The database intance class for the application.
+
 > **DB_USERNAME**: The DB username for the application.
 
 > **DB_PASSWORD**: The DB password for the application.
@@ -48,6 +50,10 @@ The following environment variables are used to control the application at run-t
 
 > **MFT_CLUSTER**: If set to true, this will start the application in cluster mode.
 - Default value: TRUE
+
+> **TASK_DEFINITION_CPU**: The task definition CPU.
+
+> **TASK_DEFINITION_MEMORY**: The task definition memory.
 
 ## Run the Application Locally
 ```

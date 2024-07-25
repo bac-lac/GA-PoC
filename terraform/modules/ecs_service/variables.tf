@@ -112,3 +112,13 @@ variable "MOD_CLUSTER" {
   type = string
   description = "Cluster mode (True or False)."
 }
+
+variable "MOD_TASK_DEFINITION_CPU" {
+  type = number
+  description = "Task definition CPU."
+}
+
+variable "MOD_TASK_DEFINITION_MEMORY" {
+  type = number
+  description = "Task definition memory."
+}
