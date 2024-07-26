@@ -25,6 +25,11 @@ RUN dnf update -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 
+# Installing aws cli.
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip \
+  && ./aws/install
+
 USER gamft
 
 ENTRYPOINT [ "/temp/init.sh" ]
