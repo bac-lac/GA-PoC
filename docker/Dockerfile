@@ -30,7 +30,7 @@ RUN dnf update -y \
 RUN curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> file.txt \
   && xargs -n 1 curl -LO < file.txt \
   && unzip SaxonHE* -d saxon \
-  && ls -la \
+  && ls -la /opt/HelpSystems/GoAnywhere/tomcat/bin/ \
   && mkdir /opt/saxon/ \
   && mkdir /opt/saxon/lib/ \
   && find saxon/ -iregex ".*jar.*" -exec cp {} /opt/saxon/lib/ \; 

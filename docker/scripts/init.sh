@@ -19,9 +19,6 @@ function main() {
     # shellcheck disable=SC2154
     trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
 
-    echo "ls -la /opt/saxon/lib"
-    ls -la /opt/saxon/lib
-
     wait_for_mount_availability
     wait_for_database_service_availability
     create_database_and_credentials
