@@ -50,6 +50,7 @@ resource "aws_ecs_service" "ga_service_mft" {
   task_definition       = aws_ecs_task_definition.ga_task_definition_mft.arn
   launch_type           = "FARGATE"
   platform_version      = "LATEST"
+  force_new_deployment  = true
   scheduling_strategy   = "REPLICA"
   desired_count         = 1
   network_configuration {
