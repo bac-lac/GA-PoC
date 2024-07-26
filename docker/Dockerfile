@@ -26,6 +26,13 @@ RUN dnf update -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 
+# Installing saxon he
+RUN curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> file.txt \
+  && xargs -n 1 curl -LO < file.txt \
+  && unzip SaxonHE* -d saxon \
+  && mkdir /opt/saxon/lib/ \
+  && find saxon/ -iregex ".*jar.*" -exec cp {} /opt/saxon/lib/ \; 
+
 # Installing aws cli.
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
   && unzip awscliv2.zip \
