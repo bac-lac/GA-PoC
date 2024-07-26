@@ -40,6 +40,16 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   && unzip awscliv2.zip \
   && ./aws/install
 
+# Installing marcedit7.
+RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/marcedit7.run \
+  && chmod u+x /opt/marcedit.run \
+  && /opt/marcedit.run --target /opt/marcedit \
+  && chmod -R 755 /opt/marcedit
+
+# Cleanup.
+RUN rm /opt/marcedit.run \
+ && rm awscliv2.zip
+
 USER gamft
 
 ENTRYPOINT [ "/temp/init.sh" ]
