@@ -30,7 +30,6 @@ RUN dnf update -y \
 RUN curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> file.txt \
   && xargs -n 1 curl -LO < file.txt \
   && unzip SaxonHE* -d saxon \
-  && ls -la /opt/HelpSystems/GoAnywhere/tomcat/bin/ \
   && mkdir /opt/saxon/ \
   && mkdir /opt/saxon/lib/ \
   && find saxon/ -iregex ".*jar.*" -exec cp {} /opt/saxon/lib/ \; 
@@ -44,7 +43,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/marcedit7.run \
   && chmod u+x /opt/marcedit.run \
   && /opt/marcedit.run --target /opt/marcedit \
-  && chmod -R 755 /opt/marcedit
+  && chmod -R 755 /opt/marcedit \
+  && mono /opt/marcedit/cmarcedit.exe -help
 
 # Cleanup.
 RUN rm /opt/marcedit.run \
