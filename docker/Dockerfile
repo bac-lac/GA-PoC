@@ -29,12 +29,13 @@ RUN dnf update -y \
   && rm -rf /var/cache
 
 # Installing saxon he
-RUN curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> file.txt \
-  && xargs -n 1 curl -LO < file.txt \
-  && unzip SaxonHE* -d saxon \
+RUN mkdir saxon \
+  && curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> saxon/file.txt \
+  && xargs -n 1 curl -LO < saxon/file.txt \
+  && unzip saxon/SaxonHE* -d saxon/ \
   && mkdir /opt/saxon/ \
   && mkdir /opt/saxon/lib/ \
-  && find saxon/ -iregex ".*jar.*" -exec cp {} /opt/saxon/lib/ \; 
+  && find saxon/ -name "*jar*" ! -name "*test*" ! -name "*xqj*" -exec cp {} /opt/saxon/lib/ \; 
 
 # Installing aws cli.
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
@@ -49,7 +50,8 @@ RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/mar
 
 # Cleanup.
 RUN rm /opt/marcedit.run \
- && rm awscliv2.zip
+  && rm -rf saxon/ \
+  && rm awscliv2.zip
 
 USER gamft
 
