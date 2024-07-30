@@ -13,6 +13,8 @@ COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
 COPY mysql_dump.sql /temp/mysql_dump.sql
 
+COPY /scripts/setenv.sh /opt/HelpSystems/GoAnywhere/tomcat/bin/
+
 COPY scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
@@ -43,8 +45,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/marcedit7.run \
   && chmod u+x /opt/marcedit.run \
   && /opt/marcedit.run --target /opt/marcedit \
-  && chmod -R 755 /opt/marcedit \
-  && mono /opt/marcedit/cmarcedit.exe -help
+  && chmod -R 755 /opt/marcedit
 
 # Cleanup.
 RUN rm /opt/marcedit.run \
