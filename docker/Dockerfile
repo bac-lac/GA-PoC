@@ -33,8 +33,7 @@ RUN mkdir saxon \
   && curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> saxon/file.txt \
   && xargs -n 1 curl --create-dirs -LO --output-dir saxon < saxon/file.txt \
   && unzip saxon/SaxonHE* -d saxon/ \
-  && mkdir /opt/saxon/ \
-  && mkdir /opt/saxon/lib/ \
+  && mkdir -p /opt/saxon/lib/ \
   && find saxon/ -name "*jar*" ! -name "*test*" ! -name "*xqj*" -exec cp {} /opt/saxon/lib/ \; 
 
 # Installing aws cli.
