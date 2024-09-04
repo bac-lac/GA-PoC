@@ -1,6 +1,6 @@
-FROM helpsystems/goanywhere-mft:latest as builder
+FROM fortrallc/goanywhere-mft:latest as builder
 
-FROM helpsystems/goanywhere-mft:latest
+FROM fortrallc/goanywhere-mft:latest
 USER root
 WORKDIR /temp
 COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ userdata/
