@@ -52,7 +52,7 @@ function wait_for_mount_availability() {
 
     echo "Checking if file service is mounted..."
 
-    mount_ping_statement="mountpoint -q /opt/HelpSystems/GoAnywhere/userdata/"
+    mount_ping_statement="mountpoint -q /opt/Fortra/GoAnywhere/userdata/"
 
     # Wait for mount readiness.
     wait_time=0
@@ -165,16 +165,16 @@ function configure() {
     echo "Configure"
 
     # Variables.
-    local config_folder="/etc/HelpSystems/GoAnywhere/config"
-    local shareconfig_folder="/etc/HelpSystems/GoAnywhere/sharedconfig"
+    local config_folder="/etc/Fortra/GoAnywhere/config"
+    local shareconfig_folder="/etc/Fortra/GoAnywhere/sharedconfig"
 
     echo "Copy filesystem"
-    cp -rn /temp/userdata/ /opt/HelpSystems/GoAnywhere/
-    cp -rn /temp/upgrader/ /opt/HelpSystems/GoAnywhere/
-    cp -rn /temp/config/ /etc/HelpSystems/GoAnywhere/
-    cp -rn /temp/tomcat/ /etc/HelpSystems/GoAnywhere/
-    cp -rn /temp/logs/ /opt/HelpSystems/GoAnywhere/tomcat/
-    cp -rn /temp/custom/ /opt/HelpSystems/GoAnywhere/ghttpsroot/
+    cp -rn /temp/userdata/ /opt/Fortra/GoAnywhere/
+    cp -rn /temp/upgrader/ /opt/Fortra/GoAnywhere/
+    cp -rn /temp/config/ /etc/Fortra/GoAnywhere/
+    cp -rn /temp/tomcat/ /etc/Fortra/GoAnywhere/
+    cp -rn /temp/logs/ /opt/Fortra/GoAnywhere/tomcat/
+    cp -rn /temp/custom/ /opt/Fortra/GoAnywhere/ghttpsroot/
 
     # Copy config files to the shared folder.
     cp -rn /temp/config/*.xml "${shareconfig_folder}"

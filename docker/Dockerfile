@@ -3,17 +3,17 @@ FROM fortrallc/goanywhere-mft:latest as builder
 FROM fortrallc/goanywhere-mft:latest
 USER root
 WORKDIR /temp
-COPY --from=builder /opt/HelpSystems/GoAnywhere/userdata/ userdata/
-COPY --from=builder /opt/HelpSystems/GoAnywhere/upgrader/ upgrader/ 
-COPY --from=builder /etc/HelpSystems/GoAnywhere/config/ config/
-COPY --from=builder /etc/HelpSystems/GoAnywhere/tomcat/ tomcat/
-COPY --from=builder /opt/HelpSystems/GoAnywhere/tomcat/logs/ logs/
-COPY --from=builder /opt/HelpSystems/GoAnywhere/ghttpsroot/custom/ custom/
+COPY --from=builder /opt/Fortra/GoAnywhere/userdata/ userdata/
+COPY --from=builder /opt/Fortra/GoAnywhere/upgrader/ upgrader/ 
+COPY --from=builder /etc/Fortra/GoAnywhere/config/ config/
+COPY --from=builder /etc/Fortra/GoAnywhere/tomcat/ tomcat/
+COPY --from=builder /opt/Fortra/GoAnywhere/tomcat/logs/ logs/
+COPY --from=builder /opt/Fortra/GoAnywhere/ghttpsroot/custom/ custom/
 COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
 COPY mysql_dump.sql /temp/mysql_dump.sql
 
-COPY /scripts/setenv.sh /opt/HelpSystems/GoAnywhere/tomcat/bin/
+COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 
 COPY scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
