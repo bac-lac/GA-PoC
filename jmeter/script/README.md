@@ -1,7 +1,7 @@
 # Introduction
 This script is used to run a load test on a GoAnywhere application.
 The test flow is composed of 6 HTTP request which are also downloading referenced resources on each pages:
-1.	get GA login page.
+1.  get GA login page.
     http request to the GA login url.
 2.  send credentials.
     Login to the application.
