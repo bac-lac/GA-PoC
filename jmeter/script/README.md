@@ -24,13 +24,13 @@ The jmeter test can be executed locally or through any jmeter capable process.
 
 ## Setting the variables
 1.  Configure the following variables in jmeter:
-- **ga_host** *: The IDM client's clientId of your realm.
-- **value_hinput** *: The IDM host url.
-- **name** *: The keycloak host url.
-- **value** *: The amount of loops you would like your test to execute.
-- **threads** *: The rampup time to get all the threads running at the same time.
-- **rampup** *: The Keycloak realm where your test will be executed.
-- **loop** *: The callback redirectUri from IDM.
+- **ga_host** *: The GA host url.
+- **value_hinput** *: The value_hinput value of GA of the account used to test your flow.
+- **name** *: The username of the account used to test your flow.
+- **value** *: The password of the account used to test your flow.
+- **threads** *: The amount of threads you would like to use.
+- **rampup** *: The rampup time to get all the threads running at the same time.
+- **loop** *: The amount of loop for each threads.
 - **HTTP Request - post GA specified project page** *: Fill in the correct value for the flow you would like to execute.
 
 ## Gathering the results
