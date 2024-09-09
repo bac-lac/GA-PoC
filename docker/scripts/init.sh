@@ -169,15 +169,15 @@ function configure() {
     local shareconfig_folder="/etc/Fortra/GoAnywhere/sharedconfig"
 
     echo "Copy filesystem"
-    cp -rn /temp/userdata/ /opt/Fortra/GoAnywhere/
-    cp -rn /temp/upgrader/ /opt/Fortra/GoAnywhere/
-    cp -rn /temp/config/ /etc/Fortra/GoAnywhere/
-    cp -rn /temp/tomcat/ /etc/Fortra/GoAnywhere/
-    cp -rn /temp/logs/ /opt/Fortra/GoAnywhere/tomcat/
-    cp -rn /temp/custom/ /opt/Fortra/GoAnywhere/ghttpsroot/
+    cp -r /temp/userdata/ /opt/Fortra/GoAnywhere/
+    cp -r /temp/upgrader/ /opt/Fortra/GoAnywhere/
+    cp -r /temp/config/ /etc/Fortra/GoAnywhere/
+    cp -r /temp/tomcat/ /etc/Fortra/GoAnywhere/
+    cp -r /temp/logs/ /opt/Fortra/GoAnywhere/tomcat/
+    cp -r /temp/custom/ /opt/Fortra/GoAnywhere/ghttpsroot/
 
     # Copy config files to the shared folder.
-    cp -rn /temp/config/*.xml "${shareconfig_folder}"
+    cp -r /temp/config/*.xml "${shareconfig_folder}"
 
     # Remove "update default database location" in the entrypoint
     echo "Update entrypoint"
