@@ -63,4 +63,5 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_name      = "MFT-${var.MOD_MFT_NUMBER}"
     container_port      = 8000
   }
+  enable_execute_command = true
 }
