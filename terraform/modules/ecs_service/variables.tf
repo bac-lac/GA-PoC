@@ -88,6 +88,11 @@ variable "MOD_ECS_ROLE_ARN" {
   description = "The ECS Role ARN."
 }
 
+variable "MOD_ECS_TASK_ROLE_ARN" {
+  type = string
+  description = "The ECS Task Role ARN."
+}
+
 variable "MOD_CLUSTER_ID" {
   type = string
   description = "The Cluster Id."
