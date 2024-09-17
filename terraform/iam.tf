@@ -60,7 +60,7 @@ resource "aws_iam_role" "ga_ecs_role" {
 
 resource "aws_iam_role" "ga_ecs_task_role" {
   name                = "ga_ecs_task_role-${var.BRANCH_NAME}"
-  description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
+  description         = "The task role is an IAM role that is used by containers in a task to make AWS API calls on your behalf."
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
   inline_policy {
     name   = "ga_ecs_task_role_inline_policy"
