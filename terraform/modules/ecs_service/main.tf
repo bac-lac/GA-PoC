@@ -5,6 +5,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   cpu                       = var.MOD_TASK_DEFINITION_CPU
   memory                    = var.MOD_TASK_DEFINITION_MEMORY
   execution_role_arn        = var.MOD_ECS_ROLE_ARN
+  task_role_arn             = var.MOD_ECS_TASK_ROLE_ARN
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
@@ -63,4 +64,5 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_name      = "MFT-${var.MOD_MFT_NUMBER}"
     container_port      = 8000
   }
+  enable_execute_command = true
 }

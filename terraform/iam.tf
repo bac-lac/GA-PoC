@@ -39,6 +39,14 @@ data "aws_iam_policy_document" "ga_ecs_role_inline_policy" {
   }
 }
 
+data "aws_iam_policy_document" "ga_ecs_task_role_inline_policy" {
+  statement {
+    effect    = "Allow"
+    actions   = ["ecs:ExecuteCommand","ecs:DescribeTasks","ssmmessages:CreateDataChannel","ssmmessages:OpenDataChannel","ssmmessages:OpenControlChannel","ssmmessages:CreateControlChannel"]
+    resources = ["arn:aws:ecs:ca-central-1:${var.ACCOUNT}:task/cluster-name/*","arn:aws:ecs:ca-central-1:${var.ACCOUNT}:cluster/*"]
+  }
+}
+
 resource "aws_iam_role" "ga_ecs_role" {
   name                = "ga_ecs_role-${var.BRANCH_NAME}"
   description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
@@ -47,5 +55,15 @@ resource "aws_iam_role" "ga_ecs_role" {
   inline_policy {
     name   = "ga_ecs_role_inline_policy"
     policy = data.aws_iam_policy_document.ga_ecs_role_inline_policy.json
+  }
+}
+
+resource "aws_iam_role" "ga_ecs_task_role" {
+  name                = "ga_ecs_task_role-${var.BRANCH_NAME}"
+  description         = "The task role is an IAM role that is used by containers in a task to make AWS API calls on your behalf."
+  assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
+  inline_policy {
+    name   = "ga_ecs_task_role_inline_policy"
+    policy = data.aws_iam_policy_document.ga_ecs_task_role_inline_policy.json
   }
 }
