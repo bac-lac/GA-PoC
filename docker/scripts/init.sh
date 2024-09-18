@@ -210,6 +210,11 @@ function configure() {
     ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
+
+    echo "*****BEGIN cluster.xml*****"
+    cat "${config_folder}/cluster.xml"
+    echo "*****END cluster.xml*****"
+
 }
 
 #######################################
@@ -226,11 +231,6 @@ function start() {
     echo "Start application"
 
     exec /temp/entrypoint.sh
-
-    echo "*****BEGIN cluster.xml*****"
-    cat "${config_folder}/cluster.xml"
-    echo "*****END cluster.xml*****"
-
 }
 
 main 
