@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "ga_ecs_task_role_inline_policy" {
   statement {
     effect    = "Allow"
     actions   = ["ecs:ExecuteCommand","ecs:DescribeTasks","ssmmessages:CreateDataChannel","ssmmessages:OpenDataChannel","ssmmessages:OpenControlChannel","ssmmessages:CreateControlChannel"]
-    resources = ["arn:aws:ecs:ca-central-1:${var.ACCOUNT}:task/cluster-name/*","arn:aws:ecs:ca-central-1:${var.ACCOUNT}:cluster/*"]
+    resources = ["*"]
   }
 }
 
