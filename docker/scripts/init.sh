@@ -183,7 +183,6 @@ function configure() {
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$HOSTNAME/g" /temp/entrypoint.sh
-    cat /temp/entrypoint.sh
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
@@ -227,6 +226,10 @@ function start() {
     echo "Start application"
 
     exec /temp/entrypoint.sh
+
+    echo "*****BEGIN cluster.xml*****"
+    cat "${config_folder}/cluster.xml"
+    echo "*****END cluster.xml*****"
 
 }
 
