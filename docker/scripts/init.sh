@@ -182,7 +182,7 @@ function configure() {
     # Remove "update default database location" in the entrypoint
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh
-    sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$HOSTNAME/g" /temp/entrypoint.sh
+    sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
