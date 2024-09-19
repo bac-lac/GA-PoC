@@ -9,4 +9,4 @@ skip-check:
     - CKV_AWS_354   # Ensure RDS Performance Insights are encrypted using KMS CMKs
     - CKV2_AWS_6    # Ensure that S3 bucket has a Public Access block
     - CKV2_AWS_61   # Ensure that an S3 bucket has a lifecycle configuration
-    - CKV2_AWS_62   # Ensure S3 buckets should have event notifications enabled 
+    - CKV2_AWS_62   # Ensure S3 buckets should have event notifications enabled
