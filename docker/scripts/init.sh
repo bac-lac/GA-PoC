@@ -172,7 +172,7 @@ function configure() {
     cp -rf /temp/userdata/ /opt/Fortra/GoAnywhere/
     cp -rf /temp/upgrader/ /opt/Fortra/GoAnywhere/
     cp -rf /temp/config/ /etc/Fortra/GoAnywhere/
-    cp -rfv /temp/tomcat/ /etc/Fortra/GoAnywhere/
+    cp -rf /temp/tomcat/ /etc/Fortra/GoAnywhere/
     cp -rf /temp/logs/ /opt/Fortra/GoAnywhere/tomcat/
     cp -rf /temp/custom/ /opt/Fortra/GoAnywhere/ghttpsroot/
 
@@ -182,7 +182,7 @@ function configure() {
     # Remove "update default database location" in the entrypoint
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh
-    sed -i "s/\$HOSTNAME/\$SYSTEM_NAME/g" /temp/entrypoint.sh
+    sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
@@ -226,7 +226,6 @@ function start() {
     echo "Start application"
 
     exec /temp/entrypoint.sh
-
 }
 
 main 
