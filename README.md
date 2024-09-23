@@ -55,6 +55,9 @@ The following environment variables are used to control the application at run-t
 
 > **TASK_DEFINITION_MEMORY**: The task definition memory.
 
+## Logging
+The application will output each logs to stdout and stderr.
+
 ## Run the Application Locally
 ```
 cd [project root]/
