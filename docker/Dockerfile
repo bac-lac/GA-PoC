@@ -28,6 +28,9 @@ RUN dnf update -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 
+# Installing fluent-bit
+RUN yum install fluent-bit
+
 # Installing saxon he
 RUN mkdir saxon \
   && curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> saxon/file.txt \
