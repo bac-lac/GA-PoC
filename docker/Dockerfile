@@ -29,7 +29,7 @@ RUN dnf update -y \
   && rm -rf /var/cache
 
 # Installing fluent-bit
-RUN yum install fluent-bit
+RUN dnf install fluent-bit -y
 
 # Installing saxon he
 RUN mkdir saxon \
