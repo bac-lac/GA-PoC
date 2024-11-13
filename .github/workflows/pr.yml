@@ -54,12 +54,19 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push docker image to Amazon ECR
-        id: build-push
-        working-directory: ./docker
+      - name: Build and push
+        id: buildDocker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
+
+      - name: Echo digest
+        id: echo-digest
         run: |
-          docker build -t ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }} .
-          docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
+          echo "digest: ${{steps.buildDocker.outputs.digest}}"
 
   Deploy:
     needs: Build
