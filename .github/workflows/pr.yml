@@ -88,10 +88,6 @@ jobs:
         with:
           secrets: ${{ toJSON(secrets) }}
           vars: ${{ toJSON(vars) }}
-
-      - name: ECR_IMAGE
-        run: |
-            echo "ECR_IMAGE: ${{needs.Build.outputs.ecr_image}}"
           
       - name: Add Dynamic Variables to tfvars
         run: |
@@ -110,6 +106,6 @@ jobs:
             -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" 
             -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
 
-#      - name: Terraform-Apply
-#        id: Apply
-#        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
+      - name: Terraform-Apply
+        id: Apply
+        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
