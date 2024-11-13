@@ -61,7 +61,6 @@ jobs:
         id: buildDocker
         uses: docker/build-push-action@v6
         with:
-          context: .
           file: ./docker/Dockerfile
           push: true
           tags: ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
