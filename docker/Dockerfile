@@ -15,7 +15,7 @@ COPY mysql_dump.sql /temp/mysql_dump.sql
 
 COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 
-COPY scripts/init.sh /temp/
+COPY /scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo

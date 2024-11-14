@@ -36,7 +36,7 @@ jobs:
     needs: Code-check
     runs-on: ubuntu-latest
     outputs:
-      ecr_registry: ${{ steps.login-ecr.outputs.registry }}
+      ecr_image: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}@${{steps.build-push.outputs.digest}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,12 +54,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push docker image to Amazon ECR
+      - name: Build and push
         id: build-push
-        working-directory: ./docker
-        run: |
-          docker build -t ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }} .
-          docker push ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./docker
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
     needs: Build
@@ -90,7 +92,7 @@ jobs:
       - name: Add Dynamic Variables to tfvars
         run: |
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
-          echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_registry }}/${{ env.IMAGE_REPO_TAG }}"' >> pipeline.auto.tfvars
+          echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_image }}"' >> pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
