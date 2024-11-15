@@ -38,26 +38,26 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{secrets.AWS_GITHUB_DEVOPS_ROLE}}
+          role-to-assume: ${{ secrets.AWS_GITHUB_DEVOPS_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{env.AWS_REGION}}
+          aws-region: ${{ env.AWS_REGION }}
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
       
       - name: Login to Amazon ECR
-        if: ${{vars.ENV == 'dev'}}
+        if: ${{ vars.ENV == 'dev' }}
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
       
       - name: Build and push
-        if: ${{vars.ENV == 'dev'}}
+        if: ${{ vars.ENV == 'dev' }}
         id: build-push
         uses: docker/build-push-action@v6
         with:
           context: ./docker
           file: ./docker/Dockerfile
           push: true
-          tags: ${{steps.login-ecr.outputs.registry}}/${{ env.IMAGE_REPO_TAG }}
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
       
       - name: Create tfvars file
         uses: ./.github/actions/create-tfvars-file
@@ -68,7 +68,7 @@ jobs:
       - name: Add Dynamic Variables to tfvars
         run: |
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
-          echo 'ECR_IMAGE = "${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}@${{steps.build-push.outputs.digest}}"' >> pipeline.auto.tfvars
+          echo 'ECR_IMAGE = "${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}@${{ steps.build-push.outputs.digest }}"' >> pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
@@ -79,8 +79,8 @@ jobs:
       - name: Terraform-Init
         id: Init
         run: terraform init 
-          -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" 
-          -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
+          -backend-config="dynamodb_table=terraform-state-${{ vars.ENV }}" 
+          -backend-config="key=${{ vars.ENV }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
 
       - name: Terraform-Apply
         id: Apply
