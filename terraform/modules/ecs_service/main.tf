@@ -65,5 +65,4 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_port      = 8000
   }
   enable_execute_command = true
-  wait_for_steady_state = true
 }
