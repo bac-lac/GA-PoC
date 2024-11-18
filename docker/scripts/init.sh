@@ -120,6 +120,27 @@ function wait_for_database_service_availability() {
 #######################################
 function create_database_and_credentials() {
     echo "Create Database"
+
+    echo "Check if lock file exists."
+    # Logic to prevent multiple containers working on the database at the same time.
+    readonly MOUNT_MAX_WAIT=30 
+    local wait_time
+    # Wait for no lock file.
+    wait_time=0
+    until [ ! -f /tmp/file.lock ]; do
+        if [[ ${wait_time} -ge ${MOUNT_MAX_WAIT} ]]; then
+            echo "The lock file still exists within ${wait_time} s. Aborting."
+            exit 1
+        else
+            echo "Waiting for the file to be deleted (${wait_time} s)..."
+            sleep 1
+            ((++wait_time))
+        fi
+    done
+
+    echo "Create lock file"
+    touch /tmp/file.lock
+
     # Drop database if FORCE_REFRESH is true
     if [[ $FORCE_REFRESH == "true" ]]; then 
         echo "Drop MySQL database..."
@@ -147,6 +168,9 @@ function create_database_and_credentials() {
         echo "Importing empty database..."
         mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" < /temp/mysql_dump.sql
     fi
+
+    echo "Delete lock file"
+    rm -f /tmp/file.lock
 
 }
 
