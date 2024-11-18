@@ -127,7 +127,7 @@ function create_database_and_credentials() {
     local wait_time
     # Wait for no lock file.
     wait_time=0
-    until [ ! -f /tmp/file.lock ]; do
+    until [ ! -f /opt/Fortra/GoAnywhere/file.lock ]; do
         if [[ ${wait_time} -ge ${maximum_wait} ]]; then
             echo "The lock file still exists within ${wait_time} s. Aborting."
             exit 1
@@ -139,7 +139,7 @@ function create_database_and_credentials() {
     done
 
     echo "Create lock file"
-    touch /tmp/file.lock
+    touch /opt/Fortra/GoAnywhere/file.lock
 
     # Drop database if FORCE_REFRESH is true
     if [[ $FORCE_REFRESH == "true" ]]; then 
@@ -170,7 +170,7 @@ function create_database_and_credentials() {
     fi
 
     echo "Delete lock file"
-    rm -f /tmp/file.lock
+    rm -f /opt/Fortra/GoAnywhere/file.lock
 
 }
 
