@@ -28,7 +28,7 @@ function main() {
 
     # Delete lock file
     echo "Delete lock file"
-    rm -f /opt/Fortra/GoAnywhere/file.lock
+    rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock
 
     # Remove DEBUG and EXIT trap
     trap - DEBUG
@@ -133,7 +133,7 @@ function wait_for_lock_file_availability() {
     local wait_time
     # Wait for no lock file.
     wait_time=0
-    until [ ! -f /opt/Fortra/GoAnywhere/file.lock ]; do
+    until [ ! -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock ]; do
         if [[ ${wait_time} -ge ${maximum_wait} ]]; then
             echo "The lock file still exists within ${wait_time} s. Aborting."
             exit 1
@@ -146,7 +146,7 @@ function wait_for_lock_file_availability() {
     echo "Lock file has been deleted."
 
     echo "Create lock file"
-    touch /opt/Fortra/GoAnywhere/file.lock    
+    touch /etc/Fortra/GoAnywhere/sharedconfig/file.lock    
     
 }
 
