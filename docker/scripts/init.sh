@@ -123,12 +123,12 @@ function create_database_and_credentials() {
 
     echo "Check if lock file exists."
     # Logic to prevent multiple containers working on the database at the same time.
-    readonly MOUNT_MAX_WAIT=30 
+    local maximum_wait="60"
     local wait_time
     # Wait for no lock file.
     wait_time=0
     until [ ! -f /tmp/file.lock ]; do
-        if [[ ${wait_time} -ge ${MOUNT_MAX_WAIT} ]]; then
+        if [[ ${wait_time} -ge ${maximum_wait} ]]; then
             echo "The lock file still exists within ${wait_time} s. Aborting."
             exit 1
         else
