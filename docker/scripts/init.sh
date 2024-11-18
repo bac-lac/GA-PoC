@@ -18,9 +18,6 @@ function main() {
     # Echo an error message before exiting
     # shellcheck disable=SC2154
     trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
-    # Create lock file
-    echo "Create lock file"
-    touch /opt/Fortra/GoAnywhere/file.lock    
 
     wait_for_mount_availability
     wait_for_database_service_availability
@@ -147,6 +144,9 @@ function wait_for_lock_file_availability() {
         fi
     done
     echo "Lock file has been deleted."
+
+    echo "Create lock file"
+    touch /opt/Fortra/GoAnywhere/file.lock    
     
 }
 
