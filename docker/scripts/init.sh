@@ -24,11 +24,10 @@ function main() {
     wait_for_lock_file_availability
     create_database_and_credentials
     configure
-    start
 
-    # Delete lock file
     echo "Delete lock file"
     rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock
+    start
 
     # Remove DEBUG and EXIT trap
     trap - DEBUG
@@ -143,7 +142,7 @@ function wait_for_lock_file_availability() {
             ((++wait_time))
         fi
     done
-    echo "Lock file has been deleted."
+    echo "Lock file no longer exists."
 
     echo "Create lock file"
     touch /etc/Fortra/GoAnywhere/sharedconfig/file.lock    
