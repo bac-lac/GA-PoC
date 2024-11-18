@@ -18,12 +18,20 @@ function main() {
     # Echo an error message before exiting
     # shellcheck disable=SC2154
     trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
+    # Create lock file
+    echo "Create lock file"
+    touch /opt/Fortra/GoAnywhere/file.lock    
 
     wait_for_mount_availability
     wait_for_database_service_availability
+    wait_for_lock_file_availability
     create_database_and_credentials
     configure
     start
+
+    # Delete lock file
+    echo "Delete lock file"
+    rm -f /opt/Fortra/GoAnywhere/file.lock
 
     # Remove DEBUG and EXIT trap
     trap - DEBUG
@@ -105,21 +113,22 @@ function wait_for_database_service_availability() {
 }
 
 #######################################
-# Create Database and Credentials
+# Wait until the lock file becomes available.
+# Fail if the lock file is not available after a given duration.
 # Globals:
-#   ADMIN_DB_PASSWORD
-#   ADMIN_DB_USERNAME
-#   DB_ADDRESS
-#   DB_PASSWORD
-#   DB_USERNAME
-#   FORCE_REFRESH
+#   None
 # Arguments:
 #   None
 # Outputs:
 #   None
 #######################################
-function create_database_and_credentials() {
-    echo "Create Database"
+function wait_for_lock_file_availability() {
+    echo "Wait for lock file"
+    # Parameters
+    local maximum_wait="60"
+
+    # Variables
+    local wait_time
 
     echo "Check if lock file exists."
     # Logic to prevent multiple containers working on the database at the same time.
@@ -137,9 +146,26 @@ function create_database_and_credentials() {
             ((++wait_time))
         fi
     done
+    echo "Lock file has been deleted."
+    
+}
 
-    echo "Create lock file"
-    touch /opt/Fortra/GoAnywhere/file.lock
+#######################################
+# Create Database and Credentials
+# Globals:
+#   ADMIN_DB_PASSWORD
+#   ADMIN_DB_USERNAME
+#   DB_ADDRESS
+#   DB_PASSWORD
+#   DB_USERNAME
+#   FORCE_REFRESH
+# Arguments:
+#   None
+# Outputs:
+#   None
+#######################################
+function create_database_and_credentials() {
+    echo "Create Database"
 
     # Drop database if FORCE_REFRESH is true
     if [[ $FORCE_REFRESH == "true" ]]; then 
@@ -168,9 +194,6 @@ function create_database_and_credentials() {
         echo "Importing empty database..."
         mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" < /temp/mysql_dump.sql
     fi
-
-    echo "Delete lock file"
-    rm -f /opt/Fortra/GoAnywhere/file.lock
 
 }
 
