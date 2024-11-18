@@ -22,6 +22,8 @@ function main() {
     wait_for_mount_availability
     wait_for_database_service_availability
     wait_for_lock_file_availability
+    echo "Create lock file"
+    touch /etc/Fortra/GoAnywhere/sharedconfig/file.lock  
     create_database_and_credentials
     configure
 
@@ -109,8 +111,8 @@ function wait_for_database_service_availability() {
 }
 
 #######################################
-# Wait until the lock file becomes available.
-# Fail if the lock file is not available after a given duration.
+# Wait until the lock file no longer exists.
+# Delete if the lock file is still there after a given duration.
 # Globals:
 #   None
 # Arguments:
@@ -121,31 +123,24 @@ function wait_for_database_service_availability() {
 function wait_for_lock_file_availability() {
     echo "Wait for lock file"
     # Parameters
-    local maximum_wait="60"
+    local maximum_wait="120"
 
     # Variables
     local wait_time
 
-    echo "Check if lock file exists."
-    # Logic to prevent multiple containers working on the database at the same time.
-    local maximum_wait="60"
-    local wait_time
-    # Wait for no lock file.
+    # Wait until lock file no longer exists.
     wait_time=0
     until [ ! -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock ]; do
         if [[ ${wait_time} -ge ${maximum_wait} ]]; then
-            echo "The lock file still exists within ${wait_time} s. Aborting."
-            exit 1
+            echo "The lock file still exists within ${wait_time} s. Deleting."
+            rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock
         else
             echo "Waiting for the file to be deleted (${wait_time} s)..."
             sleep 1
             ((++wait_time))
         fi
     done
-    echo "Lock file no longer exists."
-
-    echo "Create lock file"
-    touch /etc/Fortra/GoAnywhere/sharedconfig/file.lock    
+    echo "Lock file no longer exists."  
     
 }
 
