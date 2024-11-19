@@ -217,13 +217,14 @@ function configure() {
     # Copy config files to the shared folder.
     cp -rf /temp/config/*.xml "${shareconfig_folder}"
 
-    # Remove "update default database location" in the entrypoint
+    # Remove "update default ports" in the entrypoint
     echo "Update entrypoint"
-    sed -i '10,15d' /temp/entrypoint.sh
+    sed -i '9,14d' /temp/entrypoint.sh
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
     # Add Delete lock file in the entrypoint
-    sed -i '24 i echo "Delete lock file"' /temp/entrypoint.sh
-    sed -i '25 i rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock' /temp/entrypoint.sh
+    sed  -i '/pattern/iNew Text' input_file
+    sed -i '18 i echo "Delete lock file"' /temp/entrypoint.sh
+    sed -i '19 i rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock' /temp/entrypoint.sh
     echo "Entrypoint: "
     cat /temp/entrypoint.sh
     
