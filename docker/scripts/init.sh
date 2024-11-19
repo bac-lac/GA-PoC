@@ -225,7 +225,7 @@ function configure() {
     sed -i '24 i echo "Delete lock file"' /temp/entrypoint.sh
     sed -i '25 i rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock' /temp/entrypoint.sh
     echo "Entrypoint: "
-    echo /temp/entrypoint.sh
+    cat /temp/entrypoint.sh
     
 
     # Update the file database.xml with the correct values.
