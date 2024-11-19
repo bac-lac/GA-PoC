@@ -31,6 +31,7 @@ resource "aws_lb_target_group" "ga_tg" {
   health_check {
     path      = "/"
     matcher   = "200,302"
+    interval  = 60
   }
   stickiness {
     enabled   = true
