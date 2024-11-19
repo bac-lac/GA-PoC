@@ -222,7 +222,6 @@ function configure() {
     sed -i '9,14d' /temp/entrypoint.sh
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
     # Add Delete lock file in the entrypoint
-    sed  -i '/pattern/iNew Text' input_file
     sed -i '18 i echo "Delete lock file"' /temp/entrypoint.sh
     sed -i '19 i rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock' /temp/entrypoint.sh
     echo "Entrypoint: "

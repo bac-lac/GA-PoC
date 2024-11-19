@@ -29,7 +29,7 @@ resource "aws_lb_target_group" "ga_tg" {
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
-  path        = "/"
+    path      = "/"
     matcher   = "200,302"
   }
   stickiness {
