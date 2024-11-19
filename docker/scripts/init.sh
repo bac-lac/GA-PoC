@@ -26,9 +26,6 @@ function main() {
     touch /etc/Fortra/GoAnywhere/sharedconfig/file.lock  
     create_database_and_credentials
     configure
-
-    echo "Delete lock file"
-    rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock
     start
 
     # Remove DEBUG and EXIT trap
@@ -224,6 +221,12 @@ function configure() {
     echo "Update entrypoint"
     sed -i '10,15d' /temp/entrypoint.sh
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
+    # Add Delete lock file in the entrypoint
+    sed -i '24 i echo "Delete lock file"' /temp/entrypoint.sh
+    sed -i '25 i rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock' /temp/entrypoint.sh
+    echo "Entrypoint: "
+    echo /temp/entrypoint.sh
+    
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
