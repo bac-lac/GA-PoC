@@ -21,9 +21,6 @@ function main() {
 
     wait_for_mount_availability
     wait_for_database_service_availability
-    wait_for_lock_file_availability
-    echo "Create lock file"
-    touch /etc/Fortra/GoAnywhere/sharedconfig/file.lock  
     create_database_and_credentials
     configure
     start
@@ -108,40 +105,6 @@ function wait_for_database_service_availability() {
 }
 
 #######################################
-# Wait until the lock file no longer exists.
-# Delete if the lock file is still there after a given duration.
-# Globals:
-#   None
-# Arguments:
-#   None
-# Outputs:
-#   None
-#######################################
-function wait_for_lock_file_availability() {
-    echo "Wait for lock file"
-    # Parameters
-    local maximum_wait="120"
-
-    # Variables
-    local wait_time
-
-    # Wait until lock file no longer exists.
-    wait_time=0
-    until [ ! -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock ]; do
-        if [[ ${wait_time} -ge ${maximum_wait} ]]; then
-            echo "The lock file still exists within ${wait_time} s. Deleting."
-            rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock
-        else
-            echo "Waiting for the file to be deleted (${wait_time} s)..."
-            sleep 1
-            ((++wait_time))
-        fi
-    done
-    echo "Lock file no longer exists."  
-    
-}
-
-#######################################
 # Create Database and Credentials
 # Globals:
 #   ADMIN_DB_PASSWORD
@@ -220,13 +183,7 @@ function configure() {
     # Remove "update default ports" in the entrypoint
     echo "Update entrypoint"
     sed -i '9,14d' /temp/entrypoint.sh
-    sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
-    # Add Delete lock file in the entrypoint
-    sed -i '18 i echo "Delete lock file"' /temp/entrypoint.sh
-    sed -i '19 i rm -f /etc/Fortra/GoAnywhere/sharedconfig/file.lock' /temp/entrypoint.sh
-    echo "Entrypoint: "
-    cat /temp/entrypoint.sh
-    
+    sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh    
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
