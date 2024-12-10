@@ -15,7 +15,6 @@ permissions:
 
 jobs:
   Cleanup-PR:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: "dev"
     defaults:
@@ -29,7 +28,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{secrets.AWS_GITHUB_DEVOPS_ROLE}}
+          role-to-assume: ${{ secrets.AWS_GITHUB_DEVOPS_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
           role-skip-session-tagging: true
@@ -44,8 +43,8 @@ jobs:
       - name: Terraform-Init
         id: Init
         run: terraform init
-          -backend-config="dynamodb_table=terraform-state-${{vars.ENV}}" 
-          -backend-config="key=${{vars.ENV}}/${{env.BRANCH_NAME}}/terraform.tfstate"
+          -backend-config="dynamodb_table=terraform-state-${{ vars.ENV }}" 
+          -backend-config="key=${{ vars.ENV }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
 
       - name: Terraform-Destroy
         id: Destroy

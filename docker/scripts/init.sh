@@ -120,6 +120,7 @@ function wait_for_database_service_availability() {
 #######################################
 function create_database_and_credentials() {
     echo "Create Database"
+
     # Drop database if FORCE_REFRESH is true
     if [[ $FORCE_REFRESH == "true" ]]; then 
         echo "Drop MySQL database..."
@@ -179,9 +180,9 @@ function configure() {
     # Copy config files to the shared folder.
     cp -rf /temp/config/*.xml "${shareconfig_folder}"
 
-    # Remove "update default database location" in the entrypoint
+    # Remove "update default ports" in the entrypoint
     echo "Update entrypoint"
-    sed -i '10,15d' /temp/entrypoint.sh
+    sed -i '9,14d' /temp/entrypoint.sh
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME - \$host/g" /temp/entrypoint.sh
 
     # Update the file database.xml with the correct values.
