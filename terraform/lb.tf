@@ -24,6 +24,22 @@ resource "aws_lb_listener_rule" "https_rule" {
 
 resource "aws_lb_target_group" "ga_tg" {
   name        = "ga-tg-${var.BRANCH_NAME}"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.vpc.id
+  health_check {
+    path      = "/"
+    matcher   = "200,302"
+  }
+  stickiness {
+    enabled   = true
+    type      = "lb_cookie"
+  }
+}
+
+resource "aws_lb_target_group" "ga_tg" {
+  name        = "ga-tg-${var.BRANCH_NAME}-8000"
   port        = 8000
   protocol    = "HTTP"
   target_type = "ip"
