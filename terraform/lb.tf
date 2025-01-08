@@ -38,7 +38,7 @@ resource "aws_lb_target_group" "ga_tg" {
   }
 }
 
-resource "aws_lb_target_group" "ga_tg" {
+resource "aws_lb_target_group" "ga_tg_8000" {
   name        = "ga-tg-${var.BRANCH_NAME}-8000"
   port        = 8000
   protocol    = "HTTP"
