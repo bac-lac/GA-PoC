@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "ga_tg_8001" {
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
     path      = "/"
-    matcher   = "200,302"
+    matcher   = "200-399"
   }
   stickiness {
     enabled   = true
@@ -66,7 +66,7 @@ resource "aws_lb_target_group" "ga_tg_8000" {
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
     path      = "/"
-    matcher   = "200,302"
+    matcher   = "200-399"
   }
   stickiness {
     enabled   = true
