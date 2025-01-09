@@ -108,9 +108,9 @@ variable "MOD_SECURITY_GROUP_ID" {
   description = "The Security Group Id."
 }
 
-variable "MOD_TARGET_GROUP_ARN" {
+variable "MOD_TARGET_GROUP_ARN_8001" {
   type = string
-  description = "The Target Group ARN."
+  description = "The Target Group for port 8001 ARN."
 }
 
 variable "MOD_TARGET_GROUP_ARN_8000" {

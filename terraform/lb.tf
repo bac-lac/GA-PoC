@@ -17,7 +17,7 @@ resource "aws_lb_listener_rule" "https_rule" {
 
   action {
     type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg.arn
+    target_group_arn  = aws_lb_target_group.ga_tg_8001.arn
   }
 
   condition {
@@ -42,7 +42,7 @@ resource "aws_lb_listener_rule" "http_rule" {
   }
 }
 
-resource "aws_lb_target_group" "ga_tg" {
+resource "aws_lb_target_group" "ga_tg_8001" {
   name        = "ga-tg-${var.BRANCH_NAME}"
   port        = 8001
   protocol    = "HTTP"

@@ -39,7 +39,7 @@ module "ecs_service" {
   MOD_CLUSTER_ID              = aws_ecs_cluster.ga_cluster.id
   MOD_SUBNETS                 = data.aws_subnets.app.ids
   MOD_SECURITY_GROUP_ID       = data.aws_security_group.app.id
-  MOD_TARGET_GROUP_ARN        = aws_lb_target_group.ga_tg.arn
+  MOD_TARGET_GROUP_ARN        = aws_lb_target_group.ga_tg_8001.arn
   MOD_TARGET_GROUP_ARN_8000   = aws_lb_target_group.ga_tg_8000.arn
   MOD_TASK_DEFINITION_CPU     = var.TASK_DEFINITION_CPU
   MOD_TASK_DEFINITION_MEMORY  = var.TASK_DEFINITION_MEMORY
