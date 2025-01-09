@@ -51,6 +51,7 @@ resource "aws_lb_target_group" "ga_tg_8001" {
   health_check {
     path      = "/"
     matcher   = "200-399"
+    port      = 8000
   }
   stickiness {
     enabled   = true
@@ -67,6 +68,7 @@ resource "aws_lb_target_group" "ga_tg_8000" {
   health_check {
     path      = "/"
     matcher   = "200-399"
+    port      = 8000
   }
   stickiness {
     enabled   = true
