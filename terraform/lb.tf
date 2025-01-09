@@ -44,7 +44,7 @@ resource "aws_lb_listener_rule" "http_rule" {
 
 resource "aws_lb_target_group" "ga_tg" {
   name        = "ga-tg-${var.BRANCH_NAME}"
-  port        = 80
+  port        = 8001
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
