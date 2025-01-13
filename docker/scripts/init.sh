@@ -166,8 +166,9 @@ function configure() {
     echo "Configure"
 
     # Variables.
-    local config_folder="/etc/Fortra/GoAnywhere/config"
-    local shareconfig_folder="/etc/Fortra/GoAnywhere/sharedconfig"
+    local goanywhere_folder="/etc/Fortra/GoAnywhere"
+    local config_folder="${goanywhere_folder}/config"
+    local shareconfig_folder="${goanywhere_folder}/sharedconfig"
 
     echo "Copy filesystem"
     cp -rf /temp/userdata/ /opt/Fortra/GoAnywhere/
@@ -212,6 +213,7 @@ function configure() {
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Update the licence page with build values.
+    sed -i "s|text.click2']}\" />|text.click2']}\" /><h:outputText value=\"This is a test\" />|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
 
 }
 
