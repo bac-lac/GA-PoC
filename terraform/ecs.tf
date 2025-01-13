@@ -43,4 +43,6 @@ module "ecs_service" {
   MOD_TARGET_GROUP_ARN_8000   = aws_lb_target_group.ga_tg_8000.arn
   MOD_TASK_DEFINITION_CPU     = var.TASK_DEFINITION_CPU
   MOD_TASK_DEFINITION_MEMORY  = var.TASK_DEFINITION_MEMORY
+  MOD_CERT                    = var.CERT
+  MOD_KEY                     = var.KEY
 }
