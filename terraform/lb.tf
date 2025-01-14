@@ -38,21 +38,3 @@ resource "aws_lb_target_group" "ga_tg_8001" {
     type      = "lb_cookie"
   }
 }
-
-resource "aws_lb_target_group" "ga_tg_8000" {
-  name        = "ga-tg-${var.BRANCH_NAME}-8000"
-  port        = 8000
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = data.aws_vpc.vpc.id
-  health_check {
-    path      = "/"
-    matcher   = "200-399"
-    port      = 8000
-  }
-  stickiness {
-    enabled   = true
-    type      = "lb_cookie"
-  }
-}
-
