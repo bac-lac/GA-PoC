@@ -166,9 +166,9 @@ function configure() {
     echo "Configure"
 
     # Variables.
-    local goanywhere_folder="/etc/Fortra/GoAnywhere"
-    local config_folder="${goanywhere_folder}/config"
-    local shareconfig_folder="${goanywhere_folder}/sharedconfig"
+    local goanywhere_folder="/opt/Fortra/GoAnywhere"
+    local config_folder="/etc/Fortra/GoAnywhere/config"
+    local shareconfig_folder="/etc/Fortra/GoAnywhere/sharedconfig"
 
     echo "Copy filesystem"
     cp -rf /temp/userdata/ /opt/Fortra/GoAnywhere/
@@ -216,7 +216,7 @@ function configure() {
     #ls -la "${goanywhere_folder}"
     #ls -la "${goanywhere_folder}"/adminroot/
     #ls -la "${goanywhere_folder}"/adminroot/license
-    #sed -i "s|text.click2']}\" />|text.click2']}\" /><h:outputText value=\"This is a test\" />|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
+    sed -i "s|text.click2']}\" />|text.click2']}\" /><h:outputText value=\"This is a test\" />|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
 
 }
 
