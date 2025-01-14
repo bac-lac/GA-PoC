@@ -154,9 +154,11 @@ function create_database_and_credentials() {
 #######################################
 # Configure the application
 # Globals:
+#   BRANCH_NAME
+#   DB_ADDRESS
 #   DB_PASSWORD
 #   DB_USERNAME
-#   DB_URL
+#   ECR_IMAGE
 # Arguments:
 #   None
 # Outputs:
@@ -166,7 +168,6 @@ function configure() {
     echo "Configure"
 
     # Variables.
-    local goanywhere_folder="/opt/Fortra/GoAnywhere"
     local config_folder="/etc/Fortra/GoAnywhere/config"
     local shareconfig_folder="/etc/Fortra/GoAnywhere/sharedconfig"
 
@@ -213,10 +214,10 @@ function configure() {
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Update the licence page with build values.
-    local sed_param1="<t:div styleClass=\"license-instructions\"><h:panelGroup><h:outputText value=\"Param1: \" /></h:panelGroup></t:div>"
-    local sed_param2="<t:div styleClass=\"license-instructions\"><h:panelGroup><h:outputText value=\"Param2: \" /></h:panelGroup></t:div>"
-    local sed_param3="<t:div styleClass=\"license-instructions\"><h:panelGroup><h:outputText value=\"Param3: \" /></h:panelGroup></t:div>"
-    sed -i "s|text.click2']}\" />|text.click2']}\" />${sed_param1}${sed_param2}${sed_param3}|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
+    local sed_param1="<t:div><h:panelGroup><h:outputText value=\"BRANCH_NAME: ${BRANCH_NAME}\" /></h:panelGroup></t:div>"
+    local sed_param2="<t:div><h:panelGroup><h:outputText value=\"ECR_IMAGE: ${ECR_IMAGE}\" /></h:panelGroup></t:div>"
+    local sed_param3="<t:div><h:panelGroup><h:outputText value=\"Version: \" /></h:panelGroup></t:div>"
+    sed -i "s|text.click2']}\" />|text.click2']}\" />${sed_param1}${sed_param2}${sed_param3}|g" /opt/Fortra/GoAnywhere/adminroot/license/Unlicensed.xhtml
 
 }
 
