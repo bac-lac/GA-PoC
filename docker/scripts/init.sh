@@ -213,10 +213,10 @@ function configure() {
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Update the licence page with build values.
-    #ls -la "${goanywhere_folder}"
-    #ls -la "${goanywhere_folder}"/adminroot/
-    #ls -la "${goanywhere_folder}"/adminroot/license
-    sed -i "s|text.click2']}\" />|text.click2']}\" /><h:outputText value=\"This is a test\" />|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
+    local sed_param1="<t:div styleClass=\"license-instructions\"><h:panelGroup><h:outputText value=\"Param1: \" /></h:panelGroup></t:div>"
+    local sed_param2="<t:div styleClass=\"license-instructions\"><h:panelGroup><h:outputText value=\"Param2: \" /></h:panelGroup></t:div>"
+    local sed_param3="<t:div styleClass=\"license-instructions\"><h:panelGroup><h:outputText value=\"Param3: \" /></h:panelGroup></t:div>"
+    sed -i "s|text.click2']}\" />|text.click2']}\" />${sed_param1}${sed_param2}${sed_param3}|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
 
 }
 
