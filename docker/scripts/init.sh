@@ -213,9 +213,9 @@ function configure() {
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Update the licence page with build values.
-    ls -la "${goanywhere_folder}"
-    ls -la "${goanywhere_folder}"/adminroot/
-    ls -la "${goanywhere_folder}"/adminroot/license
+    #ls -la "${goanywhere_folder}"
+    #ls -la "${goanywhere_folder}"/adminroot/
+    #ls -la "${goanywhere_folder}"/adminroot/license
     #sed -i "s|text.click2']}\" />|text.click2']}\" /><h:outputText value=\"This is a test\" />|g" "${goanywhere_folder}"/adminroot/license/Unlicensed.xhtml
 
 }
