@@ -83,13 +83,3 @@ variable "TASK_DEFINITION_MEMORY" {
   description = "The task definition memory."
   default = 3072
 }
-
-variable "CERT" {
-  type = string
-  description = "CERT."
-}
-
-variable "KEY" {
-  type = string
-  description = "KEY."
-}
