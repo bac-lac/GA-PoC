@@ -221,6 +221,8 @@ function configure() {
     sed -i "s|<meta name=\"viewport\"|${meta_param1}${meta_param2}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
     # Cert
+     echo " /etc/pki/"
+    ls -la /etc/pki/
     echo " /etc/pki/java/cacerts"
     ls -la /etc/pki/java/cacerts
     echo "${CERT}" | base64 --decode >> baclac.pfx
