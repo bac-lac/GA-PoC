@@ -18,7 +18,7 @@ COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 COPY /scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
-RUN chmod -R 777 /etc/pki/java/
+RUN chmod -R 777 /etc/pki/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
