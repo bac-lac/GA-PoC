@@ -128,7 +128,7 @@ variable "MOD_TASK_DEFINITION_MEMORY" {
   description = "Task definition memory."
 }
 
-variable "CERT" {
+variable "MOD_CERT" {
   type = string
   description = "CERT."
   default = "TRUE"
