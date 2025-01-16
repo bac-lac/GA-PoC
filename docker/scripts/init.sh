@@ -214,8 +214,8 @@ function configure() {
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Update the licence page with build values.
-    local sed_param1="<meta name=\"BRANCH_NAME\" content=\"${BRANCH_NAME}\" \>"
-    local sed_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" \>"
+    local sed_param1="<meta name=\"BRANCH_NAME\" content=\"${BRANCH_NAME}\" />"
+    local sed_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${sed_param1}${sed_param2}<meta name=\"viewport\"|g" /opt/Fortra/GoAnywhere/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
 }
