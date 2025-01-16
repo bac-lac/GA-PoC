@@ -18,6 +18,8 @@ COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 COPY /scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
+RUN chown gamft:gamft /etc/pki/java/cacerts
+
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 RUN dnf update -y \
