@@ -22,21 +22,6 @@ resource "aws_lb_listener_rule" "https_rule" {
   }
 }
 
-resource "aws_lb_listener_rule" "https_rule_ssl" {
-  listener_arn        = data.aws_lb_listener.https.arn
-
-  action {
-    type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg.arn
-  }
-
-  condition {
-    host_header {
-      values          = [var.BRANCH_NAME == "main" ? "ssl.${var.ENV}.ga.bac-lac.ca" : "ssl.${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
-    }
-  }
-}
-
 resource "aws_lb_target_group" "ga_tg" {
   name        = "ga-tg-${var.BRANCH_NAME}"
   port        = 8000
