@@ -15,7 +15,7 @@
         "environment": [
             {
                 "name": "SYSTEM_NAME",
-                "value": "MFT-${MFT_NUMBER}"
+                "value": "MFT${MFT_NUMBER}"
             },
             {
                 "name": "DB_USERNAME",
@@ -44,6 +44,14 @@
             {
                 "name": "FORCE_REFRESH",
                 "value": "${FORCE_REFRESH}"
+            },
+            {
+                "name": "BRANCH_NAME",
+                "value": "${BRANCH_NAME}"
+            },
+            {
+                "name": "ECR_IMAGE",
+                "value": "${ECR_IMAGE}"
             }
         ],
         "mountPoints": [

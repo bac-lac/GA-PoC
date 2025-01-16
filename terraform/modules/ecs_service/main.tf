@@ -34,6 +34,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   }
   container_definitions = templatefile("task-definitions/mft.tftpl", {
                                         ECR_IMAGE         = var.MOD_ECR_IMAGE,
+                                        BRANCH_NAME       = var.MOD_BRANCH_NAME,
                                         DB_USERNAME       = var.MOD_DB_USERNAME,
                                         DB_ADDRESS        = var.MOD_DB_ADDRESS,
                                         DB_PASSWORD       = var.MOD_DB_PASSWORD,
