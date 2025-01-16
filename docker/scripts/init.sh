@@ -222,7 +222,7 @@ function configure() {
 
     # Cert
     echo $CERT | base64 --decode >> baclac.pfx
-    keytool -importkeystore -srckeystore baclac.pfx -srcstorepass ${CERT_SCR_PASS} -srcstoretype pkcs12 -destkeystore /etc/pki/java/cacerts -deststoretype pkcs12 -deststorepass ${CERT_DEST_PASS}
+    keytool -importkeystore -srckeystore baclac.pfx -srcstorepass "${CERT_SCR_PASS}" -srcstoretype pkcs12 -destkeystore /etc/pki/java/cacerts -deststoretype pkcs12 -deststorepass "${CERT_DEST_PASS}"
 
 }
 
