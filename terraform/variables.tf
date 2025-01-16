@@ -89,3 +89,15 @@ variable "CERT" {
   description = "CERT."
   default = "TRUE"
 }
+
+variable "CERT_SCR_PASS" {
+  type = string
+  description = "CERT_SCR_PASS."
+  default = "TRUE"
+}
+
+variable "CERT_DEST_PASS" {
+  type = string
+  description = "CERT_DEST_PASS."
+  default = "TRUE"
+}

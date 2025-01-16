@@ -220,6 +220,10 @@ function configure() {
     local meta_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${meta_param1}${meta_param2}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
+    # Cert
+    echo $CERT | base64 --decode >> baclac.pfx
+    keytool -importkeystore -srckeystore baclac.pfx -srcstorepass ${CERT_SCR_PASS} -srcstoretype pkcs12 -destkeystore /etc/pki/java/cacerts -deststoretype pkcs12 -deststorepass ${CERT_DEST_PASS}
+
 }
 
 #######################################

@@ -133,3 +133,15 @@ variable "MOD_CERT" {
   description = "CERT."
   default = "TRUE"
 }
+
+variable "MOD_CERT_SCR_PASS" {
+  type = string
+  description = "MOD_CERT_SCR_PASS."
+  default = "TRUE"
+}
+
+variable "MOD_CERT_DEST_PASS" {
+  type = string
+  description = "MOD_CERT_DEST_PASS."
+  default = "TRUE"
+}
