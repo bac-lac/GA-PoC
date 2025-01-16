@@ -168,16 +168,18 @@ function configure() {
     echo "Configure"
 
     # Variables.
-    local config_folder="/etc/Fortra/GoAnywhere/config"
-    local shareconfig_folder="/etc/Fortra/GoAnywhere/sharedconfig"
+    local etc_ga_folder="/etc/Fortra/GoAnywhere"
+    local opt_ga_folder="/opt/Fortra/GoAnywhere"
+    local config_folder="${etc_ga_folder}/config"
+    local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
     echo "Copy filesystem"
-    cp -rf /temp/userdata/ /opt/Fortra/GoAnywhere/
-    cp -rf /temp/upgrader/ /opt/Fortra/GoAnywhere/
-    cp -rf /temp/config/ /etc/Fortra/GoAnywhere/
-    cp -rf /temp/tomcat/ /etc/Fortra/GoAnywhere/
-    cp -rf /temp/logs/ /opt/Fortra/GoAnywhere/tomcat/
-    cp -rf /temp/custom/ /opt/Fortra/GoAnywhere/ghttpsroot/
+    cp -rf /temp/userdata/ "${opt_ga_folder}"/
+    cp -rf /temp/upgrader/ "${opt_ga_folder}"/
+    cp -rf /temp/config/ "${etc_ga_folder}"/
+    cp -rf /temp/tomcat/ "${etc_ga_folder}"/
+    cp -rf /temp/logs/ "${opt_ga_folder}"/tomcat/
+    cp -rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
 
     # Copy config files to the shared folder.
     cp -rf /temp/config/*.xml "${shareconfig_folder}"
@@ -213,10 +215,10 @@ function configure() {
     ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
     ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
-    # Update the licence page with build values.
-    local sed_param1="<meta name=\"BRANCH_NAME\" content=\"${BRANCH_NAME}\" />"
-    local sed_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
-    sed -i "s|<meta name=\"viewport\"|${sed_param1}${sed_param2}<meta name=\"viewport\"|g" /opt/Fortra/GoAnywhere/adminroot/WEB-INF/includes/DocumentHead.xhtml
+    # Update the header's page with build values.
+    local meta_param1="<meta name=\"BRANCH_NAME\" content=\"${BRANCH_NAME}\" />"
+    local meta_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
+    sed -i "s|<meta name=\"viewport\"|${meta_param1}${meta_param2}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
 }
 
