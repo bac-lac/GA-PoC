@@ -174,7 +174,7 @@ function configure() {
     local config_folder="${etc_ga_folder}/config"
     local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
-    # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty
+    # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty.
     if [[ $FRESH_INSTALL == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
         echo "Copy filesystem"
         cp -rf /temp/userdata/ "${opt_ga_folder}"/
@@ -209,11 +209,11 @@ function configure() {
 
     fi
 
-    # Remove "update default ports" in the entrypoint
+    # Remove "update default ports" in the entrypoint.
     echo "Update entrypoint"
     sed -i '9,14d' /temp/entrypoint.sh
 
-    # Update hostname in entrypoint
+    # Update hostname in entrypoint.
     echo "Update hostname in entrypoint"
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME-\$host/g" /temp/entrypoint.sh
 

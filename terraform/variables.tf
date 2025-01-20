@@ -68,7 +68,7 @@ variable "FORCE_REFRESH" {
 
 variable "FRESH_INSTALL" {
   type = string
-  description = "If set to true, it will do a fresh install of the filesystem."
+  description = "If set to TRUE, it will do a fresh install of the filesystem."
   default = "FALSE"
 }
 

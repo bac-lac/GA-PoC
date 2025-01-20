@@ -80,7 +80,7 @@ variable "MOD_FORCE_REFRESH" {
 
 variable "MOD_FRESH_INSTALL" {
   type = string
-  description = "If set to true, it will do a fresh install of the filesystem.."
+  description = "If set to TRUE, it will do a fresh install of the filesystem.."
 }
 
 variable "MOD_BRANCH_NAME" {
