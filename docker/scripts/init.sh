@@ -159,6 +159,7 @@ function create_database_and_credentials() {
 #   DB_PASSWORD
 #   DB_USERNAME
 #   ECR_IMAGE
+#   FRESH_INSTALL
 # Arguments:
 #   None
 # Outputs:
@@ -173,20 +174,47 @@ function configure() {
     local config_folder="${etc_ga_folder}/config"
     local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
-    echo "Copy filesystem"
-    cp -rf /temp/userdata/ "${opt_ga_folder}"/
-    cp -rf /temp/upgrader/ "${opt_ga_folder}"/
-    cp -rf /temp/config/ "${etc_ga_folder}"/
-    cp -rf /temp/tomcat/ "${etc_ga_folder}"/
-    cp -rf /temp/logs/ "${opt_ga_folder}"/tomcat/
-    cp -rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
+    # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty.
+    if [[ $FRESH_INSTALL == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
+        echo "Copy filesystem"
+        cp -rf /temp/userdata/ "${opt_ga_folder}"/
+        cp -rf /temp/upgrader/ "${opt_ga_folder}"/
+        cp -rf /temp/config/ "${etc_ga_folder}"/
+        cp -rf /temp/tomcat/ "${etc_ga_folder}"/
+        cp -rf /temp/logs/ "${opt_ga_folder}"/tomcat/
+        cp -rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
 
-    # Copy config files to the shared folder.
-    cp -rf /temp/config/*.xml "${shareconfig_folder}"
+        # Copy config files to the shared folder.
+        echo "Copy config files to the shared folder"
+        cp -rf /temp/config/*.xml "${shareconfig_folder}"
 
-    # Remove "update default ports" in the entrypoint
+        # Creating symbolic link for application configuration files.
+        echo "Creating symbolic link for application configuration files"
+        cd "${config_folder}"
+        cp cluster.xml /tmp/cluster.xml
+        rm -rf ./*
+        cp /tmp/cluster.xml .
+        ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml
+        ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
+        ln -s "${shareconfig_folder}"/filecatalyst.xml "${config_folder}"/filecatalyst.xml
+        ln -s "${shareconfig_folder}"/ftp.xml "${config_folder}"/ftp.xml
+        ln -s "${shareconfig_folder}"/ftps.xml "${config_folder}"/ftps.xml
+        ln -s "${shareconfig_folder}"/gateway.xml "${config_folder}"/gateway.xml
+        ln -s "${shareconfig_folder}"/gofast.xml "${config_folder}"/gofast.xml
+        ln -s "${shareconfig_folder}"/https.xml "${config_folder}"/https.xml
+        ln -s "${shareconfig_folder}"/log4j2.xml "${config_folder}"/log4j2.xml
+        ln -s "${shareconfig_folder}"/pesit.xml "${config_folder}"/pesit.xml
+        ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
+        ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
+
+    fi
+
+    # Remove "update default ports" in the entrypoint.
     echo "Update entrypoint"
     sed -i '9,14d' /temp/entrypoint.sh
+
+    # Update hostname in entrypoint.
+    echo "Update hostname in entrypoint"
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME-\$host/g" /temp/entrypoint.sh
 
     # Update the file database.xml with the correct values.
@@ -196,24 +224,6 @@ function configure() {
     sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
-
-    # Creating symbolic link for application configuration files.
-    echo "Create symbolic link"
-    cd "${config_folder}"
-    cp cluster.xml /tmp/cluster.xml
-    rm -rf ./*
-    cp /tmp/cluster.xml .
-    ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
-    ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml
-    ln -s "${shareconfig_folder}"/ftp.xml "${config_folder}"/ftp.xml
-    ln -s "${shareconfig_folder}"/ftps.xml "${config_folder}"/ftps.xml
-    ln -s "${shareconfig_folder}"/gateway.xml "${config_folder}"/gateway.xml
-    ln -s "${shareconfig_folder}"/gofast.xml "${config_folder}"/gofast.xml
-    ln -s "${shareconfig_folder}"/https.xml "${config_folder}"/https.xml
-    ln -s "${shareconfig_folder}"/log4j2.xml "${config_folder}"/log4j2.xml
-    ln -s "${shareconfig_folder}"/pesit.xml "${config_folder}"/pesit.xml
-    ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
-    ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Update the header's page with build values.
     local meta_param1="<meta name=\"BRANCH_NAME\" content=\"${BRANCH_NAME}\" />"

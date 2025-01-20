@@ -36,6 +36,7 @@ module "ecs_service" {
   MOD_ADMIN_DB_USERNAME       = var.ADMIN_DB_USERNAME
   MOD_ADMIN_DB_PASSWORD       = var.ADMIN_DB_PASSWORD
   MOD_FORCE_REFRESH           = var.FORCE_REFRESH
+  MOD_FRESH_INSTALL           = var.FRESH_INSTALL
   MOD_CLUSTER_ID              = aws_ecs_cluster.ga_cluster.id
   MOD_SUBNETS                 = data.aws_subnets.app.ids
   MOD_SECURITY_GROUP_ID       = data.aws_security_group.app.id

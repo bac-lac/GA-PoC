@@ -44,6 +44,9 @@ The following environment variables are used to control the application at run-t
 - Default value: FALSE
 - Note: When refreshing the DB, the license needs to be removed in the UI before setting the variable to TRUE and running the pipeline.
 
+> FRESH_INSTALL *: If set to TRUE, it will do a fresh install of the filesystem.
+- Default value: FALSE
+
 > MFT_CLUSTER *: If set to true, this will start the application in cluster mode.
 - Default value: TRUE
 
