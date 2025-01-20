@@ -176,7 +176,7 @@ function configure() {
 
     # Copy filesystem only if FRESH_INSTALL is true
     echo "FRESH_INSTALL -> ${FRESH_INSTAL}"
-    if [[ $FRESH_INSTALL == "true" ]]; then 
+    if [[ $FRESH_INSTALL == "TRUE" ]]; then 
         echo "Copy filesystem"
         cp -rf /temp/userdata/ "${opt_ga_folder}"/
         cp -rf /temp/upgrader/ "${opt_ga_folder}"/
