@@ -175,7 +175,7 @@ function configure() {
     local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
     # Copy filesystem only if FRESH_INSTALL is true
-    echo "FRESH_INSTALL -> ${FRESH_INSTAL}"
+    echo "FRESH_INSTALL -> ${FRESH_INSTALL}"
     if [[ $FRESH_INSTALL == "TRUE" ]]; then 
         echo "Copy filesystem"
         cp -rf /temp/userdata/ "${opt_ga_folder}"/
@@ -191,6 +191,10 @@ function configure() {
 
         # Creating symbolic link for application configuration files.
         echo "Creating symbolic link for application configuration files"
+        cd "${config_folder}"
+        cp cluster.xml /tmp/cluster.xml
+        rm -rf ./*
+        cp /tmp/cluster.xml .
         ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml
         ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
         ln -s "${shareconfig_folder}"/filecatalyst.xml "${config_folder}"/filecatalyst.xml
