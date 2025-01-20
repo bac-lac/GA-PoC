@@ -174,9 +174,8 @@ function configure() {
     local config_folder="${etc_ga_folder}/config"
     local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
-    # Copy filesystem only if FRESH_INSTALL is true
-    echo "FRESH_INSTALL -> ${FRESH_INSTALL}"
-    if [[ $FRESH_INSTALL == "TRUE" ]]; then 
+    # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty
+    if [[ $FRESH_INSTALL == "TRUE" || -z "$( ls -A '${shareconfig_folder}' )" ]]; then 
         echo "Copy filesystem"
         cp -rf /temp/userdata/ "${opt_ga_folder}"/
         cp -rf /temp/upgrader/ "${opt_ga_folder}"/
