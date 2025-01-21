@@ -41,6 +41,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
                                         ADMIN_DB_USERNAME = var.MOD_ADMIN_DB_USERNAME,
                                         ADMIN_DB_PASSWORD = var.MOD_ADMIN_DB_PASSWORD,
                                         FORCE_REFRESH     = var.MOD_FORCE_REFRESH,
+                                        FRESH_INSTALL     = var.MOD_FRESH_INSTALL,
                                         MFT_NUMBER        = var.MOD_MFT_NUMBER,
                                         MFT_CLUSTER       = var.MOD_CLUSTER,
                                         CERT              = var.MOD_CERT,

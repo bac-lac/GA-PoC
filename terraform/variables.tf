@@ -66,6 +66,12 @@ variable "FORCE_REFRESH" {
   default = "FALSE"
 }
 
+variable "FRESH_INSTALL" {
+  type = string
+  description = "If set to TRUE, it will do a fresh install of the filesystem."
+  default = "FALSE"
+}
+
 variable "MFT_CLUSTER" {
   type = string
   description = "If set to true, this will start the application in cluster mode."

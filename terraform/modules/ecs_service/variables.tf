@@ -78,6 +78,11 @@ variable "MOD_FORCE_REFRESH" {
   description = "If set to true, this will start the application with an empty database."
 }
 
+variable "MOD_FRESH_INSTALL" {
+  type = string
+  description = "If set to TRUE, it will do a fresh install of the filesystem.."
+}
+
 variable "MOD_BRANCH_NAME" {
   type = string
   description = "The branch name used for resources creation."
