@@ -15,6 +15,18 @@
                 "containerPort": 8001,
                 "protocol": "tcp",
                 "appProtocol": "http"
+            },
+            {
+                "name": "mft-${MFT_NUMBER}-443-tcp",
+                "containerPort": 8443,
+                "protocol": "tcp",
+                "appProtocol": "http"
+            },
+            {
+                "name": "mft-${MFT_NUMBER}-22-tcp",
+                "containerPort": 8022,
+                "protocol": "tcp",
+                "appProtocol": "http"
             }
         ],
         "essential": true,
