@@ -22,7 +22,7 @@ resource "aws_lb_listener_rule" "https_rule" {
   }
 }
 
-resource "aws_lb_listener_rule" "8443_rule" {
+resource "aws_lb_listener_rule" "web_client_rule" {
   listener_arn        = data.aws_lb_listener.https.arn
 
   action {
@@ -37,7 +37,7 @@ resource "aws_lb_listener_rule" "8443_rule" {
   }
 
   tags = {
-    Name = "Transfer-${var.BRANCH_NAME}"
+    Name = "Web-Client-${var.BRANCH_NAME}"
   }
 }
 
