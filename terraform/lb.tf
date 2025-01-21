@@ -32,7 +32,7 @@ resource "aws_lb_listener_rule" "transfer_rule" {
 
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "transfer-${var.ENV}.ga.bac-lac.ca" : "transfer-${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "transfer.${var.ENV}.ga.bac-lac.ca" : "transfer.${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
     }
   }
 
@@ -57,8 +57,8 @@ resource "aws_lb_target_group" "ga_tg" {
   }
 }
 
-resource "aws_lb_target_group" "ga_tg_transfer" {
-  name        = "ga-tg-${var.BRANCH_NAME}-transfer"
+resource "aws_lb_target_group" "ga_tg_8443" {
+  name        = "ga-tg-${var.BRANCH_NAME}-8443"
   port        = 8443
   protocol    = "HTTPS"
   target_type = "ip"

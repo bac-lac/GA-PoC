@@ -118,6 +118,11 @@ variable "MOD_TARGET_GROUP_ARN" {
   description = "The Target Group ARN."
 }
 
+variable "MOD_TARGET_GROUP_8443_ARN" {
+  type = string
+  description = "The Target Group for port 8443 ARN."
+}
+
 variable "MOD_CLUSTER" {
   type = string
   description = "Cluster mode (True or False)."
