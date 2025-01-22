@@ -22,6 +22,25 @@ resource "aws_lb_listener_rule" "https_rule" {
   }
 }
 
+resource "aws_lb_listener_rule" "web_client_rule" {
+  listener_arn        = data.aws_lb_listener.https.arn
+
+  action {
+    type              = "forward"
+    target_group_arn  = aws_lb_target_group.ga_tg_8443.arn
+  }
+
+  condition {
+    host_header {
+      values          = [var.BRANCH_NAME == "main" ? "transfer.${var.ENV}.ga.bac-lac.ca" : "transfer.${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
+    }
+  }
+
+  tags = {
+    Name = "Web-Client-${var.BRANCH_NAME}"
+  }
+}
+
 resource "aws_lb_target_group" "ga_tg" {
   name        = "ga-tg-${var.BRANCH_NAME}"
   port        = 80
@@ -38,3 +57,19 @@ resource "aws_lb_target_group" "ga_tg" {
   }
 }
 
+resource "aws_lb_target_group" "ga_tg_8443" {
+  name        = "ga-tg-${var.BRANCH_NAME}-8443"
+  port        = 8443
+  protocol    = "HTTPS"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.vpc.id
+  health_check {
+    path      = "/"
+    matcher   = "200,302"
+    port      = 8000
+  }
+  stickiness {
+    enabled   = true
+    type      = "lb_cookie"
+  }
+}
