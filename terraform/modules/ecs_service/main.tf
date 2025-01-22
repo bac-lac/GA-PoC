@@ -71,5 +71,10 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_name      = "MFT-${var.MOD_MFT_NUMBER}"
     container_port      = 8443
   }
+  load_balancer {
+    target_group_arn    = var.MOD_TARGET_GROUP_22_ARN
+    container_name      = "MFT-${var.MOD_MFT_NUMBER}"
+    container_port      = 8022
+  }
   enable_execute_command = true
 }

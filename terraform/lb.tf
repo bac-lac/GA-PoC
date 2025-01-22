@@ -73,3 +73,29 @@ resource "aws_lb_target_group" "ga_tg_8443" {
     type      = "lb_cookie"
   }
 }
+
+data "aws_lb" "dev_nlb"{
+  name = "dev-nlb-test"
+}
+
+resource "aws_lb_listener" "sftp" {
+  load_balancer_arn = data.aws_lb.dev_nlb.arn
+  port              = "22"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ga_tg_22.arn
+  }
+}
+
+resource "aws_lb_target_group" "ga_tg_22" {
+  name        = "ga-tg-${var.BRANCH_NAME}-22"
+  port        = 22
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.vpc.id
+  health_check {
+    path      = "/"
+    matcher   = "200,302"
+    port      = 8000
+  }
+}

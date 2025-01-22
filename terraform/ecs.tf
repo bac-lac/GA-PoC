@@ -42,6 +42,7 @@ module "ecs_service" {
   MOD_SECURITY_GROUP_ID       = data.aws_security_group.app.id
   MOD_TARGET_GROUP_ARN        = aws_lb_target_group.ga_tg.arn
   MOD_TARGET_GROUP_8443_ARN   = aws_lb_target_group.ga_tg_8443.arn
+  MOD_TARGET_GROUP_22_ARN   = aws_lb_target_group.ga_tg_22.arn
   MOD_TASK_DEFINITION_CPU     = var.TASK_DEFINITION_CPU
   MOD_TASK_DEFINITION_MEMORY  = var.TASK_DEFINITION_MEMORY
 }
