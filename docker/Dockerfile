@@ -28,6 +28,10 @@ RUN dnf update -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 
+# Installing fluent-bit
+#RUN dnf install fluent-bit -y
+#RUN curl https://raw.githubusercontent.com/fluent/fluent-bit/master/install.sh | sh
+
 # Installing saxon he
 RUN mkdir saxon \
   && curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> saxon/file.txt \
