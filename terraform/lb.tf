@@ -91,7 +91,7 @@ resource "aws_lb_listener" "sftp" {
 resource "aws_lb_target_group" "ga_tg_22" {
   name        = "ga-tg-${var.BRANCH_NAME}-22"
   port        = 22
-  protocol    = "HTTP"
+  protocol    = "TCP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
