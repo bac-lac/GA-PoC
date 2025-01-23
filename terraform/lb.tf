@@ -61,6 +61,10 @@ resource "aws_lb_target_group" "ga_tg_default" {
   protocol    = "HTTPS"
   target_type = "instance"
   vpc_id      = data.aws_vpc.vpc.id
+  health_check {
+    path      = "/"
+    matcher   = "200"
+  }
   tags = {
     Name = "Default-tg"
   }
