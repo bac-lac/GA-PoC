@@ -16,7 +16,7 @@ resource "aws_lb_listener" "https" {
   certificate_arn     = data.aws_acm_certificate.baclacca.arn
   default_action {
     type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg_443.arn
+    target_group_arn  = aws_lb_target_group.ga_tg_default.arn
   }
   tags = {
     Name = "HTTPS-${var.BRANCH_NAME}"
@@ -52,6 +52,17 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
   tags = {
     Name = "Web-Client-${var.BRANCH_NAME}"
+  }
+}
+
+resource "aws_lb_target_group" "ga_tg_default" {
+  name        = "ga-tg-default"
+  port        = 443
+  protocol    = "HTTPS"
+  target_type = "instance"
+  vpc_id      = data.aws_vpc.vpc.id
+  tags = {
+    Name = "Default-tg"
   }
 }
 
