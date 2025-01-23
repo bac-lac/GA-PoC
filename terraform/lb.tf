@@ -1,35 +1,47 @@
-data "aws_lb" "core_lb"{
-  name = "core-${var.ENV}-alb"
+resource "aws_lb" "ga_alb" {
+  name               = "ga-alb"
+  internal           = true
+  load_balancer_type = "application"
+  security_groups    = [data.aws_security_group.app.id]
+  subnets            = [data.aws_subnets.app.ids]
+  enable_deletion_protection = true
 }
 
-data "aws_lb_listener" "https" {
-  load_balancer_arn = data.aws_lb.core_lb.arn
-  port              = 443
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.ga_alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.ga_tg_443.arn
+  }
+  tags = {
+    Name = "HTTPS-${var.BRANCH_NAME}"
+  }
 }
 
-resource "aws_lb_listener_rule" "https_rule" {
-  listener_arn        = data.aws_lb_listener.https.arn
-
+resource "aws_lb_listener_rule" "admin_rule" {
+  listener_arn        = aws_lb_listener.https.arn
   action {
     type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg.arn
+    target_group_arn  = aws_lb_target_group.ga_tg_443.arn
   }
-
   condition {
     host_header {
       values          = [var.BRANCH_NAME == "main" ? "${var.ENV}.ga.bac-lac.ca" : "${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
     }
   }
+  tags = {
+    Name = "Admin-${var.BRANCH_NAME}"
+  }
 }
 
 resource "aws_lb_listener_rule" "web_client_rule" {
-  listener_arn        = data.aws_lb_listener.https.arn
-
+  listener_arn        = aws_lb_listener.https.arn
   action {
     type              = "forward"
     target_group_arn  = aws_lb_target_group.ga_tg_8443.arn
   }
-
   condition {
     host_header {
       values          = [var.BRANCH_NAME == "main" ? "transfer.${var.ENV}.ga.bac-lac.ca" : "transfer.${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
@@ -40,19 +52,23 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
 }
 
-resource "aws_lb_target_group" "ga_tg" {
-  name        = "ga-tg-${var.BRANCH_NAME}"
-  port        = 80
-  protocol    = "HTTP"
+resource "aws_lb_target_group" "ga_tg_443" {
+  name        = "ga-tg-${var.BRANCH_NAME}-443"
+  port        = 443
+  protocol    = "HTTPS"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
     path      = "/"
     matcher   = "200,302"
+    port      = 8000
   }
   stickiness {
     enabled   = true
     type      = "lb_cookie"
+  }
+  tags = {
+    Name = "Admin-${var.BRANCH_NAME}"
   }
 }
 
@@ -71,14 +87,22 @@ resource "aws_lb_target_group" "ga_tg_8443" {
     enabled   = true
     type      = "lb_cookie"
   }
+  tags = {
+    Name = "Web-client-${var.BRANCH_NAME}"
+  }
 }
 
-data "aws_lb" "dev_nlb"{
-  name = "dev-nlb-test"
+resource "aws_lb" "ga_nlb" {
+  name               = "ga-nlb"
+  internal           = true
+  load_balancer_type = "network"
+  security_groups    = [data.aws_security_group.app.id]
+  subnets            = [data.aws_subnets.app.ids]
+  enable_deletion_protection = true
 }
 
 resource "aws_lb_listener" "sftp" {
-  load_balancer_arn = data.aws_lb.dev_nlb.arn
+  load_balancer_arn = aws_lb.ga_nlb.arn
   port              = var.BRANCH_NAME == "main" ? "22" : "8022"
   protocol          = "TCP"
   default_action {
