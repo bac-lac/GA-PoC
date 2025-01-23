@@ -35,7 +35,6 @@ resource "aws_lb_listener_rule" "web_client_rule" {
       values          = [var.BRANCH_NAME == "main" ? "transfer.${var.ENV}.ga.bac-lac.ca" : "transfer.${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
     }
   }
-
   tags = {
     Name = "Web-Client-${var.BRANCH_NAME}"
   }
@@ -80,11 +79,14 @@ data "aws_lb" "dev_nlb"{
 
 resource "aws_lb_listener" "sftp" {
   load_balancer_arn = data.aws_lb.dev_nlb.arn
-  port              = "22"
+  port              = var.BRANCH_NAME == "main" ? "22" : "8022"
   protocol          = "TCP"
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ga_tg_22.arn
+  }
+  tags = {
+    Name = "SFTP-${var.BRANCH_NAME}"
   }
 }
 
@@ -98,5 +100,8 @@ resource "aws_lb_target_group" "ga_tg_22" {
     path      = "/"
     matcher   = "200,302"
     port      = 8000
+  }
+  tags = {
+    Name = "SFTP-${var.BRANCH_NAME}"
   }
 }
