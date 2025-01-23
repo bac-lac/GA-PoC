@@ -3,7 +3,7 @@ resource "aws_lb" "ga_alb" {
   internal                    = true
   load_balancer_type          = "application"
   security_groups             = [data.aws_security_group.web.id]
-  subnets                     = [for subnet in data.aws_subnets.web.ids : subnet.id]
+  subnets                     = data.aws_subnets.web.ids
   enable_deletion_protection  = true
   drop_invalid_header_fields  = true
 }
@@ -100,7 +100,7 @@ resource "aws_lb" "ga_nlb" {
   internal                          = true
   load_balancer_type                = "network"
   security_groups                   = [data.aws_security_group.web.id]
-  subnets                           = [for subnet in data.aws_subnets.web.ids : subnet.id]
+  subnets                           = data.aws_subnets.web.ids
   enable_cross_zone_load_balancing  = true
   enable_deletion_protection        = true
 }
