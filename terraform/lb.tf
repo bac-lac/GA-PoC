@@ -18,9 +18,6 @@ resource "aws_lb_listener" "https" {
     type              = "forward"
     target_group_arn  = aws_lb_target_group.ga_tg_default.arn
   }
-  tags = {
-    Name = "HTTPS-${var.BRANCH_NAME}"
-  }
 }
 
 resource "aws_lb_listener_rule" "admin_rule" {
