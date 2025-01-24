@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "ga_tg_443" {
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8000
+    port      = 8001
   }
   stickiness {
     enabled   = true
@@ -96,7 +96,7 @@ resource "aws_lb_target_group" "ga_tg_8443" {
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8000
+    port      = 8443
   }
   stickiness {
     enabled   = true
@@ -139,7 +139,8 @@ resource "aws_lb_target_group" "ga_tg_22" {
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8000
+    port      = 8022
+    protocol  = "TCP"
   }
   tags = {
     Name = "SFTP-${var.BRANCH_NAME}"
