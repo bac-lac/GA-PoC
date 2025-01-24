@@ -1,5 +1,5 @@
 resource "aws_lb" "ga_alb" {
-  name                        = "ga-alb"
+  name                        = "ga-alb-${var.BRANCH_NAME}"
   internal                    = true
   load_balancer_type          = "application"
   security_groups             = [data.aws_security_group.web.id]
@@ -108,7 +108,7 @@ resource "aws_lb_target_group" "ga_tg_8443" {
 }
 
 resource "aws_lb" "ga_nlb" {
-  name                              = "ga-nlb"
+  name                              = "ga-nlb-${var.BRANCH_NAME}"
   internal                          = true
   load_balancer_type                = "network"
   security_groups                   = [data.aws_security_group.web.id]
