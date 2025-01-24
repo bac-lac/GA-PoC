@@ -138,7 +138,6 @@ resource "aws_lb_target_group" "ga_tg_22" {
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
     path      = "/"
-    matcher   = "200,302"
     port      = 8022
     protocol  = "TCP"
   }
