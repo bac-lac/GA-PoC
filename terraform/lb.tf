@@ -53,7 +53,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
 }
 
 resource "aws_lb_target_group" "ga_tg_default" {
-  name        = "ga-tg-default"
+  name        = "ga-tg-${var.BRANCH_NAME}-default"
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
