@@ -77,6 +77,7 @@ resource "aws_lb_target_group" "ga_tg_443" {
     path      = "/"
     matcher   = "200,302"
     port      = 8001
+    protocol  = "HTTPS"
   }
   stickiness {
     enabled   = true
@@ -97,6 +98,7 @@ resource "aws_lb_target_group" "ga_tg_8443" {
     path      = "/"
     matcher   = "200,302"
     port      = 8443
+    protocol  = "HTTPS"
   }
   stickiness {
     enabled   = true
