@@ -1,5 +1,5 @@
 resource "aws_lb" "ga_alb" {
-  name                        = "ga-alb"
+  name                        = "ga-alb-${var.BRANCH_NAME}"
   internal                    = true
   load_balancer_type          = "application"
   security_groups             = [data.aws_security_group.web.id]
@@ -53,7 +53,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
 }
 
 resource "aws_lb_target_group" "ga_tg_default" {
-  name        = "ga-tg-default"
+  name        = "ga-tg-${var.BRANCH_NAME}-default"
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
@@ -76,7 +76,8 @@ resource "aws_lb_target_group" "ga_tg_443" {
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8000
+    port      = 8001
+    protocol  = "HTTPS"
   }
   stickiness {
     enabled   = true
@@ -96,7 +97,8 @@ resource "aws_lb_target_group" "ga_tg_8443" {
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8000
+    port      = 8443
+    protocol  = "HTTPS"
   }
   stickiness {
     enabled   = true
@@ -108,7 +110,7 @@ resource "aws_lb_target_group" "ga_tg_8443" {
 }
 
 resource "aws_lb" "ga_nlb" {
-  name                              = "ga-nlb"
+  name                              = "ga-nlb-${var.BRANCH_NAME}"
   internal                          = true
   load_balancer_type                = "network"
   security_groups                   = [data.aws_security_group.web.id]
@@ -137,9 +139,8 @@ resource "aws_lb_target_group" "ga_tg_22" {
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
-    path      = "/"
-    matcher   = "200,302"
-    port      = 8000
+    port      = 8022
+    protocol  = "TCP"
   }
   tags = {
     Name = "SFTP-${var.BRANCH_NAME}"
