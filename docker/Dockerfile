@@ -18,6 +18,8 @@ COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 COPY /scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
+COPY /scripts/fluent-bit.repo /etc/yum.repos.d/
+
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 RUN dnf update -y \
@@ -27,6 +29,9 @@ RUN dnf update -y \
   && dnf install mono-complete -y \
   && dnf -y clean all \
   && rm -rf /var/cache
+
+# Installing fluent-bit
+RUN yum install fluent-bit --nobest -y
 
 # Installing saxon he
 RUN mkdir saxon \
