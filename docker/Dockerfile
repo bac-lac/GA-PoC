@@ -27,11 +27,9 @@ RUN dnf update -y \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
   && dnf install unzip epel-release mysql-community-client -y \
   && dnf install mono-complete -y \
+  && dnf install fluent-bit --nobest -y \
   && dnf -y clean all \
   && rm -rf /var/cache
-
-# Installing fluent-bit
-RUN yum install fluent-bit --nobest -y
 
 # Installing saxon he
 RUN mkdir saxon \
