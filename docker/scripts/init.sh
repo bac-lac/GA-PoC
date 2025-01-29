@@ -244,6 +244,7 @@ function configure() {
 function start() {
 
     echo "Start application"
+    fluent-bit -c /etc/fluent-bit/fluent-bit.conf &
 
     exec /temp/entrypoint.sh
 }
