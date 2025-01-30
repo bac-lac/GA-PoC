@@ -52,7 +52,7 @@ RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/mar
 
 # Copy fluent-bit configuration.
 COPY /configs/fluent-bit.conf /etc/fluent-bit/
-RUN chmod -r +w /etc/fluent-bit/
+RUN chmod -R +w /etc/fluent-bit/
 
 # Cleanup.
 RUN rm /opt/marcedit.run \
