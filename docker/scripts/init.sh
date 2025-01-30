@@ -23,6 +23,7 @@ function main() {
     wait_for_database_service_availability
     create_database_and_credentials
     configure
+    configure_fluentbit
     start
 
     # Remove DEBUG and EXIT trap
@@ -233,6 +234,29 @@ function configure() {
 }
 
 #######################################
+# Configure the fluent-bit application
+# Globals:
+#   BRANCH_NAME
+# Arguments:
+#   None
+# Outputs:
+#   None
+#######################################
+function configure_fluentbit() {
+    echo "Configure Fluent-bit"
+
+    # Variables.
+    local configuration="/etc/fluent-bit/fluent-bit.conf"
+
+    # Setting up parameters.
+    sed -i "s|[[REGION]]|ca-central-1|g" "${configuration}"
+    sed -i "s|[[LOG_GROUP_NAME]]|/aws/ecs/fluentbit/${BRANCH_NAME}|g" "${configuration}"
+
+    # Starting fluent-bit in a background application.
+    fluent-bit -c "${configuration}" &
+}
+
+#######################################
 # Start application
 # Globals:
 #   None
@@ -244,7 +268,6 @@ function configure() {
 function start() {
 
     echo "Start application"
-    fluent-bit -c /etc/fluent-bit/fluent-bit.conf &
 
     exec /temp/entrypoint.sh
 }
