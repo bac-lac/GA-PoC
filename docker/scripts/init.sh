@@ -249,8 +249,8 @@ function configure_fluentbit() {
     local configuration="/etc/fluent-bit/fluent-bit.conf"
 
     # Setting up parameters.
-    sed -i "s|[[REGION]]|ca-central-1|g" "${configuration}"
-    sed -i "s|[[LOG_GROUP_NAME]]|/aws/ecs/fluentbit/${BRANCH_NAME}|g" "${configuration}"
+    #sed -i "s|[[REGION]]|ca-central-1|g" "${configuration}"
+    #sed -i "s|[[LOG_GROUP_NAME]]|/aws/ecs/fluentbit/${BRANCH_NAME}|g" "${configuration}"
 
     # Starting fluent-bit in a background application.
     fluent-bit -c "${configuration}" &
