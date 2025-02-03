@@ -4,7 +4,7 @@ resource "aws_lb" "ga_alb" {
   load_balancer_type          = "application"
   security_groups             = [data.aws_security_group.web.id]
   subnets                     = data.aws_subnets.web.ids
-  enable_deletion_protection  = true
+  enable_deletion_protection  = [var.BRANCH_NAME == "main" ? true : false]
   drop_invalid_header_fields  = true
 }
 
@@ -116,7 +116,7 @@ resource "aws_lb" "ga_nlb" {
   security_groups                   = [data.aws_security_group.web.id]
   subnets                           = data.aws_subnets.web.ids
   enable_cross_zone_load_balancing  = true
-  enable_deletion_protection        = true
+  enable_deletion_protection        = [var.BRANCH_NAME == "main" ? true : false]
 }
 
 resource "aws_lb_listener" "sftp" {
