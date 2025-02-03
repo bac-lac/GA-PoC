@@ -18,6 +18,8 @@ COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 COPY /scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
+COPY /scripts/fluent-bit.repo /etc/yum.repos.d/
+
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
 RUN dnf update -y \
@@ -25,6 +27,7 @@ RUN dnf update -y \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
   && dnf install unzip epel-release mysql-community-client -y \
   && dnf install mono-complete -y \
+  && dnf install fluent-bit --nobest -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 
@@ -46,6 +49,10 @@ RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/mar
   && chmod u+x /opt/marcedit.run \
   && /opt/marcedit.run --target /opt/marcedit \
   && chmod -R 755 /opt/marcedit
+
+# Copy fluent-bit configuration.
+COPY /configs/fluent-bit.conf /etc/fluent-bit/
+RUN chmod -R 777 /etc/fluent-bit/
 
 # Cleanup.
 RUN rm /opt/marcedit.run \

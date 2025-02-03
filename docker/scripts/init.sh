@@ -23,6 +23,7 @@ function main() {
     wait_for_database_service_availability
     create_database_and_credentials
     configure
+    configure_fluentbit
     start
 
     # Remove DEBUG and EXIT trap
@@ -230,6 +231,33 @@ function configure() {
     local meta_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${meta_param1}${meta_param2}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
+}
+
+#######################################
+# Configure the fluent-bit application
+# Globals:
+#   SYSTEM_NAME
+# Arguments:
+#   None
+# Outputs:
+#   None
+#######################################
+function configure_fluentbit() {
+    echo "Configure Fluent-bit"
+
+    # Variables.
+    local configuration="/etc/fluent-bit/fluent-bit.conf"
+    local container_id
+    
+    container_id=$(awk -F/ '{print $(NF-1)}' < /proc/1/cpuset)
+
+    # Setting up parameters.
+    sed -i "s|{{REGION}}|ca-central-1|g" "${configuration}"
+    sed -i "s|{{LOG_GROUP_NAME}}|/ecs/ga-td|g" "${configuration}"
+    sed -i "s|{{SYSTEM_NAME}}|${SYSTEM_NAME}/${container_id}/|g" "${configuration}"
+
+    # Starting fluent-bit in a background application.
+    fluent-bit -c "${configuration}" &
 }
 
 #######################################
