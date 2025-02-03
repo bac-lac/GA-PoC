@@ -247,7 +247,9 @@ function configure_fluentbit() {
 
     # Variables.
     local configuration="/etc/fluent-bit/fluent-bit.conf"
-    local container_id=$(cat /proc/1/cpuset | awk -F/ '{print $(NF-1)}')
+    local container_id
+    
+    container_id=$(awk -F/ '{print $(NF-1)}' < /proc/1/cpuset)
 
     # Setting up parameters.
     sed -i "s|{{REGION}}|ca-central-1|g" "${configuration}"
