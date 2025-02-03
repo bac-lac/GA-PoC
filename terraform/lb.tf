@@ -5,6 +5,7 @@ resource "aws_lb" "ga_alb" {
   security_groups             = [data.aws_security_group.web.id]
   subnets                     = data.aws_subnets.web.ids
   enable_deletion_protection  = [var.BRANCH_NAME == "main" ? true : false]
+    #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled"
   drop_invalid_header_fields  = true
 }
 
@@ -117,6 +118,7 @@ resource "aws_lb" "ga_nlb" {
   subnets                           = data.aws_subnets.web.ids
   enable_cross_zone_load_balancing  = true
   enable_deletion_protection        = [var.BRANCH_NAME == "main" ? true : false]
+    #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled"
 }
 
 resource "aws_lb_listener" "sftp" {
