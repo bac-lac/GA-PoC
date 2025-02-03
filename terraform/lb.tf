@@ -4,7 +4,7 @@ resource "aws_lb" "ga_alb" {
   load_balancer_type          = "application"
   security_groups             = [data.aws_security_group.web.id]
   subnets                     = data.aws_subnets.web.ids
-  enable_deletion_protection  = [var.BRANCH_NAME == "main" ? true : false]
+  enable_deletion_protection  = var.BRANCH_NAME == "main" ? true : false
     #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled. Skipping check for PRs"
   drop_invalid_header_fields  = true
   access_logs {
@@ -122,7 +122,7 @@ resource "aws_lb" "ga_nlb" {
   security_groups                   = [data.aws_security_group.web.id]
   subnets                           = data.aws_subnets.web.ids
   enable_cross_zone_load_balancing  = true
-  enable_deletion_protection        = [var.BRANCH_NAME == "main" ? true : false]
+  enable_deletion_protection        = var.BRANCH_NAME == "main" ? true : false
     #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled. Skipping check for PRs"
   access_logs {
     bucket  = "aws-accelerator-s3-access-logs-${var.ACCOUNT}-ca-central-1"
