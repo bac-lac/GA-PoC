@@ -236,7 +236,7 @@ function configure() {
 #######################################
 # Configure the fluent-bit application
 # Globals:
-#   BRANCH_NAME
+#   SYSTEM_NAME
 # Arguments:
 #   None
 # Outputs:
@@ -247,10 +247,12 @@ function configure_fluentbit() {
 
     # Variables.
     local configuration="/etc/fluent-bit/fluent-bit.conf"
+    local container_id=$(cat /proc/1/cpuset | awk -F/ '{print $(NF-1)}')
 
     # Setting up parameters.
     sed -i "s|{{REGION}}|ca-central-1|g" "${configuration}"
-    sed -i "s|{{LOG_GROUP_NAME}}|/aws/ecs/fluentbit/${BRANCH_NAME}|g" "${configuration}"
+    sed -i "s|{{LOG_GROUP_NAME}}|/ecs/ga-td|g" "${configuration}"
+    sed -i "s|{{SYSTEM_NAME}}|${SYSTEM_NAME}/${container_id}/|g" "${configuration}"
 
     # Starting fluent-bit in a background application.
     fluent-bit -c "${configuration}" &
