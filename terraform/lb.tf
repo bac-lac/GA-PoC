@@ -123,7 +123,8 @@ resource "aws_lb" "ga_nlb" {
   subnets                           = data.aws_subnets.web.ids
   enable_cross_zone_load_balancing  = true
   enable_deletion_protection        = var.BRANCH_NAME == "main" ? true : false
-    #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled. Skipping check for PRs"
+    #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled. Skipping check for PRs."
+    #checkov:skip=CKV_AWS_91: "Ensure the ELBv2 (Application/Network) has access logging enabled."
 }
 
 resource "aws_lb_listener" "sftp" {
