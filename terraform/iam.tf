@@ -47,6 +47,32 @@ data "aws_iam_policy_document" "ga_ecs_task_role_inline_policy" {
   }
 }
 
+data "aws_iam_policy_document" "ga_s3_allow_lb" {
+  statement {
+    principals {
+      type        = "Service"
+      identifiers = ["logdelivery.elb.amazonaws.com"]
+    }
+
+    actions = [
+      "s3:PutObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.ga_s3.arn}/*"
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+
+      values = [
+        "${var.ACCOUNT}"
+      ]
+    }
+  }
+}
+
 resource "aws_iam_role" "ga_ecs_role" {
   name                = "ga_ecs_role-${var.BRANCH_NAME}"
   description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
