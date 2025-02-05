@@ -84,6 +84,17 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
       ]
     }
   }
+  statement {
+    effect = "Allow"
+    resources = [
+      "${aws_s3_bucket.ga_s3.arn}/*"
+    ]
+    actions = ["s3:GetBucketAcl"]
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+  }
 }
 
 resource "aws_iam_role" "ga_ecs_role" {
