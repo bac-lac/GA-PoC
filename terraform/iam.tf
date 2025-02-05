@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = "${data.aws_elb_service_account.main.arn}"
+      identifiers = ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
     }
 
     actions = [
