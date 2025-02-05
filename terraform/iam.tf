@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
     actions = ["s3:GetBucketAcl"]
     principals {
       type        = "Service"
-      identifiers = ["delivery.logs.amazonaws.com"]
+      identifiers = ["logging.logs.amazonaws.com"]
     }
   }
 }
