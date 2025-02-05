@@ -47,11 +47,38 @@ data "aws_iam_policy_document" "ga_ecs_task_role_inline_policy" {
   }
 }
 
+data "aws_elb_service_account" "main" {}
+
 data "aws_iam_policy_document" "ga_s3_allow_lb" {
   statement {
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_elb_service_account.elb_account_id.id}:root"]
+    }
+
+    actions = [
+      "s3:PutObject"
+    ]
+
+    resources = [
+      "${aws_s3_bucket.ga_s3.arn}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+
+      values = [
+        false
+      ]
+    }
+  }
+  statement {
+    effect = "Allow"
     principals {
       type        = "Service"
-      identifiers = ["logdelivery.elb.amazonaws.com"]
+      identifiers = ["delivery.logs.amazonaws.com"]
     }
 
     actions = [
