@@ -8,8 +8,7 @@ resource "aws_lb" "ga_alb" {
     #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled. Skipping check for PRs"
   drop_invalid_header_fields  = true
   access_logs {
-    bucket  = "s3-access-logs-${var.ACCOUNT}-ca-central-1"
-    prefix  = "${var.BRANCH_NAME}"
+    bucket  = "${var.BRANCH_NAME}-s3-access-logs-${var.ACCOUNT}-ca-central-1"
     enabled = true
   }
 }
@@ -125,8 +124,7 @@ resource "aws_lb" "ga_nlb" {
   enable_deletion_protection        = var.BRANCH_NAME == "main" ? true : false
     #checkov:skip=CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled. Skipping check for PRs."
   access_logs {
-    bucket  = "s3-access-logs-${var.ACCOUNT}-ca-central-1"
-    prefix  = "${var.BRANCH_NAME}"
+    bucket  = "${var.BRANCH_NAME}-s3-access-logs-${var.ACCOUNT}-ca-central-1"
     enabled = true
   }
 }

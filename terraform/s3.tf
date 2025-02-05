@@ -1,6 +1,5 @@
 resource "aws_s3_bucket" "ga_s3" {
-  bucket = "s3-access-logs-${var.ACCOUNT}-ca-central-1"
-  bucket_prefix = "${var.BRANCH_NAME}"
+  bucket = "${var.BRANCH_NAME}-s3-access-logs-${var.ACCOUNT}-ca-central-1"
 
   tags = {
     Name        = "${var.BRANCH_NAME}-s3-access-logs-${var.ACCOUNT}-ca-central-1"
