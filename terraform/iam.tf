@@ -79,7 +79,8 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
   statement {
     effect = "Allow"
     principals {
-      "Service": "logging.s3.amazonaws.com"
+      type        = "Service"
+      identifiers = ["logging.s3.amazonaws.com"]
     }
     actions = [
       "s3:PutObject"
