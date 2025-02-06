@@ -67,7 +67,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
       variable = "aws:SourceAccount"
 
       values = [
-        ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
+        ["${data.aws_elb_service_account.main.id}"]
       ]
     }
   }
@@ -88,7 +88,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
       variable = "aws:SourceAccount"
 
       values = [
-        ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
+        ["${data.aws_elb_service_account.main.id}"]
       ]
     }
   }
