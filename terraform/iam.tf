@@ -53,21 +53,29 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
   statement {
     effect = "Allow"
     principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
+      type        = "Service"
+      identifiers = ["delivery.s3.amazonaws.com"]
     }
     actions = [
-      "s3:PutObject"
+      "s3:GetBucketAcl"
     ]
     resources = [
       "${aws_s3_bucket.ga_s3.arn}/*"
     ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+
+      values = [
+        ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
+      ]
+    }
   }
   statement {
     effect = "Allow"
     principals {
       type        = "Service"
-      identifiers = ["logging.s3.amazonaws.com"]
+      identifiers = ["delivery.s3.amazonaws.com"]
     }
     actions = [
       "s3:PutObject"
@@ -80,7 +88,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
       variable = "aws:SourceAccount"
 
       values = [
-        "${var.ACCOUNT}"
+        ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
       ]
     }
   }
