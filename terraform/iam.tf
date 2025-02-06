@@ -66,9 +66,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
 
-      values = [
-        ["${data.aws_elb_service_account.main.id}"]
-      ]
+      values = ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
     }
   }
   statement {
@@ -87,9 +85,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
 
-      values = [
-        ["${data.aws_elb_service_account.main.id}"]
-      ]
+      values = ["arn:aws:iam::${data.aws_elb_service_account.main.id}:root"]
     }
   }
 }
