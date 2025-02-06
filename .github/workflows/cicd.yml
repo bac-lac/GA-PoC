@@ -24,6 +24,36 @@ permissions:
       contents: read
 
 jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_DEVOPS_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+          role-skip-session-tagging: true
+          audience: sts.amazonaws.com
+
+      - name: Login to Amazon ECR
+        if: ${{ vars.ENV == 'dev' }}
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push
+        if: ${{ vars.ENV == 'dev' }}
+        id: build-push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./docker
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
+
   Deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
@@ -43,21 +73,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
-      
-      - name: Login to Amazon ECR
-        if: ${{ vars.ENV == 'dev' }}
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-      
-      - name: Build and push
-        if: ${{ vars.ENV == 'dev' }}
-        id: build-push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./docker
-          file: ./docker/Dockerfile
-          push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
       
       - name: Create tfvars file
         uses: ./.github/actions/create-tfvars-file
