@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
     effect = "Allow"
     principals {
       type        = "Service"
-      identifiers = ["delivery.s3.amazonaws.com"]
+      identifiers = ["logging.s3.amazonaws.com"]
     }
     actions = [
       "s3:GetBucketAcl"
@@ -73,7 +73,7 @@ data "aws_iam_policy_document" "ga_s3_allow_lb" {
     effect = "Allow"
     principals {
       type        = "Service"
-      identifiers = ["delivery.s3.amazonaws.com"]
+      identifiers = ["logging.s3.amazonaws.com"]
     }
     actions = [
       "s3:PutObject"
