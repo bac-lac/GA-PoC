@@ -24,7 +24,25 @@ permissions:
       contents: read
 
 jobs:
+  Code-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        uses: sudo-bot/action-shellcheck@latest
+        with:
+          cli-args: "./docker/scripts/*.sh"
+      
+      - name: Checkov security scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform
+          output_format: cli
+
   Build:
+    needs: Code-check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -55,6 +73,7 @@ jobs:
           tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
+    needs: Build
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
     defaults:
