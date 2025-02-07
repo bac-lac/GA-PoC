@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: variables
         run: |
-            echo "vars.ENV: ${{ vars.ENV == 'dev' }}"
+            echo "vars.ENV: ${{ vars.ENV }}"
 
   Build:
     needs: Code-check
