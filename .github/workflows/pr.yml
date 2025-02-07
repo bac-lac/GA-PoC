@@ -34,7 +34,7 @@ jobs:
 
   Build:
     needs: Code-check
-    if: ${{ vars.ENV == 'dev1' }}
+    if: ${{ vars.ENV == 'dev' }}
     runs-on: ubuntu-latest
     outputs:
       ecr_image: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}@${{ steps.build-push.outputs.digest }}
