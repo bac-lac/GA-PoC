@@ -39,12 +39,12 @@ jobs:
       - name: variables
         run: |
             echo "vars.ENV: ${{ vars.ENV }}"
+            echo "vars.ENV: ${{ vars.ENV == 'dev' }}"
             echo "env.AWS_REGION: ${{env.AWS_REGION}}"
 
   Build:
     needs: Code-check
     environment: "pr"
-    if: ${{ vars.ENV == 'dev' }}
     runs-on: ubuntu-latest
     outputs:
       ecr_image: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}@${{ steps.build-push.outputs.digest }}
@@ -62,10 +62,12 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Login to Amazon ECR
+        if: ${{ vars.ENV == 'dev' }}
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and push
+        if: ${{ vars.ENV == 'dev' }}
         id: build-push
         uses: docker/build-push-action@v6
         with:
