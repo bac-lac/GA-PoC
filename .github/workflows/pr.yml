@@ -34,11 +34,11 @@ jobs:
 
   TS:
     runs-on: ubuntu-latest
+    environment: "pr"
     steps:
       - name: variables
         run: |
             echo "vars.ENV: ${{ vars.ENV }}"
-            echo "vars.ENV (no bracket): $vars.ENV"
             echo "env.AWS_REGION: ${{env.AWS_REGION}}"
 
   Build:
