@@ -32,6 +32,13 @@ jobs:
           directory: terraform
           output_format: cli
 
+  TS:
+    runs-on: ubuntu-latest
+    steps:
+      - name: variables
+        run: |
+            echo "vars.ENV: ${{ vars.ENV == 'dev' }}"
+
   Build:
     needs: Code-check
     if: ${{ vars.ENV == 'dev' }}
