@@ -44,6 +44,7 @@ jobs:
   Build:
     needs: Code-check
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
     outputs:
       ecr_image: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}@${{ steps.build-push.outputs.digest }}
     steps:
