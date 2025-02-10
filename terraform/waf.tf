@@ -69,8 +69,6 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     metric_name                = "ga_web_acl_${var.BRANCH_NAME}"
     sampled_requests_enabled   = true
   }
-
-  #checkov:skip=CKV_AWS_192: Ensure WAF prevents message lookup in Log4j2. This check is provided with AWS-AWSManagedRulesKnownBadInputsRuleSet.
 }
 
 data "aws_cloudwatch_log_group" "ga_cloudwatch" {
@@ -78,7 +76,7 @@ data "aws_cloudwatch_log_group" "ga_cloudwatch" {
 }
 
 resource "aws_wafv2_web_acl_logging_configuration" "ga_web_acl_logging" {
-  log_destination_configs = [data.aws_cloudwatch_log_group.ga_cloudwatch.arn]
+  log_destination_configs = [aws_cloudwatch_log_group.aws-waf-logs.arn]
   resource_arn            = aws_wafv2_web_acl.ga_web_acl.arn
   redacted_fields {
     single_header {
