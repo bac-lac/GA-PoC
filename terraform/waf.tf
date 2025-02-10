@@ -11,7 +11,7 @@ variable "rules" {
     {
       name = "AWS-AWSManagedRulesSQLiRuleSet"
       priority = 1
-      managed_rule_group_statement_name = "AWS-AWSManagedRulesSQLiRuleSet"
+      managed_rule_group_statement_name = "AWSManagedRulesSQLiRuleSet"
       managed_rule_group_statement_vendor_name = "AWS"
       metric_name = "AWS-AWSManagedRulesSQLiRuleSet"
     }
