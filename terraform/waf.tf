@@ -1,6 +1,5 @@
 resource "aws_wafv2_web_acl" "ga_web_acl" {
   name        = "ga-web-acl-${var.BRANCH_NAME}"
-  metric_name = "ga-web-acl-${var.BRANCH_NAME}"
   description = "Web ACL for GA."
   scope       = "REGIONAL"
 
@@ -29,7 +28,7 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     priority = 1
 
     override_action {
-      block {}
+      none {}
     }
 
     statement {
