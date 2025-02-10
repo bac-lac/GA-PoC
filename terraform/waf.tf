@@ -123,6 +123,16 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
   }
 }
 
+resource "aws_wafv2_web_acl_logging_configuration" "ga_web_acl_logging" {
+  log_destination_configs = [aws_cloudwatch_log_group.ga_cloudwatch.arn]
+  resource_arn            = aws_wafv2_web_acl.ga_web_acl.arn
+  redacted_fields {
+    single_header {
+      name = "user-agent"
+    }
+  }
+}
+
 resource "aws_wafv2_web_acl_association" "web_acl_association_alb" {
   resource_arn = aws_lb.ga_alb.arn
   web_acl_arn  = aws_wafv2_web_acl.ga_web_acl.arn
