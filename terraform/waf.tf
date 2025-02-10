@@ -7,6 +7,7 @@ variable "rules" {
       managed_rule_group_statement_name = "AWSManagedRulesKnownBadInputsRuleSet"
       managed_rule_group_statement_vendor_name = "AWS"
       metric_name = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
+        #checkov:skip=CKV_AWS_192: Ensure WAF prevents message lookup in Log4j2. This rule fixes this check.
     },
     {
       name = "AWS-AWSManagedRulesSQLiRuleSet"
