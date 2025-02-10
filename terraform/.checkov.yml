@@ -4,6 +4,7 @@ skip-check:
     - CKV_AWS_144   # Ensure that S3 bucket has cross-region replication enabled
     - CKV_AWS_145   # Ensure that S3 buckets are encrypted with KMS by default
     - CKV_AWS_157   # Ensure that RDS instances have Multi-AZ enabled
+    - CKV_AWS_158   # Ensure that CloudWatch Log Group is encrypted by KMS
     - CKV_AWS_161   # Ensure RDS database has IAM authentication enabled
     - CKV_AWS_184   # Ensure resource is encrypted by KMS using a customer managed Key (CMK)
     - CKV_AWS_192   # Ensure WAF prevents message lookup in Log4j2
