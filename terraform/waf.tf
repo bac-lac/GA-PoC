@@ -1,81 +1,3 @@
-resource "aws_waf_sql_injection_match_set" "SQL_Injection_Rule_Match_Set" {
-  name = "SQL_Injection_Rule_Match_Set"
-  sql_injection_match_tuples {
-    text_transformation = "HTML_ENTITY_DECODE"
-    field_to_match {
-      type = "QUERY_STRING"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "URL_DECODE"
-    field_to_match {
-      type = "QUERY_STRING"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "HTML_ENTITY_DECODE"
-    field_to_match {
-      type = "URI"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "URL_DECODE"
-    field_to_match {
-      type = "URI"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "HTML_ENTITY_DECODE"
-    field_to_match {
-      type = "BODY"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "URL_DECODE"
-    field_to_match {
-      type = "BODY"
-    }
-  }  
-  sql_injection_match_tuples {
-    text_transformation = "HTML_ENTITY_DECODE"
-    field_to_match {
-      type = "HEADER"
-      data = "Cookie"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "URL_DECODE"
-    field_to_match {
-      type = "HEADER"
-      data = "Cookie"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "HTML_ENTITY_DECODE"
-    field_to_match {
-      type = "HEADER"
-      data = "Authorization"
-    }
-  }
-  sql_injection_match_tuples {
-    text_transformation = "URL_DECODE"
-    field_to_match {
-      type = "HEADER"
-      data = "Authorization"
-    }
-  }
-}
-
-resource "aws_waf_rule" "SQL_Injection_Rule" {
-  name        = "SQL_Injection_Rule"
-  metric_name = "SQLInjectionRule"
-  predicates{
-    data_id = "${aws_waf_sql_injection_match_set.SQL_Injection_Rule_Match_Set.id}"
-    negated = false
-    type = "SqlInjectionMatch"
-  }
-}
-
 resource "aws_wafv2_web_acl" "ga_web_acl" {
   name        = "ga-web-acl-${var.BRANCH_NAME}"
   metric_name = "ga-web-acl-${var.BRANCH_NAME}"
@@ -91,7 +13,7 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     priority = 0
 
     override_action {
-      none {}
+      block {}
     }
 
     statement {
@@ -100,15 +22,32 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
         vendor_name = "AWS"
       }
     }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
+      sampled_requests_enabled   = true
+    }
   }
 
   rule {
-    action {
+    name     = "AWS-AWSManagedRulesSQLiRuleSet"
+    priority = 1
+
+    override_action {
       block {}
     }
-    priority = 1
-    rule_id  = "${aws_waf_rule.SQL_Injection_Rule.id}"
-    type     = "REGULAR"
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesSQLiRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "AWS-AWSManagedRulesSQLiRuleSet"
+      sampled_requests_enabled   = true
+    }
   }
   
   tags = {
