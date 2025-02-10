@@ -17,8 +17,8 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
 
     statement {
       RateBasedStatement {
-        Limit = 100000,
-        EvaluationWindowSec = 300,
+        Limit = 100000
+        EvaluationWindowSec = 300
         AggregateKeyType = "IP"
       }
     }
