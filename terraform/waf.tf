@@ -1,3 +1,23 @@
+variable "rules" {
+  type    = list
+  default = [
+    {
+      name = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
+      priority = 0
+      managed_rule_group_statement_name = "AWSManagedRulesKnownBadInputsRuleSet"
+      managed_rule_group_statement_vendor_name = "AWS"
+      metric_name = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
+    },
+    {
+      name = "AWS-AWSManagedRulesSQLiRuleSet"
+      priority = 1
+      managed_rule_group_statement_name = "AWS-AWSManagedRulesSQLiRuleSet"
+      managed_rule_group_statement_vendor_name = "AWS"
+      metric_name = "AWS-AWSManagedRulesSQLiRuleSet"
+    }
+  ]
+}
+
 resource "aws_wafv2_web_acl" "ga_web_acl" {
   name        = "ga-web-acl-${var.BRANCH_NAME}"
   description = "Web ACL for GA"
@@ -7,47 +27,26 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     allow {}
   }
 
-  rule {
-    name     = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
-    priority = 0
+  dynamic "rule" {
+    for_each = toset(var.rules)
 
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesKnownBadInputsRuleSet"
-        vendor_name = "AWS"
+    content {
+      name = rule.value.name
+      priority = rule.value.priority
+      override_action {
+        none {}
       }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "AWS-AWSManagedRulesSQLiRuleSet"
-    priority = 1
-
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesSQLiRuleSet"
-        vendor_name = "AWS"
+      statement {
+        managed_rule_group_statement {
+          name = rule.value.managed_rule_group_statement_name
+          vendor_name = rule.value.managed_rule_group_statement_vendor_name
+        }
       }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "AWS-AWSManagedRulesSQLiRuleSet"
-      sampled_requests_enabled   = true
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        metric_name                = rule.value.metric_name
+        sampled_requests_enabled   = true
+      }
     }
   }
 
