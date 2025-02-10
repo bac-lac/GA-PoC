@@ -1,6 +1,6 @@
 resource "aws_wafv2_web_acl" "ga_web_acl" {
   name        = "ga-web-acl-${var.BRANCH_NAME}"
-  description = "Web ACL for GA."
+  description = "Web ACL for GA"
   scope       = "REGIONAL"
 
   default_action {
@@ -43,16 +43,12 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
         vendor_name = "AWS"
       }
     }
+
     visibility_config {
       cloudwatch_metrics_enabled = true
       metric_name                = "AWS-AWSManagedRulesSQLiRuleSet"
       sampled_requests_enabled   = true
     }
-  }
-  
-  tags = {
-    Tag1 = "GA"
-    Tag2 = "${var.BRANCH_NAME}"
   }
 
   visibility_config {
