@@ -68,7 +68,7 @@ resource "aws_waf_sql_injection_match_set" "SQL_Injection_Rule_Match_Set" {
 
 resource "aws_waf_rule" "SQL_Injection_Rule" {
   name        = "SQL_Injection_Rule"
-  metric_name = "SQL_Injection_Rule"
+  metric_name = "SQLInjectionRule"
   predicates{
     data_id = "${aws_waf_sql_injection_match_set.SQL_Injection_Rule_Match_Set.id}"
     negated = false
@@ -83,7 +83,7 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
   scope       = "REGIONAL"
 
   default_action {
-    type = "ALLOW"
+    allow {}
   }
 
   rule {
@@ -102,9 +102,9 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     }
   }
 
-  rules {
+  rule {
     action {
-      type = "BLOCK"
+      block {}
     }
     priority = 1
     rule_id  = "${aws_waf_rule.SQL_Injection_Rule.id}"
