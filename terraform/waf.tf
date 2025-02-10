@@ -1,57 +1,116 @@
+resource "aws_waf_sql_injection_match_set" "SQL_Injection_Rule_Match_Set" {
+  name = "SQL_Injection_Rule_Match_Set"
+  sql_injection_match_tuples {
+    text_transformation = "HTML_ENTITY_DECODE"
+    field_to_match {
+      type = "QUERY_STRING"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "URL_DECODE"
+    field_to_match {
+      type = "QUERY_STRING"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "HTML_ENTITY_DECODE"
+    field_to_match {
+      type = "URI"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "URL_DECODE"
+    field_to_match {
+      type = "URI"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "HTML_ENTITY_DECODE"
+    field_to_match {
+      type = "BODY"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "URL_DECODE"
+    field_to_match {
+      type = "BODY"
+    }
+  }  
+  sql_injection_match_tuples {
+    text_transformation = "HTML_ENTITY_DECODE"
+    field_to_match {
+      type = "HEADER"
+      data = "Cookie"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "URL_DECODE"
+    field_to_match {
+      type = "HEADER"
+      data = "Cookie"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "HTML_ENTITY_DECODE"
+    field_to_match {
+      type = "HEADER"
+      data = "Authorization"
+    }
+  }
+  sql_injection_match_tuples {
+    text_transformation = "URL_DECODE"
+    field_to_match {
+      type = "HEADER"
+      data = "Authorization"
+    }
+  }
+}
+
+resource "aws_waf_rule" "SQL_Injection_Rule" {
+  name        = "SQL_Injection_Rule"
+  metric_name = "SQL_Injection_Rule"
+  predicates{
+    data_id = "${aws_waf_sql_injection_match_set.SQL_Injection_Rule_Match_Set.id}"
+    negated = false
+    type = "SqlInjectionMatch"
+  }
+}
+
 resource "aws_wafv2_web_acl" "ga_web_acl" {
   name        = "ga-web-acl-${var.BRANCH_NAME}"
+  metric_name = "ga-web-acl-${var.BRANCH_NAME}"
   description = "Web ACL for GA."
   scope       = "REGIONAL"
 
   default_action {
-    allow {}
+    type = "ALLOW"
   }
-  
+
   rule {
-    name     = "DDOS-Prevention"
+    name     = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
     priority = 0
 
-    action {
-      block {}
+    override_action {
+      none {}
     }
 
     statement {
-      RateBasedStatement {
-        Limit = 100000
-        EvaluationWindowSec = 300
-        AggregateKeyType = "IP"
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
       }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "DDOS_Prevention"
-      sampled_requests_enabled   = true
     }
   }
 
-  rule {
-    name     = "Rate-Limiting"
+  rules {
+    action {
+      type = "BLOCK"
+    }
     priority = 1
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type = "IP"
-        limit              = 500
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "Rate-Limiting"
-      sampled_requests_enabled   = true
-    }
+    rule_id  = "${aws_waf_rule.SQL_Injection_Rule.id}"
+    type     = "REGULAR"
   }
-
+  
   tags = {
     Tag1 = "GA"
     Tag2 = "${var.BRANCH_NAME}"
