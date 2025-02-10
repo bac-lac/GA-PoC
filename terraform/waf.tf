@@ -7,7 +7,6 @@ variable "rules" {
       managed_rule_group_statement_name = "AWSManagedRulesKnownBadInputsRuleSet"
       managed_rule_group_statement_vendor_name = "AWS"
       metric_name = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
-        #checkov:skip=CKV_AWS_192: Ensure WAF prevents message lookup in Log4j2. This rule fixes this check.
     },
     {
       name = "AWS-AWSManagedRulesSQLiRuleSet"
@@ -56,6 +55,8 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     metric_name                = "ga_web_acl_${var.BRANCH_NAME}"
     sampled_requests_enabled   = true
   }
+
+  #checkov:skip=CKV_AWS_192: Ensure WAF prevents message lookup in Log4j2. This check is provided with AWS-AWSManagedRulesKnownBadInputsRuleSet.
 }
 
 data "aws_cloudwatch_log_group" "ga_cloudwatch" {
