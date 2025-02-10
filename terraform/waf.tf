@@ -13,7 +13,7 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
     priority = 0
 
     override_action {
-      block {}
+      none {}
     }
 
     statement {
@@ -21,11 +21,6 @@ resource "aws_wafv2_web_acl" "ga_web_acl" {
         name        = "AWSManagedRulesKnownBadInputsRuleSet"
         vendor_name = "AWS"
       }
-    }
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "AWS-AWSManagedRulesKnownBadInputsRuleSet"
-      sampled_requests_enabled   = true
     }
   }
 
