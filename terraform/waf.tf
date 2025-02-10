@@ -14,6 +14,20 @@ variable "rules" {
       managed_rule_group_statement_name = "AWSManagedRulesSQLiRuleSet"
       managed_rule_group_statement_vendor_name = "AWS"
       metric_name = "AWS-AWSManagedRulesSQLiRuleSet"
+    },
+    {
+      name = "AWS-AWSManagedRulesAmazonIpReputationList"
+      priority = 2
+      managed_rule_group_statement_name = "AWSManagedRulesAmazonIpReputationList"
+      managed_rule_group_statement_vendor_name = "AWS"
+      metric_name = "AWS-AWSManagedRulesAmazonIpReputationList"
+    },
+    {
+      name = "AWS-AWSManagedRulesAnonymousIpList"
+      priority = 3
+      managed_rule_group_statement_name = "AWSManagedRulesAnonymousIpList"
+      managed_rule_group_statement_vendor_name = "AWS"
+      metric_name = "AWS-AWSManagedRulesAnonymousIpList"
     }
   ]
 }
