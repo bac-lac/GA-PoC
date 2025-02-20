@@ -89,3 +89,15 @@ variable "TASK_DEFINITION_MEMORY" {
   description = "The task definition memory."
   default = 3072
 }
+
+variable "ALB_NAME" {
+  type = string
+  description = "The name of the application load balancer."
+  default = "ga-alb"
+}
+
+variable "NLB_NAME" {
+  type = string
+  description = "The name of the network load balancer."
+  default = "ga-nlb"
+}

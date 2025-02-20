@@ -1,11 +1,5 @@
-resource "aws_lb" "ga_alb" {
-  name                        = "ga-alb-${var.BRANCH_NAME}"
-  internal                    = true
-  load_balancer_type          = "application"
-  security_groups             = [data.aws_security_group.web.id]
-  subnets                     = data.aws_subnets.web.ids
-  enable_deletion_protection  = true
-  drop_invalid_header_fields  = true
+data "aws_lb" "ga_alb"{
+  name = "${var.ALB_NAME}"
 }
 
 resource "aws_lb_listener" "https" {
@@ -15,8 +9,13 @@ resource "aws_lb_listener" "https" {
   ssl_policy          = "ELBSecurityPolicy-FS-1-2-Res-2019-08"
   certificate_arn     = data.aws_acm_certificate.baclacca.arn
   default_action {
-    type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg_default.arn
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default response content"
+      status_code  = "200"
+    }
   }
 }
 
@@ -49,21 +48,6 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
   tags = {
     Name = "Web-Client-${var.BRANCH_NAME}"
-  }
-}
-
-resource "aws_lb_target_group" "ga_tg_default" {
-  name        = "ga-tg-${var.BRANCH_NAME}-default"
-  port        = 443
-  protocol    = "HTTPS"
-  target_type = "instance"
-  vpc_id      = data.aws_vpc.vpc.id
-  health_check {
-    path      = "/"
-    matcher   = "200"
-  }
-  tags = {
-    Name = "Default-tg"
   }
 }
 
@@ -109,14 +93,8 @@ resource "aws_lb_target_group" "ga_tg_8443" {
   }
 }
 
-resource "aws_lb" "ga_nlb" {
-  name                              = "ga-nlb-${var.BRANCH_NAME}"
-  internal                          = true
-  load_balancer_type                = "network"
-  security_groups                   = [data.aws_security_group.web.id]
-  subnets                           = data.aws_subnets.web.ids
-  enable_cross_zone_load_balancing  = true
-  enable_deletion_protection        = true
+data "aws_lb" "ga_nlb"{
+  name = "${var.NLB_NAME}"
 }
 
 resource "aws_lb_listener" "sftp" {
