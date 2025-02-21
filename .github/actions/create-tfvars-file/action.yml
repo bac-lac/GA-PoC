@@ -40,7 +40,7 @@ runs:
     - name: Add multiline secrets
       shell: bash
       run: |
-        echo "TEST: ${{ inputs.vars.TEST }}"
+        echo "TEST: ${{ inputs.vars }} |  jq - r '.TEST'"
 
     - name: Print after
       working-directory: ./terraform
