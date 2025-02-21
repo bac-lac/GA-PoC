@@ -30,17 +30,17 @@ runs:
         sed -i '/GITHUB_TOKEN/d' ./terraform/pipeline.auto.tfvars
       shell: bash
     
-    - name: Print before
-      working-directory: ./terraform
-      run: |
-        echo "before"
-        cat pipeline.auto.tfvars
-        cat << EOF >> pipeline.auto.tfvars
-        open_ai_container_name= <<EOT
-        ${{ inputs.vars }} |  jq - r '.TEST'
-        EOT
-        EOF
-      shell: bash
+#    - name: Print before
+#      working-directory: ./terraform
+#      run: |
+#        echo "before"
+#        cat pipeline.auto.tfvars
+#        cat << EOF >> pipeline.auto.tfvars
+#        open_ai_container_name= <<EOT
+#        ${{ inputs.vars }} |  jq - r '.TEST'
+#        EOT
+#        EOF
+#      shell: bash
 
 #    - name: Add multiline secrets
 #      shell: bash
