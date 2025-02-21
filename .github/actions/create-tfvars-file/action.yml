@@ -40,9 +40,7 @@ runs:
     - name: Add multiline secrets
       shell: bash
       run: |
-        cat >> ./terraform/pipeline.auto.tfvars << "open_ai_container_name"= <<EOT
-ci-aa-llm-test-cb-dev-we-001,
-EOT
+        echo "TEST: ${{ vars.TEST }}"
 
     - name: Print after
       working-directory: ./terraform
