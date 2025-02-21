@@ -36,8 +36,10 @@ runs:
         echo "before"
         cat pipeline.auto.tfvars
         cat << EOF >> pipeline.auto.tfvars
-        BOBO="line1
-        line2"
+        open_ai_container_name= <<EOT
+        line1
+        line2
+        EOT
         EOF
       shell: bash
 
