@@ -35,12 +35,16 @@ runs:
       run: |
         echo "before"
         cat pipeline.auto.tfvars
+        cat << EOF >> pipeline.auto.tfvars
+BOBO=line1
+line2
+EOF
       shell: bash
 
-    - name: Add multiline secrets
-      shell: bash
-      run: |
-        echo "TEST: ${{ inputs.vars }} |  jq - r '.TEST'"
+#    - name: Add multiline secrets
+#      shell: bash
+#      run: |
+#        echo "TEST: ${{ inputs.vars }} |  jq - r '.TEST'"
 
     - name: Print after
       working-directory: ./terraform
