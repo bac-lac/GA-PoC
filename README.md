@@ -56,6 +56,12 @@ The following environment variables are used to control the application at run-t
 > TASK_DEFINITION_MEMORY *: The task definition memory.
 - Default value: 3072
 
+> ALB_NAME *: The name of the application load balancer.
+- Default value: ga-alb
+
+> NLB_NAME *: The name of the network load balancer.
+- Default value: ga-nlb
+
 # Code Check
 [Checkov](https://www.checkov.io/)
 [shellcheck](https://github.com/koalaman/shellcheck#how-to-use)
