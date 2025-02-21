@@ -36,8 +36,8 @@ runs:
         echo "before"
         cat pipeline.auto.tfvars
         cat << EOF >> pipeline.auto.tfvars
-        BOBO=line1
-        line2
+        BOBO="line1
+        line2"
         EOF
       shell: bash
 
