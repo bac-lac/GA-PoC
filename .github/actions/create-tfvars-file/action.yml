@@ -10,6 +10,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Print
+      working-directory: ./terraform
+      run: |
+        echo '${{ inputs.vars }}'
+      shell: bash
+
     - name: Export
       working-directory: ./terraform
       run: |
