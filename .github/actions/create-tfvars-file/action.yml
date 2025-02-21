@@ -22,4 +22,6 @@ runs:
         sed -i '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
         sed -i '/USER_TOKEN/d' ./terraform/pipeline.auto.tfvars
         sed -i '/GITHUB_TOKEN/d' ./terraform/pipeline.auto.tfvars
+        sed -i '/CERT_BODY/d' ./terraform/pipeline.auto.tfvars
+        sed -i '/CERT_PRIVATE_KEY/d' ./terraform/pipeline.auto.tfvars
       shell: bash

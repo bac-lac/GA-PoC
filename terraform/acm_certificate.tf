@@ -3,12 +3,8 @@ data "aws_acm_certificate" "baclacca" {
 }
 
 resource "aws_acm_certificate" "cert" {
-  private_key      = <<EOT
-${var.CERT_PRIVATE_KEY}
-EOT
-  certificate_body = <<EOT
-${var.CERT_BODY}
-EOT
+  private_key      = "${var.CERT_PRIVATE_KEY}"
+  certificate_body = "${var.CERT_BODY}"
 
   lifecycle {
     create_before_destroy = true
