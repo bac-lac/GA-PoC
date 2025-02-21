@@ -214,6 +214,9 @@ function configure() {
     echo "Update entrypoint"
     sed -i '9,14d' /temp/entrypoint.sh
 
+    # Remove instead of move upgrade file.
+    sed -i "s|mv upgrader/ga_upgrade.jar upgrader/ga_upgrade_complete.jar|rm upgrader/ga_upgrade.jar|g" /temp/entrypoint.sh
+
     # Update hostname in entrypoint.
     echo "Update hostname in entrypoint"
     sed -i "s/\$HOSTNAME/\$SYSTEM_NAME/g" /temp/entrypoint.sh
