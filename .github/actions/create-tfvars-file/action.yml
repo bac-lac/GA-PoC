@@ -10,7 +10,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Print
+    - name: Print vars
       working-directory: ./terraform
       run: |
         echo '${{ inputs.vars }}'
@@ -19,10 +19,12 @@ runs:
     - name: Export
       working-directory: ./terraform
       run: |
-        echo '${{ inputs.secrets }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
         echo '${{ inputs.vars }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo "cat tfvars"
+        cat pipeline.auto.tfvars
+        echo '${{ inputs.secrets }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
       shell: bash
-    
+
     - name: Remove repo secrets
       run: |
         sed -i '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
