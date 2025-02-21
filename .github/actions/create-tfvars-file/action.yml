@@ -30,7 +30,21 @@ runs:
         sed -i '/GITHUB_TOKEN/d' ./terraform/pipeline.auto.tfvars
       shell: bash
     
+    - name: Print before
+      working-directory: ./terraform
+      run: |
+        echo "before"
+        cat pipeline.auto.tfvars
+      shell: bash
 
+    - name: Add multiline secrets
+      run: |
+        cat >> ./terraform/pipeline.auto.tfvars << EOF
+"open_ai_container_name"= <<EOT
+ci-aa-llm-test-cb-dev-we-001,
+EOT
+EOF
+      shell: bash
     
     - name: Print after
       working-directory: ./terraform
