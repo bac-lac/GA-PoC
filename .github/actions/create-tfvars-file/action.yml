@@ -19,7 +19,7 @@ runs:
     - name: Export
       working-directory: ./terraform
       run: |
-        echo '${{ inputs.vars }}' | jq -r del(.test) |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.vars }}' | jq -r del(.TEST) |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
         echo "cat tfvars"
         cat pipeline.auto.tfvars
         echo '${{ inputs.secrets }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
