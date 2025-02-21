@@ -64,9 +64,9 @@ jobs:
         run: |
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_image }}"' >> pipeline.auto.tfvars
-          echo 'BOBO = <<EOT ${{ secrets.CERT_BODY }} EOT' >> pipeline.auto.tfvars
-          echo 'tfvars'
-          cat pipeline.auto.tfvars
+        #echo 'BOBO = <<EOT ${{ secrets.CERT_BODY }} EOT' >> pipeline.auto.tfvars
+        #echo 'tfvars'
+        #cat pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
@@ -82,4 +82,4 @@ jobs:
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -var"CERT_BODY=${{ secrets.CERT_BODY }}" -auto-approve
