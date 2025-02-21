@@ -19,7 +19,7 @@ runs:
     - name: Export
       working-directory: ./terraform
       run: |
-        echo '${{ inputs.vars }}' | jq -r del(.TEST) |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.vars }}' | jq -r 'del(.TEST)'' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
         echo "cat tfvars"
         cat pipeline.auto.tfvars
         echo '${{ inputs.secrets }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
@@ -30,6 +30,4 @@ runs:
         sed -i '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
         sed -i '/USER_TOKEN/d' ./terraform/pipeline.auto.tfvars
         sed -i '/GITHUB_TOKEN/d' ./terraform/pipeline.auto.tfvars
-        sed -i '/CERT_BODY/d' ./terraform/pipeline.auto.tfvars
-        sed -i '/CERT_PRIVATE_KEY/d' ./terraform/pipeline.auto.tfvars
       shell: bash
