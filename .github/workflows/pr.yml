@@ -64,7 +64,7 @@ jobs:
         run: |
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_image }}"' >> pipeline.auto.tfvars
-          echo 'BOBO = <<EOT${{ vars.TEST }}EOT' >> pipeline.auto.tfvars
+          echo 'BOBO = <<EOT${{ secrets.CERT_BODY }}EOT' >> pipeline.auto.tfvars
           echo 'tfvars'
           cat pipeline.auto.tfvars
 
