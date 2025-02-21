@@ -19,17 +19,8 @@ runs:
     - name: Export
       working-directory: ./terraform
       run: |
-        echo '${{ inputs.vars }}' | jq -r 'del(.TEST)' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
-        echo "cat tfvars"
-        cat pipeline.auto.tfvars
-        
-      shell: bash
-
-    - name: Export
-      working-directory: ./terraform
-      run: |
         echo '${{ inputs.vars }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
-        echo '${{ inputs.secrets }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.secrets }}' |  jq -r 'del(.CERT_BODY, .CERT_PRIVATE_KEY)' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
       shell: bash
 
     - name: Remove repo secrets
@@ -37,4 +28,27 @@ runs:
         sed -i '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
         sed -i '/USER_TOKEN/d' ./terraform/pipeline.auto.tfvars
         sed -i '/GITHUB_TOKEN/d' ./terraform/pipeline.auto.tfvars
+      shell: bash
+    
+    - name: Print before
+      working-directory: ./terraform
+      run: |
+        echo "before"
+        cat pipeline.auto.tfvars
+      shell: bash
+
+    - name: Add multiline secrets
+      run: |
+        cat >> ./terraform/pipeline.auto.tfvars<< EOF
+test=some text line 1
+some text line 2
+some text line 3
+EOF
+      shell: bash
+    
+    - name: Print after
+      working-directory: ./terraform
+      run: |
+        echo "after"
+        cat pipeline.auto.tfvars
       shell: bash
