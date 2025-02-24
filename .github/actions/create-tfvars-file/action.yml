@@ -1,5 +1,5 @@
 name: Create tfvars file
-decription: This action will create a tfvars file with all the variables and secrets from github. It will create a pipeline.auto.tfvars file in the terraform folder. It will also remove all the repo secrets.
+decription: This action will create a tfvars file with all the variables and secrets from github. It will create a pipeline.auto.tfvars file in the terraform folder. It will remove multiline secrets. It will also remove all the repo secrets.
 inputs:
   vars:
     description: 'JSON string of github variables'
@@ -10,17 +10,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Print vars
-      working-directory: ./terraform
-      run: |
-        echo '${{ inputs.vars }}'
-      shell: bash
-
     - name: Export
       working-directory: ./terraform
       run: |
-        echo '${{ inputs.vars }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
         echo '${{ inputs.secrets }}' |  jq -r 'del(.CERT_BODY, .CERT_PRIVATE_KEY)' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
+        echo '${{ inputs.vars }}' |  jq -r 'to_entries|map("\(.key|ascii_upcase)=\"\(.value|tostring)\"")|.[]' >> pipeline.auto.tfvars
       shell: bash
 
     - name: Remove repo secrets
@@ -28,28 +22,4 @@ runs:
         sed -i '/AWS_GITHUB_DEVOPS_ROLE/d' ./terraform/pipeline.auto.tfvars
         sed -i '/USER_TOKEN/d' ./terraform/pipeline.auto.tfvars
         sed -i '/GITHUB_TOKEN/d' ./terraform/pipeline.auto.tfvars
-      shell: bash
-    
-#    - name: Print before
-#      working-directory: ./terraform
-#      run: |
-#        echo "before"
-#        cat pipeline.auto.tfvars
-#        cat << EOF >> pipeline.auto.tfvars
-#        open_ai_container_name= <<EOT
-#        ${{ inputs.vars }} |  jq - r '.TEST'
-#        EOT
-#        EOF
-#      shell: bash
-
-#    - name: Add multiline secrets
-#      shell: bash
-#      run: |
-#        echo "TEST: ${{ inputs.vars }} |  jq - r '.TEST'"
-
-    - name: Print after
-      working-directory: ./terraform
-      run: |
-        echo "after"
-        cat pipeline.auto.tfvars
       shell: bash
