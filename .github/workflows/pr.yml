@@ -82,4 +82,4 @@ jobs:
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -var="TEST=${{ vars.TEST }}" -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -var="CERT_BODY=${{ vars.CERT_BODY }}" -auto-approve
