@@ -1,5 +1,5 @@
 name: Create tfvars file
-decription: This action will create a tfvars file with all the variables and secrets from github. It will create a pipeline.auto.tfvars file in the terraform folder. It will remove multiline secrets. It will also remove all the repo secrets.
+decription: This action will create a tfvars file with all the variables and secrets from github. It will create a pipeline.auto.tfvars file in the terraform folder. It will also remove multiline secrets and all the repo secrets.
 inputs:
   vars:
     description: 'JSON string of github variables'
