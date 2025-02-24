@@ -144,6 +144,6 @@ variable "MOD_TASK_DEFINITION_MEMORY" {
 }
 
 variable "MOD_CERT_BODY" {
-  type = number
+  type = string
   description = "Task definition memory."
 }
