@@ -111,8 +111,8 @@ jobs:
       
       - name: Terraform-force
         id: force
-        run: terraform force-unlock -force 3e40cfa7-5d6f-2734-2e0f-becb1ea1a94b
+        run: terraform force-unlock -force 82b825b2-5bae-b0de-c270-ab488bb25519
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars"  -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -var="CERT_BODY=${{ vars.CERT_BODY }}"  -auto-approve
