@@ -1,8 +1,4 @@
-data "aws_acm_certificate" "baclacca" {
-  domain   = "bac-lac.ca"
-}
-
-resource "aws_acm_certificate" "cert" {
+resource "aws_acm_certificate" "baclacca" {
   private_key      = "${var.CERT_PRIVATE_KEY}"
   certificate_body = "${var.CERT_BODY}"
 
