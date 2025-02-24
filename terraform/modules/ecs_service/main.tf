@@ -43,7 +43,8 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
                                         FORCE_REFRESH     = var.MOD_FORCE_REFRESH,
                                         FRESH_INSTALL     = var.MOD_FRESH_INSTALL,
                                         MFT_NUMBER        = var.MOD_MFT_NUMBER,
-                                        MFT_CLUSTER       = var.MOD_CLUSTER
+                                        MFT_CLUSTER       = var.MOD_CLUSTER,
+                                        CERT_BODY         = var.MOD_CERT_BODY
                                       })
 }
 

@@ -108,10 +108,7 @@ jobs:
         run: terraform init 
             -backend-config="dynamodb_table=terraform-state-${{ vars.ENV }}" 
             -backend-config="key=${{ vars.ENV }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
-      
-      - name: Terraform-force
-        id: force
-        run: terraform force-unlock -force 82b825b2-5bae-b0de-c270-ab488bb25519
+
 
       - name: Terraform-Apply
         id: Apply
