@@ -101,3 +101,13 @@ variable "NLB_NAME" {
   description = "The name of the network load balancer."
   default = "ga-nlb"
 }
+
+variable "CERT_BODY" {
+  type = string
+  description = "The certificate body."
+}
+
+variable "CERT_PRIVATE_KEY" {
+  type = string
+  description = "The certificate private key."
+}
