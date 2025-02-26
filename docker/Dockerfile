@@ -18,7 +18,7 @@ COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 COPY /scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
-COPY /scripts/fluent-bit.repo /etc/yum.repos.d/
+COPY /configs/fluent-bit.repo /etc/yum.repos.d/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
