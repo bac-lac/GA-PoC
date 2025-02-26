@@ -4,7 +4,7 @@ data "aws_lb" "ga_alb"{
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn   = data.aws_lb.ga_alb.arn
-  port                = "443"
+  port                = "444"
   protocol            = "HTTPS"
   ssl_policy          = "ELBSecurityPolicy-FS-1-2-Res-2019-08"
   certificate_arn     = aws_acm_certificate.baclacca.arn
@@ -13,7 +13,7 @@ resource "aws_lb_listener" "https" {
 
     fixed_response {
       content_type = "text/plain"
-      message_body = "Default response content."
+      message_body = "Default response content"
       status_code  = "200"
     }
   }
