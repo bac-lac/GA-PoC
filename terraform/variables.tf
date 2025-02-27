@@ -105,9 +105,11 @@ variable "NLB_NAME" {
 variable "CERT_BODY" {
   type = string
   description = "The certificate body."
+  default = "CERT_BODY"
 }
 
 variable "CERT_PRIVATE_KEY" {
   type = string
   description = "The certificate private key."
+  default = "CERT_PRIVATE_KEY"
 }
