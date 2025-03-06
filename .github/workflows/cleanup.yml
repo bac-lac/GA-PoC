@@ -48,4 +48,4 @@ jobs:
 
       - name: Terraform-Destroy
         id: Destroy
-        run: terraform destroy -var ROLE_ARN=${{ secrets.ROLE_ARN }} -var EXTERNAL_ID=${{ secrets.EXTERNAL_ID }} -auto-approve
+        run: terraform destroy -var ROLE_ARN=${{ secrets.ROLE_ARN }} -var EXTERNAL_ID=${{ secrets.EXTERNAL_ID }} -var ALB_NAME=${{ vars.ALB_NAME }} -var NLB_NAME=${{ vars.NLB_NAME }} -auto-approve
