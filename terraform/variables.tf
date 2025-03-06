@@ -5,6 +5,20 @@ variable "ACCOUNT" {
   default = "ACCOUNT"
 }
 
+variable "EXTERNAL_ID" {
+  type = string  
+  sensitive = true
+  description = "External ID of the automation account role."
+  default = "EXTERNAL_ID"
+}
+
+variable "ROLE_ARN" {
+  type = string  
+  sensitive = true
+  description = "Role ARN of the role used by terraform."
+  default = "ARN"
+}
+
 variable "ADMIN_DB_PASSWORD" {
   type = string
   sensitive = true

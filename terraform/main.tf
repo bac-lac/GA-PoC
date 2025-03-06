@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket      = "ga-poc-tfstate"
+    bucket      = "main-tfstate-c71307a3"
     region      = "ca-central-1"
     encrypt     = true
   }
@@ -16,6 +16,7 @@ terraform {
 provider "aws" {
   region  = "ca-central-1"
   assume_role {
-    role_arn    = "arn:aws:iam::${var.ACCOUNT}:role/terraform-role"
+    role_arn    = "${var.ROLE_ARN}"
+    external_id = "${var.EXTERNAL_ID}"
   }
 }
