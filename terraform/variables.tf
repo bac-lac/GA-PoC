@@ -112,7 +112,7 @@ variable "NLB_NAME" {
 variable "ROLE_ARN" {
   type = string  
   sensitive = true
-  description = "Role ARN of the role used by terraform."
+  description = "ARN of the role used by terraform."
   default = "ARN"
 }
 

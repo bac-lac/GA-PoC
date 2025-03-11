@@ -65,7 +65,7 @@ The following environment variables are used to control the application at run-t
 > NLB_NAME *: The name of the network load balancer.
 - Default value: ga-nlb
 
-> ROLE_ARN *: Role ARN of the role used by terraform..
+> ROLE_ARN *: ARN of the role used by terraform..
 - Default value: ROLE_ARN
 
 > TASK_DEFINITION_CPU *: The task definition CPU.
