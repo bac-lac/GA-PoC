@@ -5,20 +5,6 @@ variable "ACCOUNT" {
   default = "ACCOUNT"
 }
 
-variable "EXTERNAL_ID" {
-  type = string  
-  sensitive = true
-  description = "External ID of the automation account role."
-  default = "EXTERNAL_ID"
-}
-
-variable "ROLE_ARN" {
-  type = string  
-  sensitive = true
-  description = "Role ARN of the role used by terraform."
-  default = "ARN"
-}
-
 variable "ADMIN_DB_PASSWORD" {
   type = string
   sensitive = true
@@ -33,11 +19,30 @@ variable "ADMIN_DB_USERNAME" {
   default = "ADMIN_DB_USERNAME"
 }
 
+variable "ALB_NAME" {
+  type = string
+  description = "The name of the application load balancer."
+  default = "ga-alb"
+}
+
 variable "BRANCH_NAME" {
   type = string
-  sensitive = false
   description = "The branch name used for resources creation."
   default = "main"
+}
+
+variable "CERT_BODY" {
+  type = string
+  sensitive = true  
+  description = "The certificate body."
+  default = "CERT_BODY"
+}
+
+variable "CERT_PRIVATE_KEY" {
+  type = string
+  sensitive = true
+  description = "The certificate private key."
+  default = "CERT_PRIVATE_KEY"
 }
 
 variable "DB_INSTANCE_CLASS" {
@@ -63,7 +68,6 @@ variable "DB_USERNAME" {
 
 variable "ECR_IMAGE" {
   type = string
-  sensitive = false
   description = "The image name used for task definition."
   default = "ECR_IMAGE"
 }
@@ -72,6 +76,13 @@ variable "ENV" {
   type = string
   description = "The environment in which to deploy the solution."
   default = "dev"
+}
+
+variable "EXTERNAL_ID" {
+  type = string  
+  sensitive = true
+  description = "External ID of the automation account role."
+  default = "EXTERNAL_ID"
 }
 
 variable "FORCE_REFRESH" {
@@ -92,6 +103,19 @@ variable "MFT_CLUSTER" {
   default = "TRUE"
 }
 
+variable "NLB_NAME" {
+  type = string
+  description = "The name of the network load balancer."
+  default = "ga-nlb"
+}
+
+variable "ROLE_ARN" {
+  type = string  
+  sensitive = true
+  description = "Role ARN of the role used by terraform."
+  default = "ARN"
+}
+
 variable "TASK_DEFINITION_CPU" {
   type = number
   description = "The task definition CPU."
@@ -102,28 +126,4 @@ variable "TASK_DEFINITION_MEMORY" {
   type = number
   description = "The task definition memory."
   default = 3072
-}
-
-variable "ALB_NAME" {
-  type = string
-  description = "The name of the application load balancer."
-  default = "ga-alb"
-}
-
-variable "NLB_NAME" {
-  type = string
-  description = "The name of the network load balancer."
-  default = "ga-nlb"
-}
-
-variable "CERT_BODY" {
-  type = string
-  description = "The certificate body."
-  default = "CERT_BODY"
-}
-
-variable "CERT_PRIVATE_KEY" {
-  type = string
-  description = "The certificate private key."
-  default = "CERT_PRIVATE_KEY"
 }
