@@ -175,11 +175,14 @@ function configure() {
     local config_folder="${etc_ga_folder}/config"
     local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
+    # Always copy upgrade file.
+    echo "Copy upgrade file"
+    cp -rf /temp/upgrader/ "${opt_ga_folder}"/
+
     # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty.
     if [[ $FRESH_INSTALL == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
         echo "Copy filesystem"
         cp -rf /temp/userdata/ "${opt_ga_folder}"/
-        cp -rf /temp/upgrader/ "${opt_ga_folder}"/
         cp -rf /temp/config/ "${etc_ga_folder}"/
         cp -rf /temp/tomcat/ "${etc_ga_folder}"/
         cp -rf /temp/logs/ "${opt_ga_folder}"/tomcat/
