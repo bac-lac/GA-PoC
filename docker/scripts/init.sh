@@ -264,6 +264,8 @@ function configure_fluentbit() {
 
     # Starting fluent-bit in a background application.
     fluent-bit -c "${configuration}" &
+
+    sleep 2
 }
 
 #######################################
