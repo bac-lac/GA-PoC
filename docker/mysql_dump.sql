@@ -395,7 +395,7 @@ CREATE TABLE `dpa_admin_log` (
 
 LOCK TABLES `dpa_admin_log` WRITE;
 /*!40000 ALTER TABLE `dpa_admin_log` DISABLE KEYS */;
-INSERT INTO `dpa_admin_log` VALUES (1009,4,56,0,' ',1001,'gaaabaclac','2025-03-21 16:57:00',NULL,-1,'User \'gaaabaclac\' logged in',NULL,'2:bFD8dIK6okh39rPTY4CAPaARMPCp0zXESfdrQENb6DcJThdJoKg8X985BZFt3a63hJ/oPGsZ3B/9fWuRedCr2g==','995fe351-1d08-4cbb-a214-b8a2e3052513','A','172.18.0.3',8000,'172.18.0.1',53670),(1010,5,56,0,' ',1001,'gaaabaclac','2025-03-21 17:12:17',NULL,-1,'User \'gaaabaclac\' logged out',NULL,'2:s7EK4fMraVZxrmcn+QRsR7Vm0jtt/BuYUb4Nv7O/9m9Xgmdl77n958FCUzqEl7JM1CMvqVgjIS+28PtEWaHqig==','995fe351-1d08-4cbb-a214-b8a2e3052513','A','172.18.0.3',8000,'172.18.0.1',53670),(1011,4,56,0,' ',1001,'gaaabaclac','2025-03-21 17:55:39',NULL,-1,'User \'gaaabaclac\' logged in',NULL,'2:Wy919ceQ6MtLEliVubZTpSbM5QE/svvINOiPxkLmHHxpCxDZFlK68+LuzWGUAVZg85++krAvP2uAlAYaq4fdsA==','aa989d61-7e7a-4521-8e78-25ff4ca114fa','A','172.18.0.3',8000,'172.18.0.1',32988);
+
 /*!40000 ALTER TABLE `dpa_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
