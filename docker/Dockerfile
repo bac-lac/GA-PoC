@@ -1,4 +1,4 @@
-FROM fortrallc/goanywhere-mft:7.7.1 as builder
+FROM fortrallc/goanywhere-mft:7.7.1 AS builder
 
 FROM fortrallc/goanywhere-mft:7.7.1
 USER root
