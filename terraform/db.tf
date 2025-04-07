@@ -13,7 +13,7 @@ resource "aws_db_instance" "ga_mysql" {
   db_subnet_group_name            = aws_db_subnet_group.data.name
   enabled_cloudwatch_logs_exports = ["audit", "general", "error", "slowquery"]
   engine                          = "mysql"
-  engine_version                  = "8.0.35"
+  engine_version                  = "8.0"
   identifier                      = "ga-db-${var.BRANCH_NAME}"
   instance_class                  = var.DB_INSTANCE_CLASS
   monitoring_interval             = 5
