@@ -1,4 +1,4 @@
-FROM fortrallc/goanywhere-mft:7.7.1 as builder
+FROM fortrallc/goanywhere-mft:7.7.1 AS builder
 
 FROM fortrallc/goanywhere-mft:7.7.1
 USER root
@@ -11,14 +11,14 @@ COPY --from=builder /opt/Fortra/GoAnywhere/tomcat/logs/ logs/
 COPY --from=builder /opt/Fortra/GoAnywhere/ghttpsroot/custom/ custom/
 COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
-COPY mysql_dump.sql /temp/mysql_dump.sql
+COPY /docker/mysql_dump.sql /temp/mysql_dump.sql
 
-COPY /scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
+COPY /docker/scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 
-COPY /scripts/init.sh /temp/
+COPY /docker/scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
-COPY /configs/fluent-bit.repo /etc/yum.repos.d/
+COPY /docker/configs/fluent-bit.repo /etc/yum.repos.d/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
@@ -51,7 +51,7 @@ RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/mar
   && chmod -R 755 /opt/marcedit
 
 # Copy fluent-bit configuration.
-COPY /configs/fluent-bit.conf /etc/fluent-bit/
+COPY /docker/configs/fluent-bit.conf /etc/fluent-bit/
 RUN chmod -R 777 /etc/fluent-bit/
 
 # Cleanup.

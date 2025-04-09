@@ -74,6 +74,14 @@ The following environment variables are used to control the application at run-t
 > TASK_DEFINITION_MEMORY *: The task definition memory.
 - Default value: 3072
 
+## Run the Application Locally
+
+1. Build the application container as per the above [Container Image Build](#container-image-build) instructions.
+1. Edit the local.env as required.
+1. Run the following command from the project **docker** directory:
+    ```
+    docker compose up -d
+    ```
 
 # Code Check
 [Checkov](https://www.checkov.io/)
