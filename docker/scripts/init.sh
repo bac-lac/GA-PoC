@@ -238,6 +238,37 @@ function configure() {
     local meta_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${meta_param1}${meta_param2}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
+    # Configure tomcat logging.
+    echo "handlers = 1catalina.org.apache.juli.FileHandler, java.util.logging.ConsoleHandler
+.level = INFO
+java.util.logging.ConsoleHandler.level = WARNING
+java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
+
+1catalina.org.apache.juli.FileHandler.level = FINE
+1catalina.org.apache.juli.FileHandler.directory = ${etc_ga_folder}/tomcat/logs
+1catalina.org.apache.juli.FileHandler.prefix = catalina.
+1catalina.org.apache.juli.FileHandler.suffix = .log
+1catalina.org.apache.juli.FileHandler.timestamp = true
+1catalina.org.apache.juli.FileHandler.formatter = java.util.logging.SimpleFormatter
+1catalina.org.apache.juli.FileHandler.append = true
+1catalina.org.apache.juli.FileHandler.limit = 10000000
+1catalina.org.apache.juli.FileHandler.count = 10
+1catalina.org.apache.juli.FileHandler.rotatable = true
+
+org.apache.catalina.core.ContainerBase.[Catalina].[localhost].level = INFO
+org.apache.catalina.core.ContainerBase.[Catalina].[localhost].handlers = 2localhost.org.apache.juli.FileHandler
+
+2localhost.org.apache.juli.FileHandler.level = WARNING
+2localhost.org.apache.juli.FileHandler.directory = ${etc_ga_folder}/tomcat/logs
+2localhost.org.apache.juli.FileHandler.prefix = localhost.
+2localhost.org.apache.juli.FileHandler.suffix = .log
+2localhost.org.apache.juli.FileHandler.timestamp = true
+2localhost.org.apache.juli.FileHandler.formatter = java.util.logging.SimpleFormatter
+2localhost.org.apache.juli.FileHandler.append = true
+2localhost.org.apache.juli.FileHandler.limit = 10000000
+2localhost.org.apache.juli.FileHandler.count = 10
+2localhost.org.apache.juli.FileHandler.rotatable = true" >> "${etc_ga_folder}"/tomcat/conf/logging.properties
+
 }
 
 #######################################
