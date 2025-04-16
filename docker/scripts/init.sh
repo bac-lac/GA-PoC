@@ -241,8 +241,6 @@ function configure() {
     # Configure tomcat logging.
     echo "handlers = 1catalina.org.apache.juli.FileHandler, java.util.logging.ConsoleHandler
 .level = INFO
-java.util.logging.ConsoleHandler.level = WARNING
-java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
 
 1catalina.org.apache.juli.FileHandler.level = FINE
 1catalina.org.apache.juli.FileHandler.directory = ${etc_ga_folder}/tomcat/logs
