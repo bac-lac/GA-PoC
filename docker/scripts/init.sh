@@ -229,7 +229,7 @@ function configure() {
     # Update the file database.xml with the correct values.
     echo "Update database config"
     echo "print $DB_PARAMETERS" 
-    echo $DB_PARAMETERS
+
     
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
