@@ -21,6 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Echo parameters
+        run: echo "Parameters is ${{ vars.DB_PARAMETERS }}" 
+
       - name: Run shellcheck
         uses: sudo-bot/action-shellcheck@latest
         with:

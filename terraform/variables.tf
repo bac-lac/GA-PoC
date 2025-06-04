@@ -61,7 +61,6 @@ variable "DB_PASSWORD" {
 
 variable "DB_PARAMETERS" {
   type = string
-  sensitive = true
   description = "The DB parameters for the database URL."
   default = "DB_PARAMETERS"
 }
