@@ -233,7 +233,7 @@ function configure() {
     
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
-    sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?<|g" "${shareconfig_folder}"/database.xml
+    sed -i "s|url\"><|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
 
