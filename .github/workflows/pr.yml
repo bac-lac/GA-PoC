@@ -45,6 +45,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Echo parameters
+        run: |
+          echo 'DB_PARAMETERS = "${{ vars.DB_PARAMETERS }}"'
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -77,6 +81,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Echo parameters
+        run: |
+          echo 'DB_PARAMETERS = "${{ vars.DB_PARAMETERS }}"'
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
