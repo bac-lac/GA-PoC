@@ -33,6 +33,7 @@ module "ecs_service" {
   MOD_ECR_IMAGE               = var.ECR_IMAGE
   MOD_DB_USERNAME             = var.DB_USERNAME
   MOD_DB_PASSWORD             = var.DB_PASSWORD
+  MOD_DB_PARAMETERS           = var.DB_PARAMETERS
   MOD_ADMIN_DB_USERNAME       = var.ADMIN_DB_USERNAME
   MOD_ADMIN_DB_PASSWORD       = var.ADMIN_DB_PASSWORD
   MOD_FORCE_REFRESH           = var.FORCE_REFRESH

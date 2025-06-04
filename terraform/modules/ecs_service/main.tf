@@ -38,6 +38,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
                                         DB_USERNAME       = var.MOD_DB_USERNAME,
                                         DB_ADDRESS        = var.MOD_DB_ADDRESS,
                                         DB_PASSWORD       = var.MOD_DB_PASSWORD,
+                                        DB_PARAMETERS     = var.MOD_DB_PARAMETERS,
                                         ADMIN_DB_USERNAME = var.MOD_ADMIN_DB_USERNAME,
                                         ADMIN_DB_PASSWORD = var.MOD_ADMIN_DB_PASSWORD,
                                         FORCE_REFRESH     = var.MOD_FORCE_REFRESH,
