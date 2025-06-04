@@ -228,6 +228,8 @@ function configure() {
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
+    echo "print env"
+    printenv
     sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?$DB_PARAMETERS<|g" "${shareconfig_folder}"/database.xml
