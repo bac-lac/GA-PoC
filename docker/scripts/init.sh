@@ -159,7 +159,6 @@ function create_database_and_credentials() {
 #   BRANCH_NAME
 #   DB_ADDRESS
 #   DB_PASSWORD
-#   DB_PARAMETERS
 #   DB_USERNAME
 #   ECR_IMAGE
 #   FRESH_INSTALL
