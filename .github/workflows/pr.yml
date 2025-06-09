@@ -21,10 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Echo parameters
-        run: |
-          echo 'DB_PARAMETERS = "${{ vars.DB_PARAMETERS }}"'
-
       - name: Run shellcheck
         uses: sudo-bot/action-shellcheck@latest
         with:
@@ -44,10 +40,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Echo parameters
-        run: |
-          echo 'DB_PARAMETERS = "${{ vars.DB_PARAMETERS }}"'
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -81,10 +73,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Echo parameters
-        run: |
-          echo 'DB_PARAMETERS = "${{ vars.DB_PARAMETERS }}"'
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
