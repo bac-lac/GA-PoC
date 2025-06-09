@@ -63,11 +63,6 @@ variable "MOD_DB_PASSWORD" {
   description = "The DB password for the application."
 }
 
-variable "MOD_DB_PARAMETERS" {
-  type = string
-  description = "The DB parameters for the database URL."
-}
-
 variable "MOD_ADMIN_DB_USERNAME" {
   type = string
   description = "The DB username for the admin account."
