@@ -30,6 +30,9 @@ The following environment variables are used to control the application at run-t
 > CERT_BODY *: The certificate body.
 - Default value: CERT_BODY
 
+> CERT_CHAIN *: The certificate chain.
+- Default value: CERT_CHAIN
+
 > CERT_PRIVATE_KEY *: The certificate private key.
 - Default value: CERT_PRIVATE_KEY
 

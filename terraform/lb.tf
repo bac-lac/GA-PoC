@@ -7,7 +7,7 @@ resource "aws_lb_listener" "https" {
   port                = var.BRANCH_NAME == "main" ? "443" : "444"
   protocol            = "HTTPS"
   ssl_policy          = "ELBSecurityPolicy-FS-1-2-Res-2019-08"
-  certificate_arn     = aws_acm_certificate.baclacca.arn
+  certificate_arn     = aws_acm_certificate.baclacgcca.arn
   default_action {
     type = "fixed-response"
 
