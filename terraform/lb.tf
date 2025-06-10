@@ -3,9 +3,8 @@ data "aws_lb" "ga_alb"{
 }
 
 resource "aws_lb_listener" "https" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   load_balancer_arn   = data.aws_lb.ga_alb.arn
-  port                = "443"
+  port                = var.BRANCH_NAME == "main" ? "443" : "444"
   protocol            = "HTTPS"
   ssl_policy          = "ELBSecurityPolicy-FS-1-2-Res-2019-08"
   certificate_arn     = aws_acm_certificate.baclacgcca.arn
@@ -21,7 +20,6 @@ resource "aws_lb_listener" "https" {
 }
 
 resource "aws_lb_listener_rule" "admin_rule" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   listener_arn        = aws_lb_listener.https.arn
   action {
     type              = "forward"
@@ -29,7 +27,7 @@ resource "aws_lb_listener_rule" "admin_rule" {
   }
   condition {
     host_header {
-      values          = ["goanywhere-${var.ENV}.bac-lac.gc.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "goanywhere-${var.ENV}.bac-lac.gc.ca" : "goanywhere-dev-${var.BRANCH_NAME}.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -38,7 +36,6 @@ resource "aws_lb_listener_rule" "admin_rule" {
 }
 
 resource "aws_lb_listener_rule" "web_client_rule" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   listener_arn        = aws_lb_listener.https.arn
   action {
     type              = "forward"
@@ -46,7 +43,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
   condition {
     host_header {
-      values          = ["transfert-transfer-${var.ENV}.bac-lac.gc.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "transfert-transfer-${var.ENV}.bac-lac.gc.ca" : "transfert-transfer-${var.BRANCH_NAME}.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -55,7 +52,6 @@ resource "aws_lb_listener_rule" "web_client_rule" {
 }
 
 resource "aws_lb_target_group" "ga_tg_443" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   name        = "ga-tg-${var.BRANCH_NAME}-443"
   port        = 443
   protocol    = "HTTPS"
@@ -77,7 +73,6 @@ resource "aws_lb_target_group" "ga_tg_443" {
 }
 
 resource "aws_lb_target_group" "ga_tg_8443" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   name        = "ga-tg-${var.BRANCH_NAME}-8443"
   port        = 8443
   protocol    = "HTTPS"
@@ -103,9 +98,8 @@ data "aws_lb" "ga_nlb"{
 }
 
 resource "aws_lb_listener" "sftp" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   load_balancer_arn   = data.aws_lb.ga_nlb.arn
-  port                = "22"
+  port                = var.BRANCH_NAME == "main" ? "22" : "8022"
   protocol            = "TCP"
   default_action {
     type              = "forward"
@@ -117,7 +111,6 @@ resource "aws_lb_listener" "sftp" {
 }
 
 resource "aws_lb_target_group" "ga_tg_22" {
-  count = var.BRANCH_NAME == "main" ? 1 : 0
   name        = "ga-tg-${var.BRANCH_NAME}-22"
   port        = 22
   protocol    = "TCP"
