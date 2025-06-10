@@ -1,6 +1,6 @@
-FROM fortrallc/goanywhere-mft:7.7.1 AS builder
+FROM fortrallc/goanywhere-mft:7.8.0 AS builder
 
-FROM fortrallc/goanywhere-mft:7.7.1
+FROM fortrallc/goanywhere-mft:7.8.0
 USER root
 WORKDIR /temp
 COPY --from=builder /opt/Fortra/GoAnywhere/userdata/ userdata/
