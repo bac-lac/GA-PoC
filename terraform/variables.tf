@@ -38,6 +38,13 @@ variable "CERT_BODY" {
   default = "CERT_BODY"
 }
 
+variable "CERT_CHAIN" {
+  type = string
+  sensitive = true  
+  description = "The certificate chain."
+  default = "CERT_CHAIN"
+}
+
 variable "CERT_PRIVATE_KEY" {
   type = string
   sensitive = true
