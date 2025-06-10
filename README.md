@@ -76,7 +76,7 @@ The following environment variables are used to control the application at run-t
 
 ## Run the Application Locally
 
-1. Add "allowPublicKeyRetrieval=true" to the URL entry in the database.xml file.
+1. Append "\&amp;allowPublicKeyRetrieval=true" as a parameter to the URL entry under the configure function in the init.sh file.
 1. Build the application container as per the above [Container Image Build](#container-image-build) instructions.
 1. cp ./docker/example.env ./docker/local.env
 1. Edit the local.env as required.
