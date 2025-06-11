@@ -15,7 +15,7 @@ resource "aws_ecs_cluster_capacity_providers" "ga_cluster_capacity_providers" {
 
 module "ecs_service" {
   source                      = "./modules/ecs_service/"
-  for_each                    = var.MFT_CLUSTER == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  for_each                    = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
   MOD_MFT_NUMBER              = each.key
   MOD_CLUSTER                 = var.MFT_CLUSTER
   MOD_FILE_SYSTEM_ID          = aws_efs_file_system.ga_efs.id
