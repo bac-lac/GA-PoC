@@ -123,7 +123,7 @@ function create_database_and_credentials() {
     echo "Create Database"
 
     # Drop database if FORCE_REFRESH is true
-    if [[ $FORCE_REFRESH == "true" ]]; then 
+    if [[ "${FORCE_REFRESH^^}" == "TRUE" ]]; then 
         echo "Drop MySQL database..."
         mysql -h "$DB_ADDRESS" -u"$ADMIN_DB_USERNAME" -p"$ADMIN_DB_PASSWORD" --execute "WARNINGS; DROP DATABASE IF EXISTS \`GADATA\`;"
 
@@ -181,7 +181,7 @@ function configure() {
     cp -rf /temp/upgrader/ "${opt_ga_folder}"/
 
     # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty.
-    if [[ $FRESH_INSTALL == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
+    if [[ "${FRESH_INSTALL^^}" == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
         echo "Copy filesystem"
         cp -rf /temp/userdata/ "${opt_ga_folder}"/
         cp -rf /temp/config/ "${etc_ga_folder}"/
