@@ -27,7 +27,7 @@ resource "aws_lb_listener_rule" "admin_rule" {
   }
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "${var.ENV}.ga.bac-lac.ca" : "${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "goanywhere-${var.ENV}.bac-lac.gc.ca" : "goanywhere-${var.BRANCH_NAME}.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -43,7 +43,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "transfer.${var.ENV}.ga.bac-lac.ca" : "transfer.${var.BRANCH_NAME}.dev.ga.bac-lac.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "transfert-transfer-${var.ENV}.bac-lac.gc.ca" : "transfert-transfer-${var.BRANCH_NAME}.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -81,7 +81,7 @@ resource "aws_lb_target_group" "ga_tg_8443" {
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8443
+    port      = var.BRANCH_NAME == "main" ? 8443 : 8001
     protocol  = "HTTPS"
   }
   stickiness {
@@ -117,7 +117,7 @@ resource "aws_lb_target_group" "ga_tg_22" {
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
-    port      = 8022
+    port      = var.BRANCH_NAME == "main" ? 8022 : 8001
     protocol  = "TCP"
   }
   tags = {
