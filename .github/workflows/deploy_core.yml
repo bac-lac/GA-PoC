@@ -9,7 +9,6 @@ on:
         options:
         - pr
         - dev
-        - test
         - prod
         - pre-prod
 
