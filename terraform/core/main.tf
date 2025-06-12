@@ -92,7 +92,7 @@ resource "aws_lb" "ga_nlb" {
 
 variable "ENV" {
   type = string
-  description = "The environment in which to deploy the solution."
+  description = "The environment in which to deploy the solution...."
   default = "dev"
 }
 
