@@ -11,6 +11,7 @@ on:
         - dev
         - prod
         - pre-prod
+        - SUPER
 
 permissions:
       id-token: write
