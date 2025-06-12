@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/core/**'
+      - '!terraform/core/**'
       - '!.github/workflows/deploy_core.yml'
 
 env:
