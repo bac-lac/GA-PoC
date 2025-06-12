@@ -19,7 +19,7 @@ jobs:
     environment: "dev"
     defaults:
       run:
-        working-directory: ./terraform
+        working-directory: ./terraform/workload
 
     steps:
       - name: Checkout code

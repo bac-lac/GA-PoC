@@ -5,13 +5,6 @@ data "aws_security_group" "app" {
   }
 }
 
-data "aws_security_group" "web" {
-  filter {
-    name   = "tag:Name"
-    values = ["*Web*"]
-  }
-}
-
 data "aws_security_group" "data" {
   filter {
     name   = "tag:Name"
