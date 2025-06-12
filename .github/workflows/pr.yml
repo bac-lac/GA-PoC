@@ -4,9 +4,9 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
+    paths:
       - 'terraform/core/**'
-      - '.github/workflows/deploy_core.yml'
+      - '!.github/workflows/deploy_core.yml'
 
 env:
   AWS_REGION : "ca-central-1"
