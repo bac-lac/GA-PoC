@@ -11,7 +11,7 @@ on:
         description: "Name of the environment to deploy"
         options:
         - dev
-        - test
+        - pre-prod
         - prod
   
 env:
@@ -22,6 +22,7 @@ env:
 permissions:
       id-token: write
       contents: read
+      actions: write
 
 jobs:
   Changed-files:

@@ -9,8 +9,8 @@ on:
         options:
         - pr
         - dev
-        - prod
         - pre-prod
+        - prod
 
 permissions:
       id-token: write
