@@ -21,7 +21,7 @@ jobs:
     name: Check core files for changes
     steps:
       - uses: actions/checkout@v4
-      - name: Get changed files in the docs folder
+      - name: Get changed files in the core folder
         id: changed-files-specific
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c 
         with:
@@ -30,13 +30,13 @@ jobs:
             terraform/core/**
             .github/workflows/deploy_core.yml
 
-      - name: Run step if any file(s) in the docs folder change
+      - name: Run step if any file(s) in the core folder change
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.changed-files-specific.outputs.all_changed_files }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "One or more files in the docs folder has changed."
+          echo "One or more files in the core folder has changed."
           echo "List all the files that have changed: $ALL_CHANGED_FILES"
           gh run cancel ${{ github.run_id }}
 
