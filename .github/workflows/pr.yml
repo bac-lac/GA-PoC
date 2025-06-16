@@ -36,7 +36,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c 
         with:
-          files: core/**  # Alternatively using: `docs/**`
+          files: terraform/core/**  # Alternatively using: `docs/**`
 
       - name: Run step if any file(s) in the docs folder change
         if: steps.changed-files-specific.outputs.any_changed == 'false'
