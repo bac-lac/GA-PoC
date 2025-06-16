@@ -15,27 +15,19 @@ permissions:
       contents: read
 
 jobs:
-  Code-check:
-    runs-on: ubuntu-latest
+  # ------------------------------------------------------------------------------------------------------------------------------------------------
+  # Event `pull_request`: Compare the last commit of the main branch or last remote commit of the PR branch -> to the current commit of a PR branch.
+  # ------------------------------------------------------------------------------------------------------------------------------------------------
+  changed_files:
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: Test changed-files
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run shellcheck
-        uses: sudo-bot/action-shellcheck@latest
-        with:
-          cli-args: "./docker/scripts/*.sh"
-      
-      - name: Checkov security scan
-        uses: bridgecrewio/checkov-action@v12
-        with:
-          directory: terraform/workload
-          output_format: cli
-
+      - uses: actions/checkout@v4
       - name: Get changed files in the docs folder
         id: changed-files-specific
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c 
         with:
+          since_last_remote_commit: true
           files: terraform/core/**  # Alternatively using: `docs/**`
 
       - name: Run step if any file(s) in the docs folder change
@@ -52,6 +44,25 @@ jobs:
           echo "List all the files that have changed: $ALL_CHANGED_FILES"
           gh run cancel ${{ github.run_id }}
           gh run watch ${{ github.run_id }}
+
+
+jobs:
+  Code-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        uses: sudo-bot/action-shellcheck@latest
+        with:
+          cli-args: "./docker/scripts/*.sh"
+      
+      - name: Checkov security scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform/workload
+          output_format: cli
 
   Build:
     needs: Code-check
