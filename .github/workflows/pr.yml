@@ -34,7 +34,7 @@ jobs:
 
       - name: Get changed files in the docs folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@latest
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c 
         with:
           files: core/**  # Alternatively using: `docs/**`
 
