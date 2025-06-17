@@ -1,5 +1,5 @@
 # Introduction
-This project is a proof of concept for GoAnywhere.
+This project is a proof of concept for GoAnywhere..
 
 # Build Instructions
 
