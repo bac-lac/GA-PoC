@@ -120,7 +120,7 @@ variable "ROLE_ARN" {
   type = string  
   sensitive = true
   description = "ARN of the role used by terraform."
-  default = "ARN"
+  default = "Mathieu"
 }
 
 variable "TASK_DEFINITION_CPU" {
