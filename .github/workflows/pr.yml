@@ -36,7 +36,7 @@ jobs:
           ALL_CHANGED_FILES: ${{ steps.changed-files-specific.outputs.all_changed_files }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "One or more files in the core folder has changed.."
+          echo "One or more files in the core folder has changed."
           echo "List all the files that have changed: $ALL_CHANGED_FILES"
           gh run cancel ${{ github.run_id }}
 
