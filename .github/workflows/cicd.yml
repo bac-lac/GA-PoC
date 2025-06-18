@@ -47,6 +47,7 @@ jobs:
         run: |
           echo "One or more files in the core folder has changed."
           echo "List all the files that have changed: $ALL_CHANGED_FILES"
+          gh run cancel ${{ github.run_id }}
 
   Code-check:
     needs: Changed-files
