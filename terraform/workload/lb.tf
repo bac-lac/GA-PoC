@@ -4,7 +4,7 @@ data "aws_lb" "ga_alb"{
 
 resource "aws_lb_listener" "https" {
   load_balancer_arn   = data.aws_lb.ga_alb.arn
-  port                = var.BRANCH_NAME == "main" ? "443" : "444"
+  port                = "443"
   protocol            = "HTTPS"
   ssl_policy          = "ELBSecurityPolicy-FS-1-2-Res-2019-08"
   certificate_arn     = aws_acm_certificate.baclacgcca.arn
@@ -27,7 +27,7 @@ resource "aws_lb_listener_rule" "admin_rule" {
   }
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "goanywhere-${var.ENV}.bac-lac.gc.ca" : "goanywhere-${var.BRANCH_NAME}.bac-lac.gc.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "goanywhere-${var.ENV}.bac-lac.gc.ca" : "${var.BRANCH_NAME}.goanywhere-dev.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -43,7 +43,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "transfert-transfer-${var.ENV}.bac-lac.gc.ca" : "transfert-transfer-${var.BRANCH_NAME}.bac-lac.gc.ca"]
+      values          = [var.BRANCH_NAME == "main" ? "transfert-transfer-${var.ENV}.bac-lac.gc.ca" : "${var.BRANCH_NAME}.transfert-transfer-dev.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -99,7 +99,7 @@ data "aws_lb" "ga_nlb"{
 
 resource "aws_lb_listener" "sftp" {
   load_balancer_arn   = data.aws_lb.ga_nlb.arn
-  port                = var.BRANCH_NAME == "main" ? "22" : "8022"
+  port                = "22"
   protocol            = "TCP"
   default_action {
     type              = "forward"
