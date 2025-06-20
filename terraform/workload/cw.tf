@@ -44,6 +44,6 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
   threshold                 = 80
-  treat_missing_data        = missing
+  treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} cpu utilization"
 }
