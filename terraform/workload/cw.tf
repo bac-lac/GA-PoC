@@ -31,9 +31,7 @@ resource "aws_sns_topic_subscription" "ga_sns_topic_subscription" {
 resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
   alarm_name                = "MySQL High CPU Utilization"
   comparison_operator       = "GreaterThanThreshold"
-  ActionsEnabled            = true
-  OKActions                 = []
-  AlarmActions              = [aws_sns_topic.ga_sns_topic.arn]
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
   insufficient_data_actions = []
   metric_name               = "CPUUtilization"
   namespace                 = "AWS/RDS"
@@ -44,8 +42,8 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
   }
   period                    = 60
   evaluation_periods        = 1
-  DatapointsToAlarm         = 1
+  datapoints_to_alarm       = 1
   threshold                 = 80
-  TreatMissingData          = missing
+  treat_missing_data        = missing
   alarm_description         = "This metric monitors RDS cpu utilization"
 }
