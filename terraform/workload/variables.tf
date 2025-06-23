@@ -52,6 +52,13 @@ variable "CERT_PRIVATE_KEY" {
   default = "CERT_PRIVATE_KEY"
 }
 
+variable "CLOUDWATCH_EMAIL" {
+  type = string
+  sensitive = true
+  description = "The email used for cloudwatch endpoint."
+  default = "cloudwatch_email@domain.com"
+}
+
 variable "DB_INSTANCE_CLASS" {
   type = string
   sensitive = true
