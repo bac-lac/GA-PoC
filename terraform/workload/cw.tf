@@ -85,5 +85,5 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   datapoints_to_alarm       = 1
   threshold                 = 20
   treat_missing_data        = "missing"
-  alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
+  alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%."
 }
