@@ -25,7 +25,7 @@ EOF
 resource "aws_sns_topic_subscription" "ga_sns_topic_subscription" {
   topic_arn = aws_sns_topic.ga_sns_topic.arn
   protocol  = "email"
-  endpoint  = "test@bac-lac.gc.ca"
+  endpoint  = "${var.CLOUDWATCH_EMAIL}"
 }
 
 resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
@@ -85,5 +85,5 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   datapoints_to_alarm       = 1
   threshold                 = 20
   treat_missing_data        = "missing"
-  alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%."
+  alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
 }
