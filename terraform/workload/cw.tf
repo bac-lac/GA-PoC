@@ -37,8 +37,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
   namespace                 = "AWS/RDS"
   statistic                 = "Maximum"
   dimensions = {
-    Name    = "DBInstanceIdentifier"
-    Value   = "${var.BRANCH_NAME}"
+    DBInstanceIdentifier  = "ga-db-${var.BRANCH_NAME}"
   }
   period                    = 60
   evaluation_periods        = 1
@@ -57,8 +56,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
   namespace                 = "AWS/RDS"
   statistic                 = "Minimum"
   dimensions = {
-    Name    = "DBInstanceIdentifier"
-    Value   = "${var.BRANCH_NAME}"
+    DBInstanceIdentifier  = "ga-db-${var.BRANCH_NAME}"
   }
   period                    = 300
   evaluation_periods        = 1
@@ -77,8 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   namespace                 = "AWS/RDS"
   statistic                 = "Minimum"
   dimensions = {
-    Name    = "DBInstanceIdentifier"
-    Value   = "${var.BRANCH_NAME}"
+    DBInstanceIdentifier  = "ga-db-${var.BRANCH_NAME}"
   }
   period                    = 60
   evaluation_periods        = 1
