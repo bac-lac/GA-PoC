@@ -61,7 +61,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
   period                    = 300
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
-  threshold                 = 800
+  threshold                 = 90
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} memory utilization"
 }
@@ -80,7 +80,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   period                    = 60
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
-  threshold                 = 20
+  threshold                 = 90
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
 }
