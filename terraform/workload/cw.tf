@@ -1,3 +1,15 @@
+data "aws_db_instance" "ga_db_instance" {
+  db_instance_identifier = "ga_mysql"
+}
+
+output "db_total_memory" {
+  value = data.aws_db_instance.ga_db_instance.total_memory
+}
+
+output "db_allocated_storage" {
+  value = data.aws_db_instance.ga_db_instance.allocated_storage
+}
+
 resource "aws_sns_topic" "ga_sns_topic" {
   name = "GoAnywhere_${var.BRANCH_NAME}_Alarms_Topic"
   kms_master_key_id = "alias/aws/sns"
@@ -61,7 +73,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
   period                    = 300
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
-  threshold                 = 90
+  threshold                 = Math.round(output.total_memory * 0.90)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} memory utilization"
 }
@@ -80,7 +92,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   period                    = 60
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
-  threshold                 = 90
+  threshold                 = Math.round(output.db_allocated_storage * 0.90)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
 }
