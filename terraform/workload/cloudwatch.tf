@@ -7,14 +7,6 @@ locals {
   }
 }
 
-#output "db_instance_memory_size" {
-#  value = lookup(local.db_instance_memory, aws_db_instance.ga_mysql.instance_class)
-#}
-
-#output "db_allocated_storage" {
-#  value = aws_db_instance.ga_mysql.allocated_storage
-#}
-
 resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
   alarm_name                = "MySQL ${var.BRANCH_NAME} High CPU Utilization"
   comparison_operator       = "GreaterThanThreshold"
@@ -48,7 +40,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
   period                    = 300
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
-  threshold                 = floor(lookup(local.db_instance_memory, aws_db_instance.ga_mysql.instance_class) * 0.90)
+  threshold                 = floor(lookup(local.db_instance_memory, aws_db_instance.ga_mysql.instance_class) * 1024 * 1024 * 1024 * 0.90)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} memory utilization"
 }
@@ -67,7 +59,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   period                    = 60
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
-  threshold                 = floor(aws_db_instance.ga_mysql.allocated_storage * 0.90)
+  threshold                 = floor(aws_db_instance.ga_mysql.allocated_storage * 1024 * 1024 * 1024 * 0.90)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
 }
