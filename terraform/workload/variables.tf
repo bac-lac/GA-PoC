@@ -60,7 +60,6 @@ variable "CLOUDWATCH_EMAIL" {
 
 variable "DB_INSTANCE_CLASS" {
   type = string
-  sensitive = true
   description = "The database intance class for the application."
   default = "db.t3.medium"
 }
