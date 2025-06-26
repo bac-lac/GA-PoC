@@ -42,6 +42,9 @@ The following environment variables are used to control the application at run-t
 > DB_INSTANCE_CLASS *: The database intance class for the application.
 - Default value: db.t3.medium
 
+> DB_INSTANCE_CLASS *: The database intance class available memory in GB.
+- Default value: 4
+
 > DB_USERNAME *: The DB username for the application.
 - Default value: DB_USERNAME
 

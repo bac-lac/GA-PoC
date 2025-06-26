@@ -64,6 +64,12 @@ variable "DB_INSTANCE_CLASS" {
   default = "db.t3.medium"
 }
 
+variable "DB_INSTANCE_CLASS_MEMORY" {
+  type = string
+  description = "The database intance class available memory in GB."
+  default = "4"
+}
+
 variable "DB_PASSWORD" {
   type = string
   sensitive = true
