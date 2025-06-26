@@ -8,7 +8,7 @@ locals {
 }
 
 output "db_instance_memory_size" {
-  value = lookup(local.db_instance_memory, aws_db_instance.ga_mysql.db_instance_class)
+  value = lookup(local.db_instance_memory, aws_db_instance.ga_mysql.instance_class)
 }
 
 output "db_allocated_storage" {
