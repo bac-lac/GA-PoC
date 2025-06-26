@@ -36,8 +36,14 @@ The following environment variables are used to control the application at run-t
 > CERT_PRIVATE_KEY *: The certificate private key.
 - Default value: CERT_PRIVATE_KEY
 
+> CLOUDWATCH_EMAIL *: The email used for cloudwatch endpoint.
+- Default value: cloudwatch_email@domain.com
+
 > DB_INSTANCE_CLASS *: The database intance class for the application.
 - Default value: db.t3.medium
+
+> DB_INSTANCE_CLASS_MEMORY *: The database intance class available memory in GB.
+- Default value: 4
 
 > DB_USERNAME *: The DB username for the application.
 - Default value: DB_USERNAME

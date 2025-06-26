@@ -52,11 +52,22 @@ variable "CERT_PRIVATE_KEY" {
   default = "CERT_PRIVATE_KEY"
 }
 
+variable "CLOUDWATCH_EMAIL" {
+  type = string
+  description = "The email used for cloudwatch endpoint."
+  default = "cloudwatch_email@domain.com"
+}
+
 variable "DB_INSTANCE_CLASS" {
   type = string
-  sensitive = true
   description = "The database intance class for the application."
   default = "db.t3.medium"
+}
+
+variable "DB_INSTANCE_CLASS_MEMORY" {
+  type = string
+  description = "The database intance class available memory in GB."
+  default = "4"
 }
 
 variable "DB_PASSWORD" {
