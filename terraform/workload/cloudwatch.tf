@@ -64,9 +64,10 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_cpu_alarm" {
   metric_name               = "CPUUtilization"
   namespace                 = "AWS/ECS"
   statistic                 = "Maximum"
-  dimensions = {
-    ServiceName = "ga-service-mft${each.key}-${var.BRANCH_NAME}"
-  }
+  dimensions = [{
+    ServiceName = "ga-service-mft${each.key}-${var.BRANCH_NAME}",
+    ClusterName = aws_ecs_cluster.ga_cluster.name
+  }]
   period                    = 60
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
@@ -84,9 +85,10 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_memory_alarm" {
   metric_name               = "MemoryUtilization"
   namespace                 = "AWS/ECS"
   statistic                 = "Maximum"
-  dimensions = {
-    ServiceName = "ga-service-mft${each.key}-${var.BRANCH_NAME}"
-  }
+  dimensions = [{
+    ServiceName = "ga-service-mft${each.key}-${var.BRANCH_NAME}",
+    ClusterName = aws_ecs_cluster.ga_cluster.name
+  }]
   period                    = 300
   evaluation_periods        = 1
   datapoints_to_alarm       = 1
