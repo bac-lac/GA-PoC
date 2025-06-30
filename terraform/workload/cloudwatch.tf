@@ -54,3 +54,43 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
 }
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_cpu_alarm" {
+  for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} High CPU Utilization"
+  comparison_operator       = "GreaterThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/ECS"
+  statistic                 = "Maximum"
+  dimensions = [{
+    ServiceName = "ga-service-mft${each.key}-${var.BRANCH_NAME}"
+  }]
+  period                    = 60
+  evaluation_periods        = 1
+  datapoints_to_alarm       = 1
+  threshold                 = 80
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} cpu utilization"
+}
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_memory_alarm" {
+  for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} High Memory Utilization"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "MemoryUtilization"
+  namespace                 = "AWS/ECS"
+  statistic                 = "Maximum"
+  dimensions = {
+    ServiceName = "ga-service-mft${each.key}-${var.BRANCH_NAME}"
+  }
+  period                    = 300
+  evaluation_periods        = 1
+  datapoints_to_alarm       = 1
+  threshold                 = 90
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} memory utilization"
+}
