@@ -10,9 +10,9 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
     DBInstanceIdentifier  = aws_db_instance.ga_mysql.identifier
   }
   period                    = 60
-  evaluation_periods        = 1
-  datapoints_to_alarm       = 1
-  threshold                 = 80
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 90
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} cpu utilization"
 }
@@ -28,9 +28,9 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
   dimensions = {
     DBInstanceIdentifier  = aws_db_instance.ga_mysql.identifier
   }
-  period                    = 300
-  evaluation_periods        = 1
-  datapoints_to_alarm       = 1
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
   threshold                 = floor(var.DB_INSTANCE_CLASS_MEMORY * 1024 * 1024 * 1024 * 0.10)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} memory utilization"
@@ -48,9 +48,92 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
     DBInstanceIdentifier  = aws_db_instance.ga_mysql.identifier
   }
   period                    = 60
-  evaluation_periods        = 1
-  datapoints_to_alarm       = 1
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
   threshold                 = floor(aws_db_instance.ga_mysql.allocated_storage * 1024 * 1024 * 1024 * 0.10)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
+}
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_cpu_alarm" {
+  for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} High CPU Utilization"
+  comparison_operator       = "GreaterThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "CPUUtilization"
+  namespace                 = "AWS/ECS"
+  statistic                 = "Maximum"
+  dimensions                = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 90
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} cpu utilization"
+}
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_memory_alarm" {
+  for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} High Memory Utilization"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "MemoryUtilization"
+  namespace                 = "AWS/ECS"
+  statistic                 = "Maximum"
+  dimensions                = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 90
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} memory utilization"
+}
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_drive_alarm" {
+  for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} drive usage reaching 90%"
+  comparison_operator       = "GreaterThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 90
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} drive utilization"
+
+  metric_query {
+    id          = "e1"
+    expression  = "m1*100/m2"
+    label       = "Storage used in %"
+    return_data = "true"
+  }
+
+  metric_query {
+    id = "m1"
+    return_data = "false"
+
+    metric {
+      metric_name = "EphemeralStorageUtilized"
+      namespace   = "ECS/ContainerInsights"
+      period      = 60
+      stat        = "Maximum"
+      dimensions  = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
+    }
+  }
+
+  metric_query {
+    id = "m2"
+    return_data = "false"
+
+    metric {
+      metric_name = "EphemeralStorageReserved"
+      namespace   = "ECS/ContainerInsights"
+      period      = 60
+      stat        = "Maximum"
+      dimensions  = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
+    }
+  }
+
 }
