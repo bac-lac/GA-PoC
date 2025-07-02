@@ -10,9 +10,9 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
     DBInstanceIdentifier  = aws_db_instance.ga_mysql.identifier
   }
   period                    = 60
-  evaluation_periods        = 1
-  datapoints_to_alarm       = 1
-  threshold                 = 80
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 90
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} cpu utilization"
 }
@@ -28,9 +28,9 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
   dimensions = {
     DBInstanceIdentifier  = aws_db_instance.ga_mysql.identifier
   }
-  period                    = 300
-  evaluation_periods        = 1
-  datapoints_to_alarm       = 1
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
   threshold                 = floor(var.DB_INSTANCE_CLASS_MEMORY * 1024 * 1024 * 1024 * 0.10)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} memory utilization"
@@ -48,8 +48,8 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_drive_alarm" {
     DBInstanceIdentifier  = aws_db_instance.ga_mysql.identifier
   }
   period                    = 60
-  evaluation_periods        = 1
-  datapoints_to_alarm       = 1
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
   threshold                 = floor(aws_db_instance.ga_mysql.allocated_storage * 1024 * 1024 * 1024 * 0.10)
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} drive usage reaching 90%"
@@ -68,7 +68,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_cpu_alarm" {
   period                    = 60
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
-  threshold                 = 80
+  threshold                 = 90
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} cpu utilization"
 }
@@ -117,7 +117,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_drive_alarm" {
     metric {
       metric_name = "EphemeralStorageUtilized"
       namespace   = "ECS/ContainerInsights"
-      period      = 300
+      period      = 60
       stat        = "Maximum"
       dimensions  = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
     }
@@ -130,7 +130,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_drive_alarm" {
     metric {
       metric_name = "EphemeralStorageReserved"
       namespace   = "ECS/ContainerInsights"
-      period      = 300
+      period      = 60
       stat        = "Maximum"
       dimensions  = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
     }
