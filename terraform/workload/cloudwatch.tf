@@ -90,3 +90,50 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_memory_alarm" {
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} memory utilization"
 }
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_drive_alarm" {
+  for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} High Drive Utilization"
+  comparison_operator       = "GreaterThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 80
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} drive utilization"
+
+  metric_query {
+    id          = "e1"
+    expression  = "m1*100/m2"
+    label       = "Storage used in %"
+    return_data = "true"
+  }
+
+  metric_query {
+    id = "m1"
+    return_data = "false"
+
+    metric {
+      metric_name = "EphemeralStorageUtilized"
+      namespace   = "ECS/ContainerInsights"
+      period      = 300
+      stat        = "Maximum"
+      dimensions  = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
+    }
+  }
+
+  metric_query {
+    id = "m2"
+    return_data = "false"
+
+    metric {
+      metric_name = "EphemeralStorageReserved"
+      namespace   = "ECS/ContainerInsights"
+      period      = 300
+      stat        = "Maximum"
+      dimensions  = zipmap(["ServiceName", "ClusterName"], ["ga-service-mft${each.key}-${var.BRANCH_NAME}", aws_ecs_cluster.ga_cluster.name])
+    }
+  }
+
+}
