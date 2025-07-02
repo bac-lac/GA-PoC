@@ -93,13 +93,13 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_memory_alarm" {
 
 resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_drive_alarm" {
   for_each                  = upper(var.MFT_CLUSTER) == "TRUE" ? toset(["1", "2"]) : toset(["1"])
-  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} High Drive Utilization"
+  alarm_name                = "MFT-${each.key} ${var.BRANCH_NAME} drive usage reaching 90%"
   comparison_operator       = "GreaterThanThreshold"
   alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
   insufficient_data_actions = []
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
-  threshold                 = 80
+  threshold                 = 90
   treat_missing_data        = "missing"
   alarm_description         = "This metric monitors MFT-${each.key} ${var.BRANCH_NAME} drive utilization"
 
