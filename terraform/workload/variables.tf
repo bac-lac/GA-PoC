@@ -1,5 +1,5 @@
 locals {
-  HOSTNAME_SUFFIX = [var.BRANCH_NAME == "prod" ? "" : var.BRANCH_NAME == "main" ? "-${var.ENV}" : "-${var.BRANCH_NAME}"]
+  HOSTNAME_SUFFIX = var.BRANCH_NAME == "prod" ? "" : var.BRANCH_NAME == "main" ? "-${var.ENV}" : "-${var.BRANCH_NAME}"
 }
 
 variable "ACCOUNT" {
