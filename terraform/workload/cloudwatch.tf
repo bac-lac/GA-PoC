@@ -149,33 +149,3 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_transfer_alarm" {
   threshold           = "1"
   alarm_description   = "This metric monitors the transfer-transfert health"
 }
-
-
-
-
-{
-    "Type": "AWS::CloudWatch::Alarm",
-    "Properties": {
-        "AlarmName": "GA_Web_Client_transfert-transfer-bac-lac-gc-ca-awsroute53-fe746458-5514-4b57-9766-384899416b4d-Low-HealthCheckStatus",
-        "ActionsEnabled": true,
-        "OKActions": [],
-        "AlarmActions": [
-            "arn:aws:sns:us-east-1:685264686784:TransferHealthCheck"
-        ],
-        "InsufficientDataActions": [],
-        "MetricName": "HealthCheckStatus",
-        "Namespace": "AWS/Route53",
-        "Statistic": "Minimum",
-        "Dimensions": [
-            {
-                "Name": "HealthCheckId",
-                "Value": "fe746458-5514-4b57-9766-384899416b4d"
-            }
-        ],
-        "Period": 60,
-        "EvaluationPeriods": 1,
-        "DatapointsToAlarm": 1,
-        "Threshold": 1,
-        "ComparisonOperator": "LessThanThreshold"
-    }
-}
