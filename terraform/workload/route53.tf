@@ -6,7 +6,6 @@ resource "aws_route53_health_check" "ga_transfer_health_check" {
   failure_threshold     = "3"
   request_interval      = "30"
   enable_sni            = true
-  cloudwatch_alarm_name = aws_cloudwatch_metric_alarm.ga_cw_transfer_alarm.alarm_name
   tags = {
     Name = "GA Web Dev Client https://transfert-transfer${local.HOSTNAME_SUFFIX}.bac-lac.gc.ca"
   }
