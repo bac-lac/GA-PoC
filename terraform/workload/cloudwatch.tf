@@ -149,7 +149,4 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_transfer_alarm" {
   threshold           = "1"
   alarm_description   = "This metric monitors the transfer-transfert health"
   alarm_actions       = [aws_sns_topic.ga_sns_topic.arn]
-  dimensions = {
-    HealthCheckId  = aws_route53_health_check.ga_transfer_health_check.identifier
-  }
 }
