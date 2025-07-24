@@ -146,7 +146,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_nlb_22_alarm" {
   metric_name               = "HealthyHostCount"
   namespace                 = "AWS/NetworkELB"
   statistic                 = "Minimum"
-  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_22.arn_suffix, "${var.NLB_NAME}"])
+  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_22.arn_suffix, data.aws_lb.ga_alb.arn_suffix])
   period                    = 60
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
@@ -163,7 +163,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_alb_443_alarm" {
   metric_name               = "HealthyHostCount"
   namespace                 = "AWS/ApplicationELB"
   statistic                 = "Minimum"
-  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_443.arn_suffix, "${var.ALB_NAME}"])
+  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_443.arn_suffix, data.aws_lb.ga_alb.arn_suffix])
   period                    = 60
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
@@ -180,7 +180,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_alb_8443_alarm" {
   metric_name               = "HealthyHostCount"
   namespace                 = "AWS/ApplicationELB"
   statistic                 = "Minimum"
-  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_8443.arn_suffix, "${var.ALB_NAME}"])
+  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_8443.arn_suffix, data.aws_lb.ga_alb.arn_suffix])
   period                    = 60
   evaluation_periods        = 5
   datapoints_to_alarm       = 5
