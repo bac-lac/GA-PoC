@@ -137,3 +137,54 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_ecs_drive_alarm" {
   }
 
 }
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_nlb_22_alarm" {
+  alarm_name                = "NLB port 22 ${var.BRANCH_NAME} unhealthy host"
+  comparison_operator       = "LessThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "HealthyHostCount"
+  namespace                 = "AWS/NetworkELB"
+  statistic                 = "Minimum"
+  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_22.arn_suffix, data.aws_lb.ga_nlb.arn_suffix])
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 1
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors NLB port 22 ${var.BRANCH_NAME} health"
+}
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_alb_443_alarm" {
+  alarm_name                = "ALB port 443 ${var.BRANCH_NAME} unhealthy host"
+  comparison_operator       = "LessThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "HealthyHostCount"
+  namespace                 = "AWS/ApplicationELB"
+  statistic                 = "Minimum"
+  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_443.arn_suffix, data.aws_lb.ga_alb.arn_suffix])
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 1
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors ALB port 443 ${var.BRANCH_NAME} health"
+}
+
+resource "aws_cloudwatch_metric_alarm" "ga_cw_alb_8443_alarm" {
+  alarm_name                = "ALB port 8443 ${var.BRANCH_NAME} unhealthy host"
+  comparison_operator       = "LessThanThreshold"
+  alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
+  insufficient_data_actions = []
+  metric_name               = "HealthyHostCount"
+  namespace                 = "AWS/ApplicationELB"
+  statistic                 = "Minimum"
+  dimensions                = zipmap(["TargetGroup", "LoadBalancer"], [aws_lb_target_group.ga_tg_8443.arn_suffix, data.aws_lb.ga_alb.arn_suffix])
+  period                    = 60
+  evaluation_periods        = 5
+  datapoints_to_alarm       = 5
+  threshold                 = 1
+  treat_missing_data        = "missing"
+  alarm_description         = "This metric monitors ALB port 8443 ${var.BRANCH_NAME} health"
+}
