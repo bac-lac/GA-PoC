@@ -31,7 +31,7 @@ resource "aws_lb_listener_rule" "admin_rule" {
     }
   }
   tags = {
-    Name = "Admin-${var.BRANCH_NAME}"
+    Name = "Admin-${var.BRANCH_ENV}"
   }
 }
 
@@ -47,12 +47,12 @@ resource "aws_lb_listener_rule" "web_client_rule" {
     }
   }
   tags = {
-    Name = "Web-Client-${var.BRANCH_NAME}"
+    Name = "Web-Client-${var.BRANCH_ENV}"
   }
 }
 
 resource "aws_lb_target_group" "ga_tg_443" {
-  name        = "ga-tg-${var.BRANCH_NAME}-443"
+  name        = "ga-tg-${var.BRANCH_ENV}-443"
   port        = 443
   protocol    = "HTTPS"
   target_type = "ip"
@@ -68,12 +68,12 @@ resource "aws_lb_target_group" "ga_tg_443" {
     type      = "lb_cookie"
   }
   tags = {
-    Name = "Admin-${var.BRANCH_NAME}"
+    Name = "Admin-${var.BRANCH_ENV}"
   }
 }
 
 resource "aws_lb_target_group" "ga_tg_8443" {
-  name        = "ga-tg-${var.BRANCH_NAME}-8443"
+  name        = "ga-tg-${var.BRANCH_ENV}-8443"
   port        = 8443
   protocol    = "HTTPS"
   target_type = "ip"
@@ -89,7 +89,7 @@ resource "aws_lb_target_group" "ga_tg_8443" {
     type      = "lb_cookie"
   }
   tags = {
-    Name = "Web-client-${var.BRANCH_NAME}"
+    Name = "Web-client-${var.BRANCH_ENV}"
   }
 }
 
@@ -106,12 +106,12 @@ resource "aws_lb_listener" "sftp" {
     target_group_arn  = aws_lb_target_group.ga_tg_22.arn
   }
   tags = {
-    Name = "SFTP-${var.BRANCH_NAME}"
+    Name = "SFTP-${var.BRANCBRANCH_ENVH_NAME}"
   }
 }
 
 resource "aws_lb_target_group" "ga_tg_22" {
-  name        = "ga-tg-${var.BRANCH_NAME}-22"
+  name        = "ga-tg-${var.BRANCH_ENV}-22"
   port        = 22
   protocol    = "TCP"
   target_type = "ip"
@@ -121,6 +121,6 @@ resource "aws_lb_target_group" "ga_tg_22" {
     protocol  = "TCP"
   }
   tags = {
-    Name = "SFTP-${var.BRANCH_NAME}"
+    Name = "SFTP-${var.BRANCH_ENV}"
   }
 }

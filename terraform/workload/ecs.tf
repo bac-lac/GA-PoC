@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "ga_cluster" {
-  name = "ga-cluster-${var.BRANCH_NAME}"
+  name = "ga-cluster-${var.BRANCH_ENV}"
 
   setting {
     name  = "containerInsights"
@@ -27,7 +27,7 @@ module "ecs_service" {
   MOD_GA_AP_TOMCATLOG_ID      = aws_efs_access_point.ga_ap["tomcatlog${each.key}"].id
   MOD_GA_AP_GHTTPSROOT_ID     = aws_efs_access_point.ga_ap["ghttpsroot${each.key}"].id
   MOD_DB_ADDRESS              = aws_db_instance.ga_mysql.address
-  MOD_BRANCH_NAME             = var.BRANCH_NAME
+  MOD_BRANCH_NAME             = var.BRANCH_ENV
   MOD_ECS_ROLE_ARN            = aws_iam_role.ga_ecs_role.arn
   MOD_ECS_TASK_ROLE_ARN       = aws_iam_role.ga_ecs_task_role.arn
   MOD_ECR_IMAGE               = var.ECR_IMAGE
