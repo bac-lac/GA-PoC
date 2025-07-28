@@ -27,3 +27,8 @@ resource "aws_sns_topic_subscription" "ga_sns_topic_subscription" {
   protocol  = "email"
   endpoint  = "${var.CLOUDWATCH_EMAIL}"
 }
+
+resource "aws_sns_topic_policy" "ga_sns_topic_policy" {
+  arn = aws_sns_topic.ga_sns_topic.arn
+  policy = data.aws_iam_policy_document.ga_sns_topic_access_policy.json
+}

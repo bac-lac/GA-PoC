@@ -67,3 +67,18 @@ resource "aws_iam_role" "ga_ecs_task_role" {
     policy = data.aws_iam_policy_document.ga_ecs_task_role_inline_policy.json
   }
 }
+
+data "aws_iam_policy_document" "ga_sns_topic_access_policy" {
+  statement {
+    actions = ["sns:Publish"]
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifies  = ["cloudwatch.amazonaws.com"]
+    }
+    resources = [
+      aws_kms_key.ga_kms_key.arn
+    ]
+    sid = "Allow_Publish_Alarms"
+  }
+}
