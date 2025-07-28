@@ -1,6 +1,6 @@
 resource "aws_sns_topic" "ga_sns_topic" {
   name = "GoAnywhere_${var.BRANCH_NAME}_Alarms_Topic"
-  kms_master_key_id = "alias/aws/sns"
+  kms_master_key_id = aws_kms_key.ga_kms_key.key_id
   delivery_policy = <<EOF
 {
   "http": {
@@ -26,4 +26,9 @@ resource "aws_sns_topic_subscription" "ga_sns_topic_subscription" {
   topic_arn = aws_sns_topic.ga_sns_topic.arn
   protocol  = "email"
   endpoint  = "${var.CLOUDWATCH_EMAIL}"
+}
+
+resource "aws_sns_topic_policy" "ga_sns_topic_policy" {
+  arn = aws_sns_topic.ga_sns_topic.arn
+  policy = data.aws_iam_policy_document.ga_sns_topic_access_policy.json
 }

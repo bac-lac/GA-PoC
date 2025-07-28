@@ -67,3 +67,46 @@ resource "aws_iam_role" "ga_ecs_task_role" {
     policy = data.aws_iam_policy_document.ga_ecs_task_role_inline_policy.json
   }
 }
+
+data "aws_iam_policy_document" "ga_sns_topic_access_policy" {
+  statement {
+    actions = [
+      "SNS:GetTopicAttributes",
+      "SNS:SetTopicAttributes",
+      "SNS:AddPermission",
+      "SNS:RemovePermission",
+      "SNS:DeleteTopic",
+      "SNS:Subscribe",
+      "SNS:ListSubscriptionsByTopic",
+      "SNS:Publish"
+    ]
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers  = ["*"]
+    }
+    resources = [
+      aws_sns_topic.ga_sns_topic.arn
+    ]
+    condition {
+      test = "StringEquals"
+      variable = "AWS:SourceOwner"
+      values = [
+        "${var.ACCOUNT}"
+      ]
+    }
+    sid = "default_policy"
+  }
+  statement {
+    actions = ["SNS:Publish"]
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers  = ["cloudwatch.amazonaws.com"]
+    }
+    resources = [
+      aws_kms_key.ga_kms_key.arn
+    ]
+    sid = "Allow_Publish_Alarms"
+  }
+}
