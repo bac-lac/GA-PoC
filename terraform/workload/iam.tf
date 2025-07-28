@@ -74,7 +74,7 @@ data "aws_iam_policy_document" "ga_sns_topic_access_policy" {
     effect = "Allow"
     principals {
       type        = "Service"
-      identifies  = ["cloudwatch.amazonaws.com"]
+      identifiers  = ["cloudwatch.amazonaws.com"]
     }
     resources = [
       aws_kms_key.ga_kms_key.arn
