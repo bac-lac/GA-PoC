@@ -145,3 +145,7 @@ variable "TASK_DEFINITION_MEMORY" {
   description = "The task definition memory."
   default = 3072
 }
+
+locals {
+  BRANCH_ENV = var.BRANCH_NAME == "main" ? "${var.ENV}" : "${var.BRANCH_NAME}"
+}

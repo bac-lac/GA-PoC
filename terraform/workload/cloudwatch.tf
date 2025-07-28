@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
-  alarm_name                = "MySQL ${var.BRANCH_NAME} High CPU Utilization"
+  alarm_name                = "MySQL ${local.BRANCH_ENV} High CPU Utilization"
   comparison_operator       = "GreaterThanThreshold"
   alarm_actions             = [aws_sns_topic.ga_sns_topic.arn]
   insufficient_data_actions = []
@@ -14,7 +14,7 @@ resource "aws_cloudwatch_metric_alarm" "ga_cw_db_cpu_alarm" {
   datapoints_to_alarm       = 5
   threshold                 = 90
   treat_missing_data        = "missing"
-  alarm_description         = "This metric monitors RDS ${var.BRANCH_NAME} cpu utilization"
+  alarm_description         = "This metric monitors RDS ${local.BRANCH_ENV} cpu utilization"
 }
 
 resource "aws_cloudwatch_metric_alarm" "ga_cw_db_memory_alarm" {
