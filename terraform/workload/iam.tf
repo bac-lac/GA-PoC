@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "ga_sns_topic_access_policy" {
       test = "StringEquals"
       variable = "AWS:SourceOwner"
       values = [
-        ${var.ACCOUNT}
+        "${var.ACCOUNT}"
       ]
     }
     sid = "default_policy"
