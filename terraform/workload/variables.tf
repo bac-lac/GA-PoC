@@ -25,6 +25,12 @@ variable "ALB_NAME" {
   default = "ga-alb"
 }
 
+variable "BRANCH_ENV" {
+  type = string
+  description = "The branch or environment based on the branch value."
+  default = "BRANCH_ENV"
+}
+
 variable "BRANCH_NAME" {
   type = string
   description = "The branch name used for resources creation."

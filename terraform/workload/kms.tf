@@ -30,6 +30,6 @@ resource "aws_kms_key" "ga_kms_key" {
 }
 
 resource "aws_kms_alias" "a" {
-  name          = "alias/${var.BRANCH_NAME}"
+  name          = "alias/${var.BRANCH_ENV}"
   target_key_id = aws_kms_key.ga_kms_key.key_id
 }

@@ -1,9 +1,9 @@
 resource "aws_efs_file_system" "ga_efs" {
-  creation_token  = "ga-efs-${var.BRANCH_NAME}"
+  creation_token  = "ga-efs-${var.BRANCH_ENV}"
   encrypted       = true
   throughput_mode = "elastic"
   tags = {
-    Name = "ga-efs-${var.BRANCH_NAME}"
+    Name = "ga-efs-${var.BRANCH_ENV}"
   }
 }
 
@@ -30,6 +30,6 @@ resource "aws_efs_access_point" "ga_ap" {
     path = "/${each.key}"
   }
   tags = {
-    Name = "${each.key}-${var.BRANCH_NAME}"
+    Name = "${each.key}-${var.BRANCH_ENV}"
   }
 }

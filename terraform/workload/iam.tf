@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "ga_rds_monitoring_assume_role" {
 }
 
 resource "aws_iam_role" "ga_rds_monitoring_role" {
-  name                = "ga_rds_monitoring_role-${var.BRANCH_NAME}"
+  name                = "ga_rds_monitoring_role-${var.BRANCH_ENV}"
   description         = "Provides access to Cloudwatch for RDS Enhanced Monitoring"
   assume_role_policy  = data.aws_iam_policy_document.ga_rds_monitoring_assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"]
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "ga_ecs_task_role_inline_policy" {
 }
 
 resource "aws_iam_role" "ga_ecs_role" {
-  name                = "ga_ecs_role-${var.BRANCH_NAME}"
+  name                = "ga_ecs_role-${var.BRANCH_ENV}"
   description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
@@ -59,7 +59,7 @@ resource "aws_iam_role" "ga_ecs_role" {
 }
 
 resource "aws_iam_role" "ga_ecs_task_role" {
-  name                = "ga_ecs_task_role-${var.BRANCH_NAME}"
+  name                = "ga_ecs_task_role-${var.BRANCH_ENV}"
   description         = "The task role is an IAM role that is used by containers in a task to make AWS API calls on your behalf."
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
   inline_policy {
