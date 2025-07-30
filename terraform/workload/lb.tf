@@ -106,7 +106,7 @@ resource "aws_lb_listener" "sftp" {
     target_group_arn  = aws_lb_target_group.ga_tg_22.arn
   }
   tags = {
-    Name = "SFTP-${var.BRANCBRANCH_ENVH_NAME}"
+    Name = "SFTP-${var.BRANCH_ENV}"
   }
 }
 
