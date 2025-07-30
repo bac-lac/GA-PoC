@@ -83,6 +83,11 @@ variable "MOD_FRESH_INSTALL" {
   description = "If set to TRUE, it will do a fresh install of the filesystem.."
 }
 
+variable "MOD_BRANCH_ENV" {
+  type = string
+  description = "The branch or environment based on the branch value."
+}
+
 variable "MOD_BRANCH_NAME" {
   type = string
   description = "The branch name used for resources creation."

@@ -27,7 +27,8 @@ module "ecs_service" {
   MOD_GA_AP_TOMCATLOG_ID      = aws_efs_access_point.ga_ap["tomcatlog${each.key}"].id
   MOD_GA_AP_GHTTPSROOT_ID     = aws_efs_access_point.ga_ap["ghttpsroot${each.key}"].id
   MOD_DB_ADDRESS              = aws_db_instance.ga_mysql.address
-  MOD_BRANCH_NAME             = var.BRANCH_ENV
+  MOD_BRANCH_ENV              = var.BRANCH_ENV
+  MOD_BRANCH_NAME             = var.BRANCH_NAME
   MOD_ECS_ROLE_ARN            = aws_iam_role.ga_ecs_role.arn
   MOD_ECS_TASK_ROLE_ARN       = aws_iam_role.ga_ecs_task_role.arn
   MOD_ECR_IMAGE               = var.ECR_IMAGE
