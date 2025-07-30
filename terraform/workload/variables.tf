@@ -25,6 +25,12 @@ variable "ALB_NAME" {
   default = "ga-alb"
 }
 
+variable "BRANCH_ENV" {
+  type = string
+  description = "The granch or environmenet based on the branch value."
+  default = "dev"
+}
+
 variable "BRANCH_NAME" {
   type = string
   description = "The branch name used for resources creation."
@@ -144,8 +150,4 @@ variable "TASK_DEFINITION_MEMORY" {
   type = number
   description = "The task definition memory."
   default = 3072
-}
-
-locals {
-  BRANCH_ENV = var.BRANCH_NAME == "main" ? "${var.ENV}" : "${var.BRANCH_NAME}"
 }

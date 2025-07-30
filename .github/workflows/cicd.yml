@@ -129,6 +129,7 @@ jobs:
             
       - name: Add Dynamic Variables to tfvars
         run: |
+          echo 'BRANCH_ENV = "${{ env.BRANCH_NAME == 'main' && vars.ENV || env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_image }}"' >> pipeline.auto.tfvars
 
