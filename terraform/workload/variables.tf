@@ -28,7 +28,7 @@ variable "ALB_NAME" {
 variable "BRANCH_ENV" {
   type = string
   description = "The branch or environment based on the branch value."
-  default = "BRANCH_ENV"
+  default = "branchenv"
 }
 
 variable "BRANCH_NAME" {
