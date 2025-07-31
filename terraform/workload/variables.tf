@@ -121,13 +121,6 @@ variable "FRESH_INSTALL" {
   default = "FALSE"
 }
 
-variable "KMS_KEY_ID" {
-  type = string  
-  sensitive = true
-  description = "The KMS Key ID."
-  default = "KMSKEYID"
-}
-
 variable "MFT_CLUSTER" {
   type = string
   description = "If set to true, this will start the application in cluster mode."
