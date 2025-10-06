@@ -35,6 +35,22 @@ resource "aws_lb_listener_rule" "admin_rule" {
   }
 }
 
+resource "aws_lb_listener_rule" "admin_internal_rule" {
+  listener_arn        = aws_lb_listener.https.arn
+  action {
+    type              = "forward"
+    target_group_arn  = aws_lb_target_group.ga_tg_443.arn
+  }
+  condition {
+    host_header {
+      values          = [var.BRANCH_NAME == "main" ? "ga-${var.ENV}-internal.bac-lac.gc.ca" : "${var.BRANCH_NAME}.ga-dev-internal.bac-lac.gc.ca"]
+    }
+  }
+  tags = {
+    Name = "Admin-Internal-${var.BRANCH_ENV}"
+  }
+}
+
 resource "aws_lb_listener_rule" "web_client_rule" {
   listener_arn        = aws_lb_listener.https.arn
   action {
