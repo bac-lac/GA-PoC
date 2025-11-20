@@ -140,6 +140,13 @@ variable "ROLE_ARN" {
   default = "ARN"
 }
 
+variable "SSC_CBRID" {
+  type = string
+  sensitive = true  
+  description = "The cloud broker request ID."
+  default = "SSC_CBRID"
+}
+
 variable "TASK_DEFINITION_CPU" {
   type = number
   description = "The task definition CPU."
