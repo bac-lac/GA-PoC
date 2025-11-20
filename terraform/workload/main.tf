@@ -23,4 +23,5 @@ provider "aws" {
     tags = {
       TAGSECRET = "lol"
     }
+  }
 }
