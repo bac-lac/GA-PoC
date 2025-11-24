@@ -1,5 +1,5 @@
 data "aws_network_interfaces" "ni" {
-  depends_on = [aws_ecs_service.ga_service_mft]
+  depends_on = [module.ecs_service.ga_service_mft]
   filter {
     name   = "description"
     values = ["*ecs*"]
