@@ -1,4 +1,5 @@
 data "aws_network_interfaces" "ni" {
+  depends_on = [aws_ecs_service.ga_service_mft]
   filter {
     name   = "description"
     values = ["*ecs*"]
@@ -7,4 +8,11 @@ data "aws_network_interfaces" "ni" {
 
 output "network_interface_ids" {
   value = data.aws_network_interfaces.ni.ids
+}
+
+resource "aws_ec2_tag" "tag_eni" {
+  for_each = toset(data.aws_network_interfaces.ni.ids)
+  resource_id = each.value
+  key         = "SSC_CBRID"
+  value       = "${var.SSC_CBRID}"
 }
