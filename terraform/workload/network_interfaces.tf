@@ -1,4 +1,4 @@
-data "aws_network_interface" "ni" {
+data "aws_network_interfaces" "ni" {
   filter {
     name   = "description"
     values = ["*ecs*"]
