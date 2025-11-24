@@ -19,9 +19,4 @@ provider "aws" {
     role_arn    = "${var.ROLE_ARN}"
     external_id = "${var.EXTERNAL_ID}"
   }
-  default_tags {
-    tags = {
-      TAGSECRET = "lol"
-    }
-  }
 }
