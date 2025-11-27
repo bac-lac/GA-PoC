@@ -123,7 +123,7 @@ jobs:
 
       - name: Zip Lambda Function
         run: |
-          zip -j lambda.zip ../lambda/lambda_function.py
+          zip -j lambda.zip ../../lambda/lambda_function.py
 
       - name: Terraform-Setup
         id: Setup
