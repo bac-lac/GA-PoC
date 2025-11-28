@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 resource "aws_lambda_function" "eni_lambda" {
   function_name = "HandleENICreation"
   role          = aws_iam_role.lambda_role.arn
-  handler       = "index.lambda_handler"
+  handler       = "lambda_function.lambda_handler"
   runtime       = "python3.9"
 
   filename         = "lambda.zip"
