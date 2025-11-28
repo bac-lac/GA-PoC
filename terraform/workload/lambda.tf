@@ -36,7 +36,7 @@ resource "aws_lambda_function" "eni_lambda" {
   role              = aws_iam_role.lambda_role.arn
   description       = "Lambda function to handle ENI creation events and tag them with CBRID"
   handler           = "lambda_function.lambda_handler"
-  runtime           = "python3.13"
+  runtime           = "python3.12"
   timeout           = 30
   filename          = "lambda.zip"
   source_code_hash  = filebase64sha256("lambda.zip")
