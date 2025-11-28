@@ -7,7 +7,7 @@ resource "aws_iam_role" "lambda_role" {
   }
 
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [{
       Action    = "sts:AssumeRole"
       Effect    = "Allow"
@@ -32,20 +32,21 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 }
 
 resource "aws_lambda_function" "eni_lambda" {
-  function_name = "HandleENICreation"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.9"
-
-  filename         = "lambda.zip"
-  source_code_hash = filebase64sha256("lambda.zip")
+  function_name     = "HandleENICreation"
+  role              = aws_iam_role.lambda_role.arn
+  description       = "Lambda function to handle ENI creation events and tag them with CBRID"
+  handler           = "lambda_function.lambda_handler"
+  runtime           = "python3.13"
+  timeout           = 30
+  filename          = "lambda.zip"
+  source_code_hash  = filebase64sha256("lambda.zip")
 }
 
 resource "aws_cloudwatch_event_rule" "eni_create_rule" {
-  name        = "ENICreateRule"
-  description = "Trigger Lambda on ENI creation"
-  event_pattern = jsonencode({
-    source      = ["aws.ec2"]
+  name            = "ENICreateRule"
+  description     = "Trigger Lambda on ENI creation"
+  event_pattern   = jsonencode({
+    source        = ["aws.ec2"]
     "detail-type" = ["AWS API Call via CloudTrail"]
     detail = {
       eventSource = ["ec2.amazonaws.com"]
