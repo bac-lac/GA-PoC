@@ -133,6 +133,10 @@ jobs:
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_image }}"' >> pipeline.auto.tfvars
 
+      - name: Zip Lambda Function
+        run: |
+          zip -j lambda.zip ../../lambda/lambda_function.py
+
       - name: Terraform-Setup
         id: Setup
         uses: hashicorp/setup-terraform@v3
