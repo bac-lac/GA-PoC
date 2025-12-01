@@ -40,7 +40,6 @@ resource "aws_lambda_function" "eni_lambda" {
   timeout                 = 30
   filename                = "lambda.zip"
   source_code_hash        = filebase64sha256("lambda.zip")
-  code_signing_config_arn = aws_lambda_code_signing_config.code_signing_config.arn
 }
 
 resource "aws_cloudwatch_event_rule" "eni_create_rule" {
