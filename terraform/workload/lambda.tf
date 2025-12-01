@@ -43,23 +43,6 @@ resource "aws_lambda_function" "eni_lambda" {
   code_signing_config_arn = aws_lambda_code_signing_config.code_signing_config.arn
 }
 
-resource "aws_lambda_code_signing_config" "code_signing_config" {
-  description = "Code signing configuration for Lambda functions"
-  allowed_publishers {
-    signing_profile_version_arns = [aws_signer_signing_profile.profile.version_arn]
-  }
-
-  policies {
-    untrusted_artifact_on_deployment = "Enforce"
-  }
-}
-
-resource "aws_signer_signing_profile" "profile" {
-  platform_id = "AWSLambda-SHA384-ECDSA"
-  name_prefix = "profile_lambda_"
-
-}
-
 resource "aws_cloudwatch_event_rule" "eni_create_rule" {
   name            = "ENICreateRule"
   description     = "Trigger Lambda on ENI creation"
