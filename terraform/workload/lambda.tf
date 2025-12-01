@@ -32,25 +32,32 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 }
 
 resource "aws_lambda_function" "eni_lambda" {
-  function_name     = "HandleENICreation"
-  role              = aws_iam_role.lambda_role.arn
-  description       = "Lambda function to handle ENI creation events and tag them with CBRID"
-  handler           = "lambda_function.lambda_handler"
-  runtime           = "python3.12"
-  timeout           = 30
-  filename          = "lambda.zip"
-  source_code_hash  = filebase64sha256("lambda.zip")
+  function_name           = "HandleENICreation"
+  role                    = aws_iam_role.lambda_role.arn
+  description             = "Lambda function to handle ENI creation events and tag them with CBRID"
+  handler                 = "lambda_function.lambda_handler"
+  runtime                 = "python3.12"
+  timeout                 = 30
+  filename                = "lambda.zip"
+  source_code_hash        = filebase64sha256("lambda.zip")
   code_signing_config_arn = aws_lambda_code_signing_config.code_signing_config.arn
 }
 
 resource "aws_lambda_code_signing_config" "code_signing_config" {
+  description = "Code signing configuration for Lambda functions"
   allowed_publishers {
-    signing_profile_version_arns = [aws_signer_signing_profile.code_signing_config.version_arn]
+    signing_profile_version_arns = [aws_signer_signing_profile.profile.version_arn]
   }
 
   policies {
     untrusted_artifact_on_deployment = "Enforce"
   }
+}
+
+resource "aws_signer_signing_profile" "profile" {
+  platform_id = "AWSLambda-SHA384-ECDSA"
+  name_prefix = "profile_lambda_"
+
 }
 
 resource "aws_cloudwatch_event_rule" "eni_create_rule" {
