@@ -1,6 +1,8 @@
-FROM fortrallc/goanywhere-mft:7.8.4 AS builder
+ARG BASE_IMAGE=fortrallc/goanywhere-mft:7.9.1
 
-FROM fortrallc/goanywhere-mft:7.8.4
+FROM $BASE_IMAGE AS builder
+
+FROM $BASE_IMAGE
 USER root
 WORKDIR /temp
 COPY --from=builder /opt/Fortra/GoAnywhere/userdata/ userdata/
@@ -21,7 +23,7 @@ RUN chmod -R 777 /temp/
 RUN mkdir /etc/Fortra/GoAnywhere/sharedconfig
 RUN chown gamft:gamft /etc/Fortra/GoAnywhere/sharedconfig
 
-COPY /docker/configs/fluent-bit.repo /etc/yum.repos.d/
+COPY /docker/configs/*.repo /etc/yum.repos.d/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo
 
