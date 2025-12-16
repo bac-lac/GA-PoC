@@ -18,7 +18,8 @@ function main() {
     # Echo an error message before exiting
     # shellcheck disable=SC2154
     trap 'echo "\"${last_command}\" command failed with exit code $?." >&2' EXIT
-
+    echo "print env"
+    printenv
     wait_for_mount_availability
     wait_for_database_service_availability
     create_database_and_credentials
