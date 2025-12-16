@@ -135,4 +135,4 @@ jobs:
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -var="DB_PASSWORD=${{ secrets.EXTERNAL_ID }}" -var="ADMIN_DB_PASSWORD=${{ secrets.ROLE_ARN }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -var="DB_PASSWORD=${{ secrets.EXTERNAL_ID }}" -var="DB_USERNAME=${{ secrets.ROLE_ARN }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
