@@ -21,9 +21,6 @@ The following environment variables are used to control the application at run-t
 > ADMIN_DB_PASSWORD *: The DB password for the admin account.
 - Default value: ADMIN_DB_PASSWORD
 
-> ALB_NAME *: The name of the application load balancer.
-- Default value: ga-alb
-
 > BRANCH_NAME: The branch name used for resources creation. This value is auto-generated.
 - Default value: main
 
@@ -70,9 +67,6 @@ The following environment variables are used to control the application at run-t
 
 > MFT_CLUSTER *: If set to true, this will start the application in cluster mode.
 - Default value: TRUE
-
-> NLB_NAME *: The name of the network load balancer.
-- Default value: ga-nlb
 
 > ROLE_ARN *: ARN of the role used by terraform..
 - Default value: ROLE_ARN

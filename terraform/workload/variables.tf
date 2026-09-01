@@ -19,12 +19,6 @@ variable "ADMIN_DB_USERNAME" {
   default = "ADMIN_DB_USERNAME"
 }
 
-variable "ALB_NAME" {
-  type = string
-  description = "The name of the application load balancer."
-  default = "ga-alb"
-}
-
 variable "BRANCH_ENV" {
   type = string
   description = "The branch or environment based on the branch value."
@@ -125,12 +119,6 @@ variable "MFT_CLUSTER" {
   type = string
   description = "If set to true, this will start the application in cluster mode."
   default = "TRUE"
-}
-
-variable "NLB_NAME" {
-  type = string
-  description = "The name of the network load balancer."
-  default = "ga-nlb"
 }
 
 variable "ROLE_ARN" {
