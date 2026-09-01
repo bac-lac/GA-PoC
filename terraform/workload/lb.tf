@@ -80,7 +80,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
   condition {
     host_header {
-      values          = [var.BRANCH_NAME == "main" ? "transfert-transfer-${var.ENV}.bac-lac.gc.ca" : "${var.BRANCH_NAME}.transfert-transfer-dev.bac-lac.gc.ca"]
+      values          = [upper(var.ENV) == "PROD" ? "transfert-transfer-dev.bac-lac.gc.ca" : "transfert-transfer-${var.ENV}.bac-lac.gc.ca"]
     }
   }
   tags = {
@@ -139,5 +139,33 @@ resource "aws_lb_target_group" "ga_tg_8022" {
   }
   tags = {
     Name = "SFTP-${var.ENV}"
+  }
+}
+
+resource "aws_lb_listener" "agent" {
+  load_balancer_arn   = data.aws_lb.ga_nlb.arn
+  port                = "8009"
+  protocol            = "TCP"
+  default_action {
+    type              = "forward"
+    target_group_arn  = aws_lb_target_group.ga_tg_8009.arn
+  }
+  tags = {
+    Name = "Agent-${var.ENV}"
+  }
+}
+
+resource "aws_lb_target_group" "ga_tg_8009" {
+  name        = "ga-tg-${var.ENV}-8009"
+  port        = 8009
+  protocol    = "TCP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.vpc.id
+  health_check {
+    port      = 8009
+    protocol  = "TCP"
+  }
+  tags = {
+    Name = "Agent-${var.ENV}"
   }
 }

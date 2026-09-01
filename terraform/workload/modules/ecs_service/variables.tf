@@ -118,9 +118,14 @@ variable "MOD_SECURITY_GROUP_ID" {
   description = "The Security Group Id."
 }
 
-variable "MOD_TARGET_GROUP_443_ARN" {
+variable "MOD_TARGET_GROUP_8001_ARN" {
   type = string
-  description = "The Target Group for port 443 ARN."
+  description = "The Target Group for port 8001 ARN."
+}
+
+variable "MOD_TARGET_GROUP_8009_ARN" {
+  type = string
+  description = "The Target Group for port 8009 ARN."
 }
 
 variable "MOD_TARGET_GROUP_8443_ARN" {
@@ -128,9 +133,9 @@ variable "MOD_TARGET_GROUP_8443_ARN" {
   description = "The Target Group for port 8443 ARN."
 }
 
-variable "MOD_TARGET_GROUP_22_ARN" {
+variable "MOD_TARGET_GROUP_8022_ARN" {
   type = string
-  description = "The Target Group for port 22 ARN."
+  description = "The Target Group for port 8022 ARN."
 }
 
 variable "MOD_CLUSTER" {

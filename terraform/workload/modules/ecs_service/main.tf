@@ -62,9 +62,14 @@ resource "aws_ecs_service" "ga_service_mft" {
     assign_public_ip    = false
   }
   load_balancer {
-    target_group_arn    = var.MOD_TARGET_GROUP_443_ARN
+    target_group_arn    = var.MOD_TARGET_GROUP_8001_ARN
     container_name      = "MFT-${var.MOD_MFT_NUMBER}"
     container_port      = 8001
+  }
+  load_balancer {
+    target_group_arn    = var.MOD_TARGET_GROUP_8009_ARN
+    container_name      = "MFT-${var.MOD_MFT_NUMBER}"
+    container_port      = 8009
   }
   load_balancer {
     target_group_arn    = var.MOD_TARGET_GROUP_8443_ARN
@@ -72,7 +77,7 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_port      = 8443
   }
   load_balancer {
-    target_group_arn    = var.MOD_TARGET_GROUP_22_ARN
+    target_group_arn    = var.MOD_TARGET_GROUP_8022_ARN
     container_name      = "MFT-${var.MOD_MFT_NUMBER}"
     container_port      = 8022
   }
