@@ -66,15 +66,20 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push
+      - name: Echo ECR registry
         if: ${{ inputs.environment == 'dev' }}
-        id: build-push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./
-          file: ./docker/Dockerfile
-          push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
+        run: |
+          echo "Registry: ${{ steps.login-ecr.outputs.registry }}"
+
+      # - name: Build and push
+      #   if: ${{ inputs.environment == 'dev' }}
+      #   id: build-push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./
+      #     file: ./docker/Dockerfile
+      #     push: true
+      #     tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
     needs: Build
@@ -119,6 +124,6 @@ jobs:
         run: terraform init
           -backend-config="key=${{ inputs.environment }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
 
-      - name: Terraform-Apply
-        id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ inputs.environment }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
+      # - name: Terraform-Apply
+      #   id: Apply
+      #   run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ inputs.environment }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
