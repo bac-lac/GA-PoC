@@ -70,7 +70,26 @@ jobs:
       - name: Echo ECR registry
         if: ${{ inputs.environment == 'dev' }}
         run: |
-          echo "Registry: ${{ steps.login-ecr.outputs.registry }}"
+          echo "Registry: ${{ steps.login-ecr.outputs.registry }}" 
+      
+      - name: Generate next tag
+        run: |
+          REPO="bac-lac-gc-ca/mft"
+          LATEST=$(
+            aws ecr describe-images \
+              --repository-name "$REPO" |
+            jq -r '
+              [.imageDetails[].imageTags[]?]
+              | map(select(test("^v[0-9]+$")))
+              | map(sub("^v"; "") | tonumber)
+              | max // 0
+            '
+          )
+      
+          NEXT="v$((LATEST + 1))"
+      
+          echo "IMAGE_TAG=$NEXT" >> $GITHUB_ENV
+          echo "Next tag: $NEXT"
 
       # - name: Build and push
       #   if: ${{ inputs.environment == 'dev' }}
