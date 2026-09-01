@@ -47,8 +47,8 @@ jobs:
       - name: Terraform-Init
         id: Init
         run: terraform init
-          -backend-config="key=${{ vars.ENV }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
+          -backend-config="key=${{ inputs.environment }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
 
       - name: Terraform-Destroy
         id: Destroy
-        run: terraform destroy -var ROLE_ARN=${{ secrets.ROLE_ARN }} -var EXTERNAL_ID=${{ secrets.EXTERNAL_ID }} -auto-approve
+        run: terraform destroy -var ENV=${{ inputs.environment }} -var ROLE_ARN=${{ secrets.ROLE_ARN }} -var EXTERNAL_ID=${{ secrets.EXTERNAL_ID }} -auto-approve
