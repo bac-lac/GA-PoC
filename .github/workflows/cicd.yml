@@ -62,12 +62,12 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Login to Amazon ECR
-        if: ${{ vars.ENV == 'dev' }}
+        if: ${{ inputs.environment == 'dev' }}
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and push
-        if: ${{ vars.ENV == 'dev' }}
+        if: ${{ inputs.environment == 'dev' }}
         id: build-push
         uses: docker/build-push-action@v6
         with:
@@ -104,7 +104,7 @@ jobs:
             
       - name: Add Dynamic Variables to tfvars
         run: |
-          echo 'BRANCH_ENV = "${{ env.BRANCH_NAME == 'main' && vars.ENV || env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
+          echo 'BRANCH_ENV = "${{ env.BRANCH_NAME == 'main' && inputs.environment || env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'BRANCH_NAME = "${{ env.BRANCH_NAME }}"' >> pipeline.auto.tfvars
           echo 'ECR_IMAGE = "${{ needs.Build.outputs.ecr_image }}"' >> pipeline.auto.tfvars
 
@@ -117,8 +117,8 @@ jobs:
       - name: Terraform-Init
         id: Init
         run: terraform init
-          -backend-config="key=${{ vars.ENV }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
+          -backend-config="key=${{ inputs.environment }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ inputs.environment }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
