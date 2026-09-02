@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
                                         ADMIN_DB_PASSWORD = var.ADMIN_DB_PASSWORD,
                                         FORCE_REFRESH     = var.FORCE_REFRESH,
                                         FRESH_INSTALL     = var.FRESH_INSTALL,
-                                        MFT_NUMBER        = ${count.index + 1},
+                                        MFT_NUMBER        = count.index + 1,
                                         MFT_CLUSTER       = var.aws_ecs_cluster.ga_cluster.id
                                       })
 }
