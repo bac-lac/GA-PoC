@@ -44,7 +44,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs: Code-check
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment == '' && 'dev' || inputs.environment }}
+    environment: ${{ inputs.environment == '' && 'pr' || inputs.environment }}
     defaults:
       run:
         working-directory: ./terraform/workload
