@@ -62,12 +62,12 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Login to Amazon ECR
-        if: ${{ inputs.environment == 'pr' }}
+        if: ${{ inputs.environment == 'dev' }}
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and push
-        if: ${{ inputs.environment == 'pr' }}
+        if: ${{ inputs.environment == 'dev' }}
         id: build-push
         uses: docker/build-push-action@v6
         with:
