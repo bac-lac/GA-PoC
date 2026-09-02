@@ -66,7 +66,7 @@ resource "aws_ecs_service" "ga_service_mft" {
   count                 = upper(var.MFT_CLUSTER) == "TRUE" ? 2 : 1
   name                  = "ga-service-mft${count.index + 1}-${var.ENV}"
   cluster               = var.aws_ecs_cluster.ga_cluster.id
-  task_definition       = aws_ecs_task_definition.ga_task_definition_mft.arn
+  task_definition       = aws_ecs_task_definition.ga_task_definition_mft[count.index].arn
   launch_type           = "FARGATE"
   platform_version      = "LATEST"
   force_new_deployment  = true
