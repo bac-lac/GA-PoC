@@ -1,10 +1,10 @@
 resource "aws_efs_file_system" "ga_efs" {
-  creation_token  = "ga-efs-${var.BRANCH_ENV}"
+  creation_token  = "ga-efs-${var.ENV}"
   encrypted       = true
   kms_key_id      = data.aws_kms_alias.efs.arn
   throughput_mode = "elastic"
   tags = {
-    Name = "ga-efs-${var.BRANCH_ENV}"
+    Name = "ga-efs-${var.ENV}"
   }
 }
 
@@ -31,6 +31,6 @@ resource "aws_efs_access_point" "ga_ap" {
     path = "/${each.key}"
   }
   tags = {
-    Name = "${each.key}-${var.BRANCH_ENV}"
+    Name = "${each.key}-${var.ENV}"
   }
 }

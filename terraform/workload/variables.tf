@@ -19,18 +19,6 @@ variable "ADMIN_DB_USERNAME" {
   default = "ADMIN_DB_USERNAME"
 }
 
-variable "BRANCH_ENV" {
-  type = string
-  description = "The branch or environment based on the branch value."
-  default = "branchenv"
-}
-
-variable "BRANCH_NAME" {
-  type = string
-  description = "The branch name used for resources creation."
-  default = "main"
-}
-
 variable "CERT_BODY" {
   type = string
   sensitive = true  

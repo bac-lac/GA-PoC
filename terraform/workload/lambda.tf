@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_execution_role-${var.BRANCH_ENV}"
+  name = "lambda_execution_role-${var.ENV}"
 
   inline_policy {
     name   = "create_eni_policy"
@@ -38,7 +38,7 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_lambda_function" "eni_lambda" {
-  function_name                   = "HandleENICreation-${var.BRANCH_ENV}"
+  function_name                   = "HandleENICreation-${var.ENV}"
   role                            = aws_iam_role.lambda_role.arn
   description                     = "Lambda function to handle ENI creation events and tag them with CBRID"
   handler                         = "lambda_function.lambda_handler"
@@ -53,7 +53,7 @@ resource "aws_lambda_function" "eni_lambda" {
 }
 
 resource "aws_cloudwatch_event_rule" "eni_create_rule" {
-  name            = "ENICreateRule-${var.BRANCH_ENV}"
+  name            = "ENICreateRule-${var.ENV}"
   description     = "Trigger Lambda on ENI creation"
   event_pattern   = jsonencode({
     source        = ["aws.ec2"]
@@ -67,7 +67,7 @@ resource "aws_cloudwatch_event_rule" "eni_create_rule" {
 
 resource "aws_cloudwatch_event_target" "eni_lambda_target" {
   rule      = aws_cloudwatch_event_rule.eni_create_rule.name
-  target_id = "ENILambdaTarget-${var.BRANCH_ENV}"
+  target_id = "ENILambdaTarget-${var.ENV}"
   arn       = aws_lambda_function.eni_lambda.arn
 }
 

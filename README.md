@@ -21,9 +21,6 @@ The following environment variables are used to control the application at run-t
 > ADMIN_DB_PASSWORD *: The DB password for the admin account.
 - Default value: ADMIN_DB_PASSWORD
 
-> BRANCH_NAME: The branch name used for resources creation. This value is auto-generated.
-- Default value: main
-
 > CERT_BODY *: The certificate body.
 - Default value: CERT_BODY
 
