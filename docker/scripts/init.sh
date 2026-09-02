@@ -233,8 +233,8 @@ function configure() {
     sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
 
     # Update the header's page with build values.
-    local meta_param2="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
-    sed -i "s|<meta name=\"viewport\"|${meta_param2}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
+    local meta_param1="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
+    sed -i "s|<meta name=\"viewport\"|${meta_param1}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
 }
 

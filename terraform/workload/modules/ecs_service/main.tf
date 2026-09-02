@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "ga_task_definition_mft" {
-  family                    = "ga-task-definition-mft${var.MOD_MFT_NUMBER}-${var.MOD_BRANCH_ENV}"
+  family                    = "ga-task-definition-mft${var.MOD_MFT_NUMBER}-${var.MOD_ENV}"
   requires_compatibilities  = ["FARGATE"]
   network_mode              = "awsvpc"
   cpu                       = var.MOD_TASK_DEFINITION_CPU
@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
 }
 
 resource "aws_ecs_service" "ga_service_mft" {
-  name                  = "ga-service-mft${var.MOD_MFT_NUMBER}-${var.MOD_BRANCH_ENV}"
+  name                  = "ga-service-mft${var.MOD_MFT_NUMBER}-${var.MOD_ENV}"
   cluster               = var.MOD_CLUSTER_ID
   task_definition       = aws_ecs_task_definition.ga_task_definition_mft.arn
   launch_type           = "FARGATE"

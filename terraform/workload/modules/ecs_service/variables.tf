@@ -83,9 +83,9 @@ variable "MOD_FRESH_INSTALL" {
   description = "If set to TRUE, it will do a fresh install of the filesystem.."
 }
 
-variable "MOD_BRANCH_ENV" {
+variable "MOD_ENV" {
   type = string
-  description = "The branch or environment based on the branch value."
+  description = "The environment in which to deploy the solution."
 }
 
 variable "MOD_ECS_ROLE_ARN" {
