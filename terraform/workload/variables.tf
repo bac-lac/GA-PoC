@@ -25,12 +25,6 @@ variable "BRANCH_ENV" {
   default = "branchenv"
 }
 
-variable "BRANCH_NAME" {
-  type = string
-  description = "The branch name used for resources creation."
-  default = "main"
-}
-
 variable "CERT_BODY" {
   type = string
   sensitive = true  

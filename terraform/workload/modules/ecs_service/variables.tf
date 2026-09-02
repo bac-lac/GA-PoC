@@ -88,11 +88,6 @@ variable "MOD_BRANCH_ENV" {
   description = "The branch or environment based on the branch value."
 }
 
-variable "MOD_BRANCH_NAME" {
-  type = string
-  description = "The branch name used for resources creation."
-}
-
 variable "MOD_ECS_ROLE_ARN" {
   type = string
   description = "The ECS Role ARN."
