@@ -3,5 +3,5 @@ data "aws_kms_alias" "ga_kms_main" {
 }
 
 data "aws_kms_alias" "efs" {
-  name = "aws/elasticfilesystem"
+  name = "alias/aws/elasticfilesystem"
 }
