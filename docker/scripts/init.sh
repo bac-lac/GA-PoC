@@ -178,20 +178,20 @@ function configure() {
 
     # Always copy upgrade file.
     echo "Copy upgrade file"
-    cp -rf /temp/upgrader/ "${opt_ga_folder}"/
+    cp -Rf /temp/upgrader/ "${opt_ga_folder}"/
 
     # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty.
     if [[ "${FRESH_INSTALL^^}" == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
         echo "Copy filesystem"
-        cp -rf /temp/userdata/ "${opt_ga_folder}"/
-        cp -rf /temp/config/ "${etc_ga_folder}"/
-        cp -rf /temp/tomcat/ "${etc_ga_folder}"/
-        cp -rf /temp/logs/ "${opt_ga_folder}"/tomcat/
-        cp -rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
+        cp -Rf /temp/userdata/ "${opt_ga_folder}"/
+        cp -Rf /temp/config/ "${etc_ga_folder}"/
+        cp -Rf /temp/tomcat/ "${etc_ga_folder}"/
+        cp -Rf /temp/logs/ "${opt_ga_folder}"/tomcat/
+        cp -Rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
 
         # Copy config files to the shared folder.
         echo "Copy config files to the shared folder"
-        cp -rf /temp/config/*.xml "${shareconfig_folder}"
+        cp -Rf /temp/config/*.xml "${shareconfig_folder}"
 
         # Creating symbolic link for application configuration files.
         echo "Creating symbolic link for application configuration files"
