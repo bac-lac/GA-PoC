@@ -38,16 +38,17 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_lambda_function" "eni_lambda" {
-  function_name             = "HandleENICreation-${var.BRANCH_ENV}"
-  role                      = aws_iam_role.lambda_role.arn
-  description               = "Lambda function to handle ENI creation events and tag them with CBRID"
-  handler                   = "lambda_function.lambda_handler"
-  runtime                   = "python3.12"
-  timeout                   = 30
-  filename                  = data.archive_file.lambda_zip.output_path
-  source_code_hash          = data.archive_file.lambda_zip.output_base64sha256
+  function_name                   = "HandleENICreation-${var.BRANCH_ENV}"
+  role                            = aws_iam_role.lambda_role.arn
+  description                     = "Lambda function to handle ENI creation events and tag them with CBRID"
+  handler                         = "lambda_function.lambda_handler"
+  runtime                         = "python3.12"
+  timeout                         = 30
+  filename                        = data.archive_file.lambda_zip.output_path
+  reserved_concurrent_executions  = 10
+  source_code_hash                = data.archive_file.lambda_zip.output_base64sha256
   tracing_config {
-    mode = "Active"
+    mode                          = "Active"
   }
 }
 
