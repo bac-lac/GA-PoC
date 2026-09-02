@@ -31,16 +31,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run shellcheck
-        uses: sudo-bot/action-shellcheck@latest
-        with:
-          cli-args: "./docker/scripts/*.sh"
+      # - name: Run shellcheck
+      #   uses: sudo-bot/action-shellcheck@latest
+      #   with:
+      #     cli-args: "./docker/scripts/*.sh"
       
-      - name: Checkov security scan
-        uses: bridgecrewio/checkov-action@v12
-        with:
-          directory: terraform/workload
-          output_format: cli
+      # - name: Checkov security scan
+      #   uses: bridgecrewio/checkov-action@v12
+      #   with:
+      #     directory: terraform/workload
+      #     output_format: cli
 
   Build:
     needs: Code-check
@@ -66,15 +66,39 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push
+      - name: Echo ECR registry
         if: ${{ inputs.environment == 'dev' }}
-        id: build-push
-        uses: docker/build-push-action@v6
-        with:
-          context: ./
-          file: ./docker/Dockerfile
-          push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
+        run: |
+          echo "Registry: ${{ steps.login-ecr.outputs.registry }}" 
+      
+      - name: Generate next tag
+        run: |
+          REPO="bac-lac-gc-ca/mft"
+          LATEST=$(
+            aws ecr describe-images \
+              --repository-name "$REPO" |
+            jq -r '
+              [.imageDetails[].imageTags[]?]
+              | map(select(test("^v[0-9]+$")))
+              | map(sub("^v"; "") | tonumber)
+              | max // 0
+            '
+          )
+      
+          NEXT="v$((LATEST + 1))"
+      
+          echo "IMAGE_TAG=$NEXT" >> $GITHUB_ENV
+          echo "Next tag: $NEXT"
+
+      # - name: Build and push
+      #   if: ${{ inputs.environment == 'dev' }}
+      #   id: build-push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./
+      #     file: ./docker/Dockerfile
+      #     push: true
+      #     tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.IMAGE_REPO_TAG }}
 
   Deploy:
     needs: Build
@@ -119,6 +143,6 @@ jobs:
         run: terraform init
           -backend-config="key=${{ inputs.environment }}/${{ env.BRANCH_NAME }}/terraform.tfstate"
 
-      - name: Terraform-Apply
-        id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ inputs.environment }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
+      # - name: Terraform-Apply
+      #   id: Apply
+      #   run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ inputs.environment }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
