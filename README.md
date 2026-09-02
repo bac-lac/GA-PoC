@@ -36,17 +36,29 @@ The following environment variables are used to control the application at run-t
 > CLOUDWATCH_EMAIL *: The email used for cloudwatch endpoint.
 - Default value: cloudwatch_email@domain.com
 
+> DB_ALLOCATED_STORAGE *: The allocated storage for the database in GB.
+- Default value: 20
+
+> DB_BACKUP_WINDOW *: The backup window for the database. (UTC)
+- Default value: 07:00-08:00
+
+> DB_ENGINE_VERSION *: The database engine version for the application.
+- Default value: 8.4
+
 > DB_INSTANCE_CLASS *: The database intance class for the application.
 - Default value: db.t3.medium
 
 > DB_INSTANCE_CLASS_MEMORY *: The database intance class available memory in GB.
 - Default value: 4
 
-> DB_USERNAME *: The DB username for the application.
-- Default value: DB_USERNAME
+> DB_MAINTENANCE_WINDOW *: The maintenance window for the database. (UTC)
+- Default value: sat:05:00-sat:06:00
 
 > DB_PASSWORD *: The DB password for the application.
 - Default value: DB_PASSWORD
+
+> DB_USERNAME *: The DB username for the application.
+- Default value: DB_USERNAME
 
 > ECR_IMAGE: The ECR image name used for the task definition. This value is auto-generated.
 - Default value: ECR_IMAGE
