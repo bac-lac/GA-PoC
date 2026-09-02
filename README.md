@@ -33,6 +33,9 @@ The following environment variables are used to control the application at run-t
 > CLOUDWATCH_EMAIL *: The email used for cloudwatch endpoint.
 - Default value: cloudwatch_email@domain.com
 
+> DAMS_EMAIL *: The email used for cloudwatch endpoint (DAMS).
+- Default value: dams_email@domain.com
+
 > DB_ALLOCATED_STORAGE *: The allocated storage for the database in GB.
 - Default value: 20
 
