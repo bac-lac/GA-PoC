@@ -1,0 +1,58 @@
+name: Build
+description: Build and push GoAnywhere to AWS
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+
+  push:
+    branches:
+      - main
+
+permissions:
+      id-token: write
+      contents: read
+      actions: write
+
+jobs:
+  Code-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        uses: sudo-bot/action-shellcheck@latest
+        with:
+          cli-args: "./docker/scripts/*.sh"
+  Build:
+    needs: Code-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_DEVOPS_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ca-central-1
+          role-skip-session-tagging: true
+          audience: sts.amazonaws.com
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        id: build-push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:latest
