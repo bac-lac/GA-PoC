@@ -58,6 +58,24 @@ variable "CLOUDWATCH_EMAIL" {
   default = "cloudwatch_email@domain.com"
 }
 
+variable "DB_ALLOCATED_STORAGE" {
+  type = number
+  description = "The allocated storage for the database in GB."
+  default = 20
+}
+
+variable "DB_BACKUP_WINDOW" {
+  type = string
+  description = "The backup window for the database. (UTC)"
+  default = "07:00-08:00"
+}
+
+variable "DB_ENGINE_VERSION" {
+  type = string
+  description = "The database engine version for the application."
+  default = "8.4"
+}
+
 variable "DB_INSTANCE_CLASS" {
   type = string
   description = "The database intance class for the application."
@@ -68,6 +86,12 @@ variable "DB_INSTANCE_CLASS_MEMORY" {
   type = string
   description = "The database intance class available memory in GB."
   default = "4"
+}
+
+variable "DB_MAINTENANCE_WINDOW" {
+  type = string
+  description = "The maintenance window for the database. (UTC)"
+  default = "sat:05:00-sat:06:00"
 }
 
 variable "DB_PASSWORD" {
