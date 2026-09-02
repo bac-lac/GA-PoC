@@ -11,6 +11,7 @@ resource "aws_db_instance" "ga_mysql" {
   copy_tags_to_snapshot           = true
   db_name                         = format("GA%s", replace("${var.BRANCH_ENV}", "-", ""))
   db_subnet_group_name            = aws_db_subnet_group.data.name
+  deletion_protection             = true
   enabled_cloudwatch_logs_exports = ["audit", "general", "error", "slowquery"]
   engine                          = "mysql"
   engine_version                  = "8.0"
