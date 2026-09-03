@@ -23,7 +23,7 @@ jobs:
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: ./terraform/workload
+        working-directory: ./terraform
 
     steps:
       - name: Checkout code
