@@ -21,6 +21,7 @@ on:
 env:
   AWS_REGION : "ca-central-1"
   IMAGE_REPO_TAG: bac-lac-gc-ca/mft:latest
+  ENV: ${{ inputs.environment == '' && 'pr' || inputs.environment }}
 
 permissions:
       id-token: write
@@ -79,8 +80,8 @@ jobs:
 
       - name: Terraform-Init
         id: Init
-        run: terraform init -backend-config="key=${{ inputs.environment }}/ga/terraform.tfstate"
+        run: terraform init -backend-config="key=${{ env.ENV }}/ga/terraform.tfstate"
 
       - name: Terraform-Apply
         id: Apply
-        run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ inputs.environment }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
+        run: terraform apply -var-file="pipeline.auto.tfvars" -var="ENV=${{ env.ENV }}" -var="CERT_BODY=${{ secrets.CERT_BODY }}" -var="CERT_CHAIN=${{ secrets.CERT_CHAIN }}" -var="CERT_PRIVATE_KEY=${{ secrets.CERT_PRIVATE_KEY }}" -auto-approve
