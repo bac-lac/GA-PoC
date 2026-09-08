@@ -67,6 +67,14 @@ jobs:
           echo "IMAGE_TAG=$NEXT" >> $GITHUB_ENV
           echo "Next tag: $NEXT"
 
+      - name: Get latest version immutable image URI
+        run: |
+          REPO=bac-lac-gc-ca/mft
+          REGISTRY=$(aws ecr describe-repositories --repository-names "$REPO" --query 'repositories[0].repositoryUri' --output text)
+          VERSION_TAG=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag=latest-soci --query 'imageDetails[0].imageTags' --output json | jq -r '.[] | select(. != "latest-soci")')
+          IMAGE_URI="${REGISTRY}:${VERSION_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
       - name: Build and push Docker image
         id: build-push
         uses: docker/build-push-action@v7
