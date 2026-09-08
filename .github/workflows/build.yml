@@ -85,3 +85,4 @@ jobs:
           VERSION_TAG=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag=latest --query 'imageDetails[0].imageTags' --output json | jq -r '.[] | select(. != "latest")')
           IMAGE_URI="${REGISTRY}:${VERSION_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+          echo "IMAGE_URI: $IMAGE_URI"
