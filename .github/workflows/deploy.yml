@@ -78,7 +78,7 @@ jobs:
             
       - name: Add Dynamic Variables to tfvars
         run: |
-          echo 'ECR_IMAGE = $IMAGE_URI' >> pipeline.auto.tfvars
+          echo 'ECR_IMAGE = ${{ env.IMAGE_URI }}' >> pipeline.auto.tfvars
 
       - name: Terraform-Setup
         id: Setup
