@@ -47,6 +47,25 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Generate next tag
+        run: |
+          REPO="bac-lac-gc-ca/mft"
+          LATEST=$(
+            aws ecr describe-images \
+              --repository-name "$REPO" |
+            jq -r '
+              [.imageDetails[].imageTags[]?]
+              | map(select(test("^v[0-9]+$")))
+              | map(sub("^v"; "") | tonumber)
+              | max // 0
+            '
+          )
+      
+          NEXT="v$((LATEST + 1))"
+      
+          echo "IMAGE_TAG=$NEXT" >> $GITHUB_ENV
+          echo "Next tag: $NEXT"
 
       - name: Build and push Docker image
         id: build-push
@@ -55,4 +74,6 @@ jobs:
           context: ./
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:latest
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:latest
+            ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:${{ env.IMAGE_TAG }}
