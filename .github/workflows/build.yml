@@ -74,4 +74,4 @@ jobs:
           context: ./
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:$IMAGE_TAG
+          tags: ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:${{ env.IMAGE_TAG }}
