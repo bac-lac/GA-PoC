@@ -71,7 +71,7 @@ jobs:
         run: |
           REPO=bac-lac-gc-ca/mft
           REGISTRY=$(aws ecr describe-repositories --repository-names "$REPO" --query 'repositories[0].repositoryUri' --output text)
-          VERSION_TAG=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag=latest-soci --query 'imageDetails[0].imageTags' --output json | jq -r '.[] | select(. != "latest-soci")')
+          VERSION_TAG=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag=latest --query 'imageDetails[0].imageTags' --output json | jq -r '.[] | select(. != "latest")')
           IMAGE_URI="${REGISTRY}:${VERSION_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
