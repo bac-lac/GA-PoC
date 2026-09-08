@@ -61,6 +61,14 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           role-skip-session-tagging: true
           audience: sts.amazonaws.com
+
+      - name: Get latest version immutable image URI
+        run: |
+          REPO=bac-lac-gc-ca/mft
+          REGISTRY=$(aws ecr describe-repositories --repository-names "$REPO" --query 'repositories[0].repositoryUri' --output text)
+          VERSION_TAG=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag=latest-soci --query 'imageDetails[0].imageTags' --output json | jq -r '.[] | select(. != "latest-soci")')
+          IMAGE_URI="${REGISTRY}:${VERSION_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
       
       - name: Create tfvars file
         uses: ./.github/actions/create-tfvars-file
