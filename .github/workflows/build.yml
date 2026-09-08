@@ -49,7 +49,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Echo ECR registry
-        if: ${{ inputs.environment == 'dev' }}
         run: |
           echo "Registry: ${{ steps.login-ecr.outputs.registry }}" 
       
