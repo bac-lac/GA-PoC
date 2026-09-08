@@ -47,10 +47,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Echo ECR registry
-        run: |
-          echo "Registry: ${{ steps.login-ecr.outputs.registry }}" 
       
       - name: Generate next tag
         run: |
@@ -70,6 +66,10 @@ jobs:
       
           echo "IMAGE_TAG=$NEXT" >> $GITHUB_ENV
           echo "Next tag: $NEXT"
+
+      - name: Echo ECR registry
+        run: |
+          echo "Registry: ${{ steps.login-ecr.outputs.registry }}/bac-lac-gc-ca/mft:$NEXT" 
 
       # - name: Build and push Docker image
       #   id: build-push
