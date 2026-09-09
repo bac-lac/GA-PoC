@@ -217,7 +217,8 @@ function configure() {
     echo "Update entrypoint"
     sed -i '9,14d' /temp/entrypoint.sh
 
-    # Remove instead of move upgrade file.
+    # Replace move with remove for upgrade file.
+    echo "Replace move with remove for upgrade file"
     sed -i "s|mv upgrader/ga_upgrade.jar upgrader/ga_upgrade_complete.jar|rm upgrader/ga_upgrade.jar|g" /temp/entrypoint.sh
 
     # Update hostname in entrypoint.
@@ -232,7 +233,8 @@ function configure() {
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
     sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
 
-    # Update the header's page with build values.
+    # Update the header's page with ECR values.
+    echo "Update the header's page with ECR values"
     local meta_param1="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${meta_param1}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
