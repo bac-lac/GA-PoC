@@ -36,13 +36,16 @@ RUN dnf update -y \
   && dnf -y clean all \
   && rm -rf /var/cache
 
-# Installing saxon he
-RUN mkdir saxon \
-  && curl -s https://api.github.com/repos/Saxonica/Saxon-HE/releases/latest | grep browser_download_url | cut -d '"' -f 4 >> saxon/file.txt \
-  && xargs -n 1 curl --create-dirs -LO --output-dir saxon < saxon/file.txt \
-  && unzip saxon/SaxonHE* -d saxon/ \
-  && mkdir -p /opt/saxon/lib/ \
-  && find saxon/ -name "*jar*" ! -name "*test*" ! -name "*xqj*" -exec cp {} /opt/saxon/lib/ \; 
+# Installing latest SaxonC 12 HE
+RUN BASE_URL="https://downloads.saxonica.com/SaxonC/HE/12" && \
+    FILE=$(curl -s "$BASE_URL/index.html" \
+      | grep -o 'SaxonCHE-linux-x86_64-[0-9-]*\.zip' \
+      | sort -V \
+      | tail -1) && \
+    curl -L -o /tmp/saxon.zip "$BASE_URL/$FILE" && \
+    unzip /tmp/saxon.zip -d /opt/saxonica && \
+    rm /tmp/saxon.zip
+#ENV PATH="/opt/saxonica/saxon/bin:${PATH}"
 
 # Installing aws cli.
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
