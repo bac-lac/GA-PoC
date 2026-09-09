@@ -15,7 +15,11 @@ resource "aws_iam_role" "ga_rds_monitoring_role" {
   name                = "ga_rds_monitoring_role-${var.ENV}"
   description         = "Provides access to Cloudwatch for RDS Enhanced Monitoring"
   assume_role_policy  = data.aws_iam_policy_document.ga_rds_monitoring_assume_role.json
-  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"]
+}
+
+resource "aws_iam_role_policy_attachment" "ga_rds_monitoring_role_pa" {
+  role        = aws_iam_role.ga_rds_monitoring_role.name
+  policy_arn  = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
 
 data "aws_iam_policy_document" "ga_ecs_role_assume_role" {
