@@ -55,10 +55,12 @@ resource "aws_iam_role" "ga_ecs_role" {
   name                = "ga_ecs_role-${var.ENV}"
   description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
-  inline_policy {
-    name   = "ga_ecs_role_inline_policy"
-    policy = data.aws_iam_policy_document.ga_ecs_role_inline_policy.json
-  }
+}
+
+resource "aws_iam_role_policy" "ga_ecs_role_inline_policy" {
+  name    = "ga_ecs_role_inline_policy"
+  role    = aws_iam_role.ga_ecs_role.id
+  policy  = data.aws_iam_policy_document.ga_ecs_role_inline_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "ga_ecs_role_pa" {
@@ -70,10 +72,12 @@ resource "aws_iam_role" "ga_ecs_task_role" {
   name                = "ga_ecs_task_role-${var.ENV}"
   description         = "The task role is an IAM role that is used by containers in a task to make AWS API calls on your behalf."
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
-  inline_policy {
-    name   = "ga_ecs_task_role_inline_policy"
-    policy = data.aws_iam_policy_document.ga_ecs_task_role_inline_policy.json
-  }
+}
+
+resource "aws_iam_role_policy" "ga_ecs_task_role_inline_policy" {
+  name    = "ga_ecs_task_role_inline_policy"
+  role    = aws_iam_role.ga_ecs_task_role.id
+  policy  = data.aws_iam_policy_document.ga_ecs_task_role_inline_policy.json
 }
 
 data "aws_iam_policy_document" "ga_sns_topic_access_policy" {
