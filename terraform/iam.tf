@@ -55,11 +55,15 @@ resource "aws_iam_role" "ga_ecs_role" {
   name                = "ga_ecs_role-${var.ENV}"
   description         = "Provides access to other AWS service resources that are required to run Amazon ECS tasks"
   assume_role_policy  = data.aws_iam_policy_document.ga_ecs_role_assume_role.json
-  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
   inline_policy {
     name   = "ga_ecs_role_inline_policy"
     policy = data.aws_iam_policy_document.ga_ecs_role_inline_policy.json
   }
+}
+
+resource "aws_iam_role_policy_attachment" "ga_ecs_role_pa" {
+  role        = aws_iam_role.ga_ecs_role.name
+  policy_arn  = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_role" "ga_ecs_task_role" {
