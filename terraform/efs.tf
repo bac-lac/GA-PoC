@@ -1,7 +1,7 @@
 resource "aws_efs_file_system" "ga_efs" {
   creation_token  = "ga-efs-${var.ENV}"
   encrypted       = true
-  kms_key_id      = data.aws_kms_alias.efs.arn
+  kms_key_id      = data.aws_kms_alias.efs.target_key_arn
   throughput_mode = "elastic"
   tags = {
     Name = "ga-efs-${var.ENV}"
