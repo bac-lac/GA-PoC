@@ -44,9 +44,11 @@ RUN BASE_URL="https://downloads.saxonica.com/SaxonC/HE/12" && \
       | tail -1) && \
     curl -L -o /tmp/saxon.zip "$BASE_URL/$FILE.zip" && \
     unzip /tmp/saxon.zip -d /opt/saxonica && \
-    rm /tmp/saxon.zip && \
-    export LD_LIBRARY_PATH="/opt/saxonica/$FILE/SaxonCCoreHE/lib:/opt/saxonica/$FILE/SaxonCHE/lib:$LD_LIBRARY_PATH" && \
-    export PATH="/opt/saxonica/$FILE/SaxonCHE/bin:$PATH"
+    mv /opt/saxonica/$FILE /opt/saxonica/saxon && \
+    rm /tmp/saxon.zip
+    
+ENV LD_LIBRARY_PATH="/opt/saxonica/saxon/SaxonCCoreHE/lib:/opt/saxonica/saxon/SaxonCHE/lib:${LD_LIBRARY_PATH}"
+ENV PATH="/opt/saxonica/saxon/SaxonCHE/bin:${PATH}"
 
 # Installing aws cli.
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
