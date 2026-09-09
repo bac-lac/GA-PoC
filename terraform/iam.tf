@@ -122,3 +122,48 @@ data "aws_iam_policy_document" "ga_sns_topic_access_policy" {
     sid = "Allow_Publish_Alarms"
   }
 }
+
+data "aws_iam_policy_document" "lambda_assume_role" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRole"
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "lambda_role" {
+  name               = "lambda_execution_role-${var.ENV}"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
+}
+
+data "aws_iam_policy_document" "create_eni_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "ec2:CreateTags"
+    ]
+
+    resources = [
+      "arn:aws:ec2:*:${var.ACCOUNT}:network-interface/*"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "create_eni_policy" {
+  name   = "create_eni_policy"
+  role   = aws_iam_role.lambda_role.id
+  policy = data.aws_iam_policy_document.create_eni_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}

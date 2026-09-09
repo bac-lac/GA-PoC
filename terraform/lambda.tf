@@ -1,36 +1,3 @@
-resource "aws_iam_role" "lambda_role" {
-  name = "lambda_execution_role-${var.ENV}"
-
-  inline_policy {
-    name   = "create_eni_policy"
-    policy = data.aws_iam_policy_document.create_eni_policy.json
-  }
-
-  assume_role_policy = jsonencode({
-    Version   = "2012-10-17"
-    Statement = [{
-      Action    = "sts:AssumeRole"
-      Effect    = "Allow"
-      Principal = {
-        Service = "lambda.amazonaws.com"
-      }
-    }]
-  })
-}
-
-data "aws_iam_policy_document" "create_eni_policy" {
-  statement {
-    effect    = "Allow"
-    actions   = ["ec2:CreateTags"]
-    resources = ["arn:aws:ec2:*:${var.ACCOUNT}:network-interface/*"]
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_file = "../lambda/lambda_function.py"
