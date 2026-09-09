@@ -39,13 +39,14 @@ RUN dnf update -y \
 # Installing latest SaxonC 12 HE
 RUN BASE_URL="https://downloads.saxonica.com/SaxonC/HE/12" && \
     FILE=$(curl -s "$BASE_URL/index.html" \
-      | grep -o 'SaxonCHE-linux-x86_64-[0-9-]*\.zip' \
+      | grep -o 'SaxonCHE-linux-x86_64-[0-9-]*' \
       | sort -V \
       | tail -1) && \
-    curl -L -o /tmp/saxon.zip "$BASE_URL/$FILE" && \
+    curl -L -o /tmp/saxon.zip "$BASE_URL/$FILE.zip" && \
     unzip /tmp/saxon.zip -d /opt/saxonica && \
-    rm /tmp/saxon.zip
-#ENV PATH="/opt/saxonica/saxon/bin:${PATH}"
+    rm /tmp/saxon.zip && \
+    export LD_LIBRARY_PATH="/opt/saxonica/$FILE/SaxonCCoreHE/lib:/opt/saxonica/$FILE/SaxonCHE/lib:$LD_LIBRARY_PATH" && \
+    export PATH="/opt/saxonica/$FILE/SaxonCHE/bin:$PATH"
 
 # Installing aws cli.
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
