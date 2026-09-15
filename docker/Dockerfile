@@ -50,11 +50,14 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   && unzip awscliv2.zip \
   && ./aws/install
 
-# Installing marcedit7.
-RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/marcedit7.run \
-  && chmod u+x /opt/marcedit.run \
-  && /opt/marcedit.run --target /opt/marcedit \
+# Installing marcedit 7.5.
+RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit75/cmarcedit_linux.zip \
+  && unzip /opt/marcedit.run -d /opt/marcedit \
   && chmod -R 755 /opt/marcedit
+# RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/marcedit7.run \
+#   && chmod u+x /opt/marcedit.run \
+#   && /opt/marcedit.run --target /opt/marcedit \
+#   && chmod -R 755 /opt/marcedit
 
 # Copy fluent-bit configuration.
 COPY /docker/configs/fluent-bit.conf /etc/fluent-bit/
