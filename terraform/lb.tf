@@ -76,7 +76,7 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   listener_arn        = aws_lb_listener.https.arn
   action {
     type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg_8443.arn
+    target_group_arn  = aws_lb_target_group.ga_tg_443.arn
   }
   condition {
     host_header {
@@ -88,16 +88,16 @@ resource "aws_lb_listener_rule" "web_client_rule" {
   }
 }
 
-resource "aws_lb_target_group" "ga_tg_8443" {
-  name        = "ga-tg-${var.ENV}-8443"
-  port        = 8443
+resource "aws_lb_target_group" "ga_tg_443" {
+  name        = "ga-tg-${var.ENV}-443"
+  port        = 443
   protocol    = "HTTPS"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
     path      = "/"
     matcher   = "200,302"
-    port      = 8443
+    port      = 443
     protocol  = "HTTPS"
   }
   stickiness {
@@ -116,25 +116,25 @@ data "aws_lb" "ga_nlb"{
 
 resource "aws_lb_listener" "sftp" {
   load_balancer_arn   = data.aws_lb.ga_nlb.arn
-  port                = "8022"
+  port                = "22"
   protocol            = "TCP"
   default_action {
     type              = "forward"
-    target_group_arn  = aws_lb_target_group.ga_tg_8022.arn
+    target_group_arn  = aws_lb_target_group.ga_tg_22.arn
   }
   tags = {
     Name = "SFTP-${var.ENV}"
   }
 }
 
-resource "aws_lb_target_group" "ga_tg_8022" {
-  name        = "ga-tg-${var.ENV}-8022"
-  port        = 8022
+resource "aws_lb_target_group" "ga_tg_22" {
+  name        = "ga-tg-${var.ENV}-22"
+  port        = 22
   protocol    = "TCP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.vpc.id
   health_check {
-    port      = 8022
+    port      = 22
     protocol  = "TCP"
   }
   tags = {

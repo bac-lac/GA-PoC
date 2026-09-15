@@ -87,14 +87,14 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_port      = 8009
   }
   load_balancer {
-    target_group_arn    = aws_lb_target_group.ga_tg_8443.arn
+    target_group_arn    = aws_lb_target_group.ga_tg_443.arn
     container_name      = "MFT-${count.index + 1}"
-    container_port      = 8443
+    container_port      = 443
   }
   load_balancer {
-    target_group_arn    = aws_lb_target_group.ga_tg_8022.arn
+    target_group_arn    = aws_lb_target_group.ga_tg_22.arn
     container_name      = "MFT-${count.index + 1}"
-    container_port      = 8022
+    container_port      = 22
   }
   enable_execute_command = true
 }

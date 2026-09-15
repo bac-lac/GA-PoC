@@ -188,11 +188,7 @@ function configure() {
         cp -Rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
     fi
 
-    # Remove "update default ports" in the entrypoint.
-    echo "Update entrypoint"
-    sed -i '9,14d' /temp/entrypoint.sh
-
-    # Replace move with remove for upgrade file.
+    # Replace move with remove for upgrade file to eliminate CVEs.
     echo "Replace move with remove for upgrade file"
     sed -i "s|mv upgrader/ga_upgrade.jar upgrader/ga_upgrade_complete.jar|rm upgrader/ga_upgrade.jar|g" /temp/entrypoint.sh
 
@@ -208,8 +204,8 @@ function configure() {
     sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${config_folder}"/database.xml
     sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${config_folder}"/database.xml
 
-    # Update the header's page with ECR values.
-    echo "Update the header's page with ECR values"
+    # Update the header's page with ECR image.
+    echo "Update the header's page with ECR image"
     local meta_param1="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${meta_param1}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 
