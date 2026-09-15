@@ -20,9 +20,6 @@ COPY /docker/scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
 COPY /docker/scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
 
-RUN mkdir /etc/Fortra/GoAnywhere/sharedconfig
-RUN chown gamft:gamft /etc/Fortra/GoAnywhere/sharedconfig
-
 COPY /docker/configs/*.repo /etc/yum.repos.d/
 
 RUN rm -rf /etc/yum.repos.d/linuxrepos.repo

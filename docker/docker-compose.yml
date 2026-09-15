@@ -30,7 +30,6 @@ services:
       - tomcatserver:/etc/Fortra/GoAnywhere/tomcat/conf/
       - tomcatlogsdir:/opt/Fortra/GoAnywhere/tomcat/logs/
       - ghttpsrootcustomdir:/opt/Fortra/GoAnywhere/ghttpsroot/custom/
-      - sharedconfig:/etc/Fortra/GoAnywhere/sharedconfig
 volumes:
   dbdir:
   userdata:
@@ -39,4 +38,3 @@ volumes:
   tomcatserver:
   tomcatlogsdir:
   ghttpsrootcustomdir:
-  sharedconfig:

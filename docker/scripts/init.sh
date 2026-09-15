@@ -173,7 +173,6 @@ function configure() {
     local etc_ga_folder="/etc/Fortra/GoAnywhere"
     local opt_ga_folder="/opt/Fortra/GoAnywhere"
     local config_folder="${etc_ga_folder}/config"
-    #local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
     # Always copy upgrade file.
     echo "Copy upgrade file"
@@ -187,31 +186,7 @@ function configure() {
         cp -Rf /temp/tomcat/ "${etc_ga_folder}"/
         cp -Rf /temp/logs/ "${opt_ga_folder}"/tomcat/
         cp -Rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
-
-        # Copy config files to the shared folder.
-        # echo "Copy config files to the shared folder"
-        # cp -Rf /temp/config/*.xml "${config_folder}"
-
     fi
-
-    # Creating symbolic link for application configuration files.
-    # echo "Creating symbolic link for application configuration files"
-    # cd "${config_folder}"
-    # cp cluster.xml /tmp/cluster.xml
-    # rm -rf ./*
-    # cp /tmp/cluster.xml .
-    # ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml
-    # ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
-    # ln -s "${shareconfig_folder}"/filecatalyst.xml "${config_folder}"/filecatalyst.xml
-    # ln -s "${shareconfig_folder}"/ftp.xml "${config_folder}"/ftp.xml
-    # ln -s "${shareconfig_folder}"/ftps.xml "${config_folder}"/ftps.xml
-    # ln -s "${shareconfig_folder}"/gateway.xml "${config_folder}"/gateway.xml
-    # ln -s "${shareconfig_folder}"/gofast.xml "${config_folder}"/gofast.xml
-    # ln -s "${shareconfig_folder}"/https.xml "${config_folder}"/https.xml
-    # ln -s "${shareconfig_folder}"/log4j2.xml "${config_folder}"/log4j2.xml
-    # ln -s "${shareconfig_folder}"/pesit.xml "${config_folder}"/pesit.xml
-    # ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
-    # ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
 
     # Remove "update default ports" in the entrypoint.
     echo "Update entrypoint"
