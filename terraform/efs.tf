@@ -15,12 +15,16 @@ resource "aws_efs_mount_target" "ga_efs_mount_target" {
   subnet_id       = each.key
 }
 
+locals {
+  cluster_nodes = upper(var.MFT_CLUSTER) == "TRUE" ? 2 : 1
+}
+
 resource "aws_efs_access_point" "ga_ap" {
   for_each = toset(
     concat(
       ["userdata"],
       flatten([
-        for i in range(1, upper(var.MFT_CLUSTER) == "TRUE" ? 2 : 1) : [
+        for i in range(1, local.cluster_nodes + 1) : [
           "upgrader${i}",
           "config${i}",
           "tomcatserver${i}",
