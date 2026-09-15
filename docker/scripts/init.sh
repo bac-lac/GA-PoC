@@ -173,51 +173,23 @@ function configure() {
     local etc_ga_folder="/etc/Fortra/GoAnywhere"
     local opt_ga_folder="/opt/Fortra/GoAnywhere"
     local config_folder="${etc_ga_folder}/config"
-    local shareconfig_folder="${etc_ga_folder}/sharedconfig"
 
     # Always copy upgrade file.
     echo "Copy upgrade file"
     cp -Rf /temp/upgrader/ "${opt_ga_folder}"/
 
-    # Copy filesystem only if FRESH_INSTALL is TRUE or Shareconfig folder is empty.
-    if [[ "${FRESH_INSTALL^^}" == "TRUE" || -z "$( ls -A "${shareconfig_folder}" )" ]]; then 
+    # Copy filesystem only if FRESH_INSTALL is TRUE.
+    if [[ "${FRESH_INSTALL^^}" == "TRUE" ]]; then 
         echo "Copy filesystem"
         cp -Rf /temp/userdata/ "${opt_ga_folder}"/
         cp -Rf /temp/config/ "${etc_ga_folder}"/
         cp -Rf /temp/tomcat/ "${etc_ga_folder}"/
         cp -Rf /temp/logs/ "${opt_ga_folder}"/tomcat/
         cp -Rf /temp/custom/ "${opt_ga_folder}"/ghttpsroot/
-
-        # Copy config files to the shared folder.
-        echo "Copy config files to the shared folder"
-        cp -Rf /temp/config/*.xml "${shareconfig_folder}"
-
-        # Creating symbolic link for application configuration files.
-        echo "Creating symbolic link for application configuration files"
-        cd "${config_folder}"
-        cp cluster.xml /tmp/cluster.xml
-        rm -rf ./*
-        cp /tmp/cluster.xml .
-        ln -s "${shareconfig_folder}"/agent.xml "${config_folder}"/agent.xml
-        ln -s "${shareconfig_folder}"/database.xml "${config_folder}"/database.xml
-        ln -s "${shareconfig_folder}"/filecatalyst.xml "${config_folder}"/filecatalyst.xml
-        ln -s "${shareconfig_folder}"/ftp.xml "${config_folder}"/ftp.xml
-        ln -s "${shareconfig_folder}"/ftps.xml "${config_folder}"/ftps.xml
-        ln -s "${shareconfig_folder}"/gateway.xml "${config_folder}"/gateway.xml
-        ln -s "${shareconfig_folder}"/gofast.xml "${config_folder}"/gofast.xml
-        ln -s "${shareconfig_folder}"/https.xml "${config_folder}"/https.xml
-        ln -s "${shareconfig_folder}"/log4j2.xml "${config_folder}"/log4j2.xml
-        ln -s "${shareconfig_folder}"/pesit.xml "${config_folder}"/pesit.xml
-        ln -s "${shareconfig_folder}"/security.xml "${config_folder}"/security.xml
-        ln -s "${shareconfig_folder}"/sftp.xml "${config_folder}"/sftp.xml
-
     fi
 
-    # Remove "update default ports" in the entrypoint.
-    echo "Update entrypoint"
-    sed -i '9,14d' /temp/entrypoint.sh
-
-    # Remove instead of move upgrade file.
+    # Replace move with remove for upgrade file to eliminate CVEs.
+    echo "Replace move with remove for upgrade file"
     sed -i "s|mv upgrader/ga_upgrade.jar upgrader/ga_upgrade_complete.jar|rm upgrader/ga_upgrade.jar|g" /temp/entrypoint.sh
 
     # Update hostname in entrypoint.
@@ -226,13 +198,14 @@ function configure() {
 
     # Update the file database.xml with the correct values.
     echo "Update database config"
-    sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${shareconfig_folder}"/database.xml
-    sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${shareconfig_folder}"/database.xml
-    sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8\&amp;allowPublicKeyRetrieval=true<|g" "${shareconfig_folder}"/database.xml
-    sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${shareconfig_folder}"/database.xml
-    sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${shareconfig_folder}"/database.xml
+    sed -i "s|password\">.*<|password\">$DB_PASSWORD<|g" "${config_folder}"/database.xml
+    sed -i "s|username\">.*<|username\">$DB_USERNAME<|g" "${config_folder}"/database.xml
+    sed -i "s|url\">.*<|url\">jdbc:mariadb://$DB_ADDRESS:3306/GADATA?useCursorFetch=true\&amp;defaultFetchSize=20\&amp;characterEncoding=utf8\&amp;allowPublicKeyRetrieval=true<|g" "${config_folder}"/database.xml
+    sed -i "s|driverClassName\">.*<|driverClassName\">org.mariadb.jdbc.Driver<|g" "${config_folder}"/database.xml
+    sed -i "s|passwordIsEncrypted\">.*<|passwordIsEncrypted\">false<|g" "${config_folder}"/database.xml
 
-    # Update the header's page with build values.
+    # Update the header's page with ECR image.
+    echo "Update the header's page with ECR image"
     local meta_param1="<meta name=\"ECR_IMAGE\" content=\"${ECR_IMAGE}\" />"
     sed -i "s|<meta name=\"viewport\"|${meta_param1}<meta name=\"viewport\"|g" "${opt_ga_folder}"/adminroot/WEB-INF/includes/DocumentHead.xhtml
 

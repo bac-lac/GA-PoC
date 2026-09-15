@@ -29,7 +29,6 @@ resource "aws_ecs_task_definition" "ga_task_definition_mft" {
   dynamic "volume" {
     for_each = tomap({
       ga_ap_userdata      = aws_efs_access_point.ga_ap["userdata"].id
-      ga_ap_sharedconfig  = aws_efs_access_point.ga_ap["sharedconfig"].id
       ga_ap_upgrader      = aws_efs_access_point.ga_ap["upgrader${count.index + 1}"].id
       ga_ap_config        = aws_efs_access_point.ga_ap["config${count.index + 1}"].id
       ga_ap_tomcatserver  = aws_efs_access_point.ga_ap["tomcatserver${count.index + 1}"].id
@@ -88,14 +87,14 @@ resource "aws_ecs_service" "ga_service_mft" {
     container_port      = 8009
   }
   load_balancer {
-    target_group_arn    = aws_lb_target_group.ga_tg_8443.arn
+    target_group_arn    = aws_lb_target_group.ga_tg_443.arn
     container_name      = "MFT-${count.index + 1}"
-    container_port      = 8443
+    container_port      = 443
   }
   load_balancer {
-    target_group_arn    = aws_lb_target_group.ga_tg_8022.arn
+    target_group_arn    = aws_lb_target_group.ga_tg_22.arn
     container_name      = "MFT-${count.index + 1}"
-    container_port      = 8022
+    container_port      = 22
   }
   enable_execute_command = true
 }

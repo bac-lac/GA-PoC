@@ -15,13 +15,8 @@ COPY --from=builder /usr/bin/entrypoint.sh /temp/
 
 COPY /docker/mysql_dump.sql /temp/mysql_dump.sql
 
-COPY /docker/scripts/setenv.sh /opt/Fortra/GoAnywhere/tomcat/bin/
-
 COPY /docker/scripts/init.sh /temp/
 RUN chmod -R 777 /temp/
-
-RUN mkdir /etc/Fortra/GoAnywhere/sharedconfig
-RUN chown gamft:gamft /etc/Fortra/GoAnywhere/sharedconfig
 
 COPY /docker/configs/*.repo /etc/yum.repos.d/
 
