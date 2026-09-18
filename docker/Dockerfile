@@ -26,10 +26,10 @@ RUN dnf update -y \
   && curl -v -L -O https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
   && dnf install unzip epel-release mysql-community-client -y \
-  && dnf install mono-complete -y \
+  && dnf install icu -y \
   && dnf install fluent-bit --nobest -y \
   && dnf -y clean all \
-  && rm -rf /var/cache
+  && rm -rf /var/cache && rm mysql84-community-release-el9-1.noarch.rpm
 
 # Installing latest SaxonC 12 HE
 RUN BASE_URL="https://downloads.saxonica.com/SaxonC/HE/12" && \
@@ -48,22 +48,19 @@ ENV PATH="/opt/saxonica/saxon/SaxonCHE/bin:${PATH}"
 # Installing aws cli.
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
   && unzip awscliv2.zip \
-  && ./aws/install
+  && ./aws/install \
+  && rm awscliv2.zip && rm -rf aws
 
-# Installing marcedit7.
-RUN curl -o /opt/marcedit.run https://marcedit.reeset.net/software/marcedit7/marcedit7.run \
-  && chmod u+x /opt/marcedit.run \
-  && /opt/marcedit.run --target /opt/marcedit \
-  && chmod -R 755 /opt/marcedit
+# Installing marcedit 7.5.
+RUN curl -o /opt/marcedit.zip https://marcedit.reeset.net/software/marcedit75/cmarcedit_linux.zip \
+  && unzip /opt/marcedit.zip -d /opt/marcedit \
+  && chmod -R 755 /opt/marcedit \
+  && rm /opt/marcedit.zip
+ENV PATH="/opt/marcedit/cmarcedit_linux_net8:${PATH}"
 
 # Copy fluent-bit configuration.
 COPY /docker/configs/fluent-bit.conf /etc/fluent-bit/
 RUN chmod -R 777 /etc/fluent-bit/
-
-# Cleanup.
-RUN rm /opt/marcedit.run \
-  && rm -rf saxon/ \
-  && rm awscliv2.zip
 
 USER gamft
 
