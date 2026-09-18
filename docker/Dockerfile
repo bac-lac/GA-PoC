@@ -26,7 +26,6 @@ RUN dnf update -y \
   && curl -v -L -O https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm \
   && dnf install mysql84-community-release-el9-1.noarch.rpm -y \
   && dnf install unzip epel-release mysql-community-client -y \
-  && dnf install mono-complete -y \
   && dnf install icu -y \
   && dnf install fluent-bit --nobest -y \
   && dnf -y clean all \
